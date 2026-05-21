@@ -72,6 +72,10 @@ def diagnose(feature: dict[str, Any], collection: dict[str, Any]) -> dict[str, A
         "artifact_flags": props.get("artifact_flags"),
         "geometry_decision": props.get("geometry_decision"),
         "geometry_decision_reason": props.get("geometry_decision_reason"),
+        "manual_split_required": props.get("manual_split_required"),
+        "manual_split_reason": props.get("manual_split_reason"),
+        "up_extraction_methods_attempted": props.get("up_extraction_methods_attempted"),
+        "up_extraction_methods_used": props.get("up_extraction_methods_used"),
         "review_required": props.get("review_required"),
         "export_eligible": props.get("export_eligible"),
         "artifact_component_count": props.get("artifact_component_count"),
@@ -90,6 +94,9 @@ def diagnose(feature: dict[str, Any], collection: dict[str, Any]) -> dict[str, A
             "void_area_ratio": props.get("void_area_ratio"),
             "void_matches_original_plan": props.get("void_matches_original_plan"),
             "void_requires_review_count": props.get("void_requires_review_count"),
+            "hole_types": props.get("hole_types"),
+            "hole_type_counts": props.get("hole_type_counts"),
+            "hole_cleanup": props.get("hole_cleanup"),
         },
         "nearest_text_or_legend_evidence": {
             "source_text_nearby": props.get("source_text_nearby"),
@@ -109,6 +116,7 @@ def diagnose(feature: dict[str, Any], collection: dict[str, Any]) -> dict[str, A
             "cleaned_candidate_metadata": (props.get("cleaned_candidate_geometry") or {}).get("review_candidate_metadata") if isinstance(props.get("cleaned_candidate_geometry"), dict) else None,
         },
         "collection_artifact_summary": collection.get("artifact_diagnostics"),
+        "collection_extraction_profile": collection.get("up_extraction_profile"),
     }
 
 

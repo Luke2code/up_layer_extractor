@@ -839,6 +839,13 @@ def is_near_white(value: str | None) -> bool:
     return min(rgb) >= 242 and max(rgb) - min(rgb) <= 10
 
 
+def is_near_black(value: str | None) -> bool:
+    rgb = _hex_rgb(value)
+    if not rgb:
+        return False
+    return max(rgb) <= 35 and max(rgb) - min(rgb) <= 20
+
+
 def ring_area(points: list[Any]) -> float:
     if len(points) < 4:
         return 0.0
@@ -971,6 +978,101 @@ def feature_void_metrics(feature: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+HOLE_CLEANUP_THRESHOLDS = {
+    "rectangularity_min": 0.82,
+    "area_ratio_max": 0.018,
+    "small_area_max": 35.0,
+    "thin_width_max": 2.5,
+    "text_overlap_required": False,
+    "white_fill_evidence_required": False,
+}
+
+
+def classify_feature_holes(feature: dict[str, Any]) -> dict[str, Any]:
+    geom = feature.get("geometry") or {}
+    coordinates = geom.get("coordinates") or []
+    if geom.get("type") != "Polygon" or not coordinates:
+        return {
+            "holes": [],
+            "hole_cleanup": {
+                "applied_to_candidate": False,
+                "raw_preserved": True,
+                "removed_hole_count": 0,
+                "kept_hole_count": 0,
+                "review_required_hole_count": 0,
+                "reason": "geometry has no polygon holes",
+                "thresholds": HOLE_CLEANUP_THRESHOLDS,
+            },
+            "hole_type_counts": {},
+        }
+    outer_area = max(ring_area(list(coordinates[0] or [])), 1.0)
+    holes: list[dict[str, Any]] = []
+    type_counts: Counter[str] = Counter()
+    removable_types = {"label_mask_rectangle", "hatch_grid_artifact", "white_background_artifact"}
+    for index, hole in enumerate(coordinates[1:], 1):
+        ring = list(hole or [])
+        area = ring_area(ring)
+        bbox = geometry_bbox({"type": "Polygon", "coordinates": [ring]})
+        width = max(0.0, bbox[2] - bbox[0]) if bbox else 0.0
+        height = max(0.0, bbox[3] - bbox[1]) if bbox else 0.0
+        bbox_area_value = max(width * height, 1e-9)
+        rectangularity = area / bbox_area_value
+        area_ratio = area / outer_area
+        vertices = max(0, len(ring) - 1)
+        if rectangularity >= HOLE_CLEANUP_THRESHOLDS["rectangularity_min"] and area_ratio <= HOLE_CLEANUP_THRESHOLDS["area_ratio_max"]:
+            hole_type = "label_mask_rectangle"
+            confidence = "high" if area_ratio <= 0.006 else "medium"
+            reason = "rectangular interior ring with small parent-area ratio"
+        elif vertices <= 3 or area <= HOLE_CLEANUP_THRESHOLDS["small_area_max"] or min(width, height) <= HOLE_CLEANUP_THRESHOLDS["thin_width_max"]:
+            hole_type = "hatch_grid_artifact"
+            confidence = "medium"
+            reason = "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        elif rectangularity >= 0.72 and area_ratio <= 0.03:
+            hole_type = "white_background_artifact"
+            confidence = "medium"
+            reason = "near-rectangular void likely caused by white background/mask drawing"
+        elif area_ratio >= 0.025 and rectangularity < 0.55:
+            hole_type = "real_planning_void"
+            confidence = "low"
+            reason = "large non-rectangular void may be a legitimate planning exclusion"
+        else:
+            hole_type = "unknown_review_required"
+            confidence = "low"
+            reason = "hole evidence is ambiguous and must be reviewed"
+        type_counts[hole_type] += 1
+        holes.append(
+            {
+                "hole_index": index,
+                "hole_type": hole_type,
+                "confidence": confidence,
+                "area": round(area, 3),
+                "area_ratio": round(area_ratio, 6),
+                "bbox": [round(value, 3) for value in bbox] if bbox else None,
+                "width": round(width, 3),
+                "height": round(height, 3),
+                "rectangularity": round(rectangularity, 4),
+                "vertices": vertices,
+                "reason": reason,
+                "candidate_removable": hole_type in removable_types,
+            }
+        )
+    removed_count = sum(1 for hole in holes if hole["candidate_removable"])
+    review_count = sum(1 for hole in holes if hole["hole_type"] == "unknown_review_required")
+    return {
+        "holes": holes,
+        "hole_cleanup": {
+            "applied_to_candidate": removed_count > 0,
+            "raw_preserved": True,
+            "removed_hole_count": removed_count,
+            "kept_hole_count": len(holes) - removed_count,
+            "review_required_hole_count": review_count,
+            "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+            "thresholds": HOLE_CLEANUP_THRESHOLDS,
+        },
+        "hole_type_counts": dict(type_counts),
+    }
+
+
 def geometry_component_metrics(feature: dict[str, Any]) -> dict[str, Any]:
     geom = feature.get("geometry") or {}
     coordinates = geom.get("coordinates") or []
@@ -1001,25 +1103,24 @@ def cleaned_candidate_geometry_for_review(feature: dict[str, Any]) -> dict[str, 
     coordinates = geom.get("coordinates") or []
     if geom.get("type") != "Polygon" or not coordinates:
         return None
+    hole_classification = classify_feature_holes(feature)
+    by_index = {row["hole_index"]: row for row in hole_classification["holes"]}
     outer = list(coordinates[0] or [])
     kept_holes = []
     removed: list[dict[str, Any]] = []
     for index, hole in enumerate(coordinates[1:], 1):
         ring = list(hole or [])
-        hole_area = ring_area(ring)
-        hole_bbox = geometry_bbox({"type": "Polygon", "coordinates": [ring]})
-        width = max(0.0, hole_bbox[2] - hole_bbox[0]) if hole_bbox else 0.0
-        height = max(0.0, hole_bbox[3] - hole_bbox[1]) if hole_bbox else 0.0
-        vertices = max(0, len(ring) - 1)
-        obvious_void_artifact = vertices <= 3 or hole_area <= 35.0 or min(width, height) <= 2.5
-        if obvious_void_artifact:
+        classification = by_index.get(index, {})
+        if classification.get("candidate_removable"):
             removed.append(
                 {
                     "hole_index": index,
-                    "area": round(hole_area, 3),
-                    "vertices": vertices,
-                    "bbox": [round(value, 3) for value in hole_bbox] if hole_bbox else None,
-                    "reason": "small_or_triangular_void_artifact_candidate",
+                    "hole_type": classification.get("hole_type"),
+                    "area": classification.get("area"),
+                    "area_ratio": classification.get("area_ratio"),
+                    "vertices": classification.get("vertices"),
+                    "bbox": classification.get("bbox"),
+                    "reason": classification.get("reason"),
                 }
             )
         else:
@@ -1030,9 +1131,11 @@ def cleaned_candidate_geometry_for_review(feature: dict[str, Any]) -> dict[str, 
         "type": "Polygon",
         "coordinates": [outer, *kept_holes],
         "review_candidate_metadata": {
-            "algorithm": "review_candidate_remove_small_triangular_voids_v8_1",
+            "algorithm": "review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
             "removed_void_count": len(removed),
             "removed_voids": removed,
+            "hole_type_counts": hole_classification["hole_type_counts"],
+            "hole_cleanup": hole_classification["hole_cleanup"],
             "raw_geometry_unchanged": True,
             "export_requires_human_approval": True,
         },
@@ -1162,10 +1265,14 @@ def annotate_primary_features(
         metrics = feature_shape_metrics(feature)
         void_metrics = feature_void_metrics(feature)
         component_metrics = geometry_component_metrics(feature)
+        hole_classification = classify_feature_holes(feature)
         cleaned_candidate = cleaned_candidate_geometry_for_review(feature)
         props.update(metrics)
         props.update(void_metrics)
         props.update(component_metrics)
+        props["hole_types"] = hole_classification["holes"][:80]
+        props["hole_type_counts"] = hole_classification["hole_type_counts"]
+        props["hole_cleanup"] = hole_classification["hole_cleanup"]
         props.setdefault("source_fill_hex", props.get("source_style_hex"))
         props.setdefault("source_stroke_hex", props.get("source_stroke_hex"))
         props.setdefault("source_fill_opacity", props.get("source_fill_opacity"))
@@ -1183,6 +1290,9 @@ def annotate_primary_features(
         if void_metrics["void_requires_review_count"]:
             flags.append("artifact_requires_review")
             flags.append("void_artifact_candidate")
+        if hole_classification["hole_cleanup"]["review_required_hole_count"]:
+            flags.append("artifact_requires_review")
+            flags.append("unknown_hole_review_required")
         if metrics["thin_corridor_count"]:
             flags.append("artifact_requires_review")
             flags.append("thin_corridor_candidate")
@@ -1241,6 +1351,7 @@ def annotate_primary_features(
             + int(metrics["thin_corridor_count"])
             + int(void_metrics["void_requires_review_count"])
             + int(component_metrics["island_count"])
+            + int(hole_classification["hole_cleanup"]["review_required_hole_count"])
         )
         props["artifact_component_count"] = artifact_component_count
         props["geometry_decision"] = "artifact blocked" if flags else "needs review"
@@ -1251,7 +1362,7 @@ def annotate_primary_features(
         )
         props["review_required"] = True
         props["cleanup_applied"] = False
-        props["geometry_cleanup_algorithm"] = "geometry_artifact_review_flagging_v1+review_candidate_remove_small_triangular_voids_v8_1"
+        props["geometry_cleanup_algorithm"] = "geometry_artifact_review_flagging_v1+review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2"
         props["geometry_cleanup_tolerance"] = 0.0
         props["geometry_cleanup_reason"] = (
             "no automatic geometry mutation; void/spike/thin-corridor evidence requires human review"
@@ -1266,7 +1377,7 @@ def annotate_primary_features(
         props["cleaned_candidate_available"] = bool(cleaned_candidate)
         props["cleaned_candidate_geometry"] = cleaned_candidate
         props["cleaned_candidate_reason"] = (
-            "candidate geometry removes only small/triangular void artifacts and is review-only"
+            "candidate geometry removes only label-mask, white-background, and hatch-grid hole artifacts and is review-only"
             if cleaned_candidate
             else "no geometry candidate generated; current evidence is diagnostic only"
         )
@@ -1312,6 +1423,10 @@ def build_visual_artifact_diagnostics(
         if (feature.get("properties") or {}).get("fragment_role") == "background_mask_fragment"
     ]
     primary_metrics = [feature_shape_metrics(feature) for feature in primary_features]
+    hole_cleanup_rows = [(feature.get("properties") or {}).get("hole_cleanup") or {} for feature in primary_features]
+    hole_type_counts: Counter[str] = Counter()
+    for feature in primary_features:
+        hole_type_counts.update((feature.get("properties") or {}).get("hole_type_counts") or {})
     max_spike = max((row["spike_score"] for row in primary_metrics), default=0.0)
     spike_review_count = sum(1 for feature in primary_features if "artifact_requires_review" in ((feature.get("properties") or {}).get("artifact_flags") or []))
     trusted_white = [
@@ -1321,9 +1436,9 @@ def build_visual_artifact_diagnostics(
     ]
     return {
         "algorithm": "visual_artifact_diagnostics_v1",
-        "geometry_cleanup_algorithm": "geometry_artifact_review_flagging_v1+review_candidate_remove_small_triangular_voids_v8_1",
+        "geometry_cleanup_algorithm": "geometry_artifact_review_flagging_v1+review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
         "geometry_cleanup_tolerance": 0.0,
-        "geometry_cleanup_reason": "V8.1 keeps raw/staging geometries immutable; obvious small/triangular voids may get a separate review-only cleaned candidate, never silent export.",
+        "geometry_cleanup_reason": "V8.2 keeps raw/staging geometries immutable; label-mask, white-background, and hatch-grid holes may get a separate review-only cleaned candidate, never silent export.",
         "white_fill_fragment_count": len(white_raw),
         "white_fill_fragment_area": round(sum(geometry_area(feature.get("geometry") or {}) for feature in white_raw), 3),
         "background_mask_candidate_count": len(background_raw),
@@ -1339,9 +1454,181 @@ def build_visual_artifact_diagnostics(
         "sliver_removed_count": 0,
         "thin_corridor_removed_count": 0,
         "cleaned_candidate_feature_count": sum(1 for feature in primary_features if (feature.get("properties") or {}).get("cleaned_candidate_available")),
+        "hole_type_counts": dict(hole_type_counts),
+        "hole_cleanup_candidate_feature_count": sum(1 for row in hole_cleanup_rows if row.get("applied_to_candidate")),
+        "hole_cleanup_removed_hole_count": sum(int(row.get("removed_hole_count") or 0) for row in hole_cleanup_rows),
+        "hole_cleanup_review_required_hole_count": sum(int(row.get("review_required_hole_count") or 0) for row in hole_cleanup_rows),
         "export_blocked_feature_count": sum(1 for feature in primary_features if not (feature.get("properties") or {}).get("export_eligible")),
         "artifact_requires_review_feature_count": spike_review_count,
     }
+
+
+def build_up_extraction_profile(
+    *,
+    pdf_name: str | None,
+    raw_features: list[dict[str, Any]],
+    primary_features: list[dict[str, Any]],
+    text_specs: list[dict[str, Any]],
+    legend_detection: dict[str, Any],
+    artifact_diagnostics: dict[str, Any],
+) -> dict[str, Any]:
+    raw_count = max(len(raw_features), 1)
+    white_line_candidates = []
+    black_dot_candidates = []
+    thick_boundary_candidates = []
+    for feature in raw_features:
+        props = feature.get("properties") or {}
+        bbox = feature_bbox(feature)
+        area = geometry_area(feature.get("geometry") or {})
+        width = max(0.0, bbox[2] - bbox[0]) if bbox else 0.0
+        height = max(0.0, bbox[3] - bbox[1]) if bbox else 0.0
+        stroke = str(props.get("source_stroke_hex") or "")
+        fill = str(props.get("source_fill_hex") or props.get("source_style_hex") or "")
+        stroke_width = float(props.get("stroke_width") or 0.0)
+        if is_near_white(stroke) or is_near_white(fill):
+            if area <= 250.0 or min(width, height) <= 4.0:
+                white_line_candidates.append(feature)
+        if (is_near_black(stroke) or is_near_black(fill)) and area <= 180.0 and max(width, height) <= 20.0:
+            black_dot_candidates.append(feature)
+        if (is_near_black(stroke) or is_near_black(fill)) and (stroke_width >= 1.8 or min(width, height) <= 3.0) and area <= 1200.0:
+            thick_boundary_candidates.append(feature)
+
+    target_labels = [
+        row
+        for row in text_specs
+        if row.get("matched_code_candidate") or str(row.get("raw_text") or "").strip().startswith(("Z.", "P.", "K."))
+    ]
+    hatch_hole_artifact_count = int(((artifact_diagnostics.get("hole_type_counts") or {}).get("hatch_grid_artifact")) or 0)
+    hatch_candidate_count = len(white_line_candidates) + hatch_hole_artifact_count
+    export_blocked_count = int(artifact_diagnostics.get("export_blocked_feature_count") or 0)
+    manual_split_required = bool(hatch_candidate_count or black_dot_candidates or thick_boundary_candidates)
+    manual_split_features = [
+        feature
+        for feature in primary_features
+        if (feature.get("properties") or {}).get("source_text_nearby")
+        or (feature.get("properties") or {}).get("proposed_CLASS") != "UNMAPPED"
+    ] if manual_split_required else []
+
+    methods = [
+        {
+            "method": "fill_style_polygonization",
+            "czech_explanation": "Bere uzavřené plochy podle barvy výplně z PDF vektorů.",
+            "status": "used" if primary_features else "failed",
+            "success_rate": round(len(primary_features) / raw_count, 4) if raw_features else None,
+            "used_for_candidate": True,
+            "main_evidence": f"{len(primary_features)} kandidátních polygonů z {len(raw_features)} vektorových objektů",
+            "main_risk": "Stejná výplň může spojit šrafované i nešrafované oblasti.",
+        },
+        {
+            "method": "hatch_pattern_segmentation",
+            "czech_explanation": "Hledá šrafování/mřížku uvnitř plochy a zkouší ji oddělit jako samostatnou oblast.",
+            "status": "manual_required" if hatch_candidate_count else "not_attempted",
+            "success_rate": None,
+            "used_for_candidate": False,
+            "main_evidence": f"{len(white_line_candidates)} bílých tenkých čar; {hatch_hole_artifact_count} hatch-grid hole artifacts po sloučení",
+            "main_risk": "Vektorové šrafy zatím nejsou spolehlivě izolované od ostatních bílých masek.",
+        },
+        {
+            "method": "dotted_boundary_segmentation",
+            "czech_explanation": "Hledá tečkovanou nebo silnou hranici, která vymezuje změnovou plochu.",
+            "status": "manual_required" if black_dot_candidates else "not_attempted",
+            "success_rate": None,
+            "used_for_candidate": False,
+            "main_evidence": f"{len(black_dot_candidates)} malých tmavých/dot hranic",
+            "main_risk": "Tečky mohou být hranice, značky parcel nebo textové grafické prvky.",
+        },
+        {
+            "method": "thick_line_boundary_segmentation",
+            "czech_explanation": "Hledá silné hranice, které mohou rozdělovat plánovací plochy.",
+            "status": "review_required" if thick_boundary_candidates else "not_attempted",
+            "success_rate": None,
+            "used_for_candidate": False,
+            "main_evidence": f"{len(thick_boundary_candidates)} silných/tmavých hranových kandidátů",
+            "main_risk": "Bez uzavření hranice hrozí špatné rozdělení plochy.",
+        },
+        {
+            "method": "text_anchor_region_assignment",
+            "czech_explanation": "Přiřazuje popisky jako BX.p nebo Z.51a k nejbližší/obsahující ploše.",
+            "status": "used" if target_labels else "not_attempted",
+            "success_rate": None,
+            "used_for_candidate": bool(target_labels),
+            "main_evidence": f"{len(target_labels)} textových kotev",
+            "main_risk": "Popisek sám nerozděluje geometrii a může jen potvrdit ruční split.",
+        },
+        {
+            "method": "legend_style_mapping",
+            "czech_explanation": "Mapuje barvy a symboly z legendy na třídy ploch.",
+            "status": "used" if legend_detection.get("bbox") else "review_required",
+            "success_rate": legend_detection.get("confidence"),
+            "used_for_candidate": bool(legend_detection.get("bbox")),
+            "main_evidence": f"{len(legend_detection.get('legend_candidates') or [])} kandidátů legendy",
+            "main_risk": "Legenda nerozděluje vnitřní šrafované části bez geometrické hranice.",
+        },
+        {
+            "method": "raster_assisted_segmentation",
+            "czech_explanation": "Porovnává vektorovou extrakci s vykresleným obrázkem PDF stránky.",
+            "status": "attempted",
+            "success_rate": None,
+            "used_for_candidate": False,
+            "main_evidence": "Vykreslený plán slouží jako vizuální kontrola.",
+            "main_risk": "Raster je zatím pouze podpůrný důkaz, ne zdroj automatického splitu.",
+        },
+        {
+            "method": "manual_split_required",
+            "czech_explanation": "Automatika nestačí, plocha musí být ručně rozdělená nebo potvrzená.",
+            "status": "manual_required" if manual_split_required or export_blocked_count else "not_attempted",
+            "success_rate": None,
+            "used_for_candidate": False,
+            "main_evidence": f"{export_blocked_count} export-blocked polygonů; {len(manual_split_features)} polygonů s textovou/třídní kotvou; hatch/dot kandidáti: {hatch_candidate_count}/{len(black_dot_candidates)}",
+            "main_risk": "Export bez ručního splitu by spojil oblasti s odlišnou plánovací semantikou.",
+        },
+    ]
+    attempted = [row["method"] for row in methods if row["status"] != "not_attempted"]
+    used = [row["method"] for row in methods if row["used_for_candidate"]]
+    rejected = [
+        {"method": row["method"], "reason": row["main_risk"]}
+        for row in methods
+        if row["status"] in {"review_required", "manual_required", "failed"} and not row["used_for_candidate"]
+    ]
+    return {
+        "pdf_name": pdf_name,
+        "algorithm": "method_aware_extraction_profile_v8_2",
+        "methods_attempted": attempted,
+        "methods_used_for_candidate": used,
+        "methods_rejected": rejected,
+        "method_rows": methods,
+        "overall_confidence": "review_required" if export_blocked_count or manual_split_required else "candidate",
+        "export_status": "blocked" if export_blocked_count or manual_split_required else "review_required",
+        "manual_split_required_count": len(manual_split_features),
+        "manual_split_feature_ids_sample": [
+            (feature.get("properties") or {}).get("FID", feature.get("id"))
+            for feature in manual_split_features[:30]
+        ],
+        "hatch_candidate_count": hatch_candidate_count,
+        "white_line_hatch_candidate_count": len(white_line_candidates),
+        "hatch_hole_artifact_count": hatch_hole_artifact_count,
+        "dotted_boundary_candidate_count": len(black_dot_candidates),
+        "thick_boundary_candidate_count": len(thick_boundary_candidates),
+        "text_anchor_count": len(target_labels),
+        "export_blocked_feature_count": export_blocked_count,
+    }
+
+
+def attach_method_profile_to_features(features: list[dict[str, Any]], profile: dict[str, Any]) -> None:
+    manual_required = int(profile.get("manual_split_required_count") or 0) > 0
+    for feature in features:
+        props = feature.setdefault("properties", {})
+        props["up_extraction_methods_attempted"] = profile.get("methods_attempted", [])
+        props["up_extraction_methods_used"] = profile.get("methods_used_for_candidate", [])
+        props["manual_split_required"] = bool(manual_required and (props.get("source_text_nearby") or props.get("proposed_CLASS") != "UNMAPPED"))
+        props["manual_split_reason"] = (
+            "hatch/dotted/thick boundary candidates were detected, but automatic semantic split is not reliable enough for export"
+            if props["manual_split_required"]
+            else None
+        )
+        if props["manual_split_required"]:
+            props["export_blocking_reason"] = "Blocked: manual split required for hatch/dotted-boundary semantic separation"
+            props["export_eligible"] = False
 
 
 def _round_ring(points: Iterable[Any]) -> list[list[float]]:
@@ -3121,6 +3408,15 @@ def finalize_pdf_collection(
         legend_vector_definitions=legend_vector_definitions,
     )
     artifact_diagnostics = build_visual_artifact_diagnostics(raw_features, primary_features)
+    up_extraction_profile = build_up_extraction_profile(
+        pdf_name=pdf_path.name,
+        raw_features=raw_features,
+        primary_features=primary_features,
+        text_specs=text_specs,
+        legend_detection=legend_detection,
+        artifact_diagnostics=artifact_diagnostics,
+    )
+    attach_method_profile_to_features(primary_features, up_extraction_profile)
     structured_errors: list[dict[str, Any]] = []
     if selected_algorithm != "vector_fill_style_polygon_v1":
         structured_errors.append(
@@ -3179,9 +3475,10 @@ def finalize_pdf_collection(
         pipeline_step(run_id=run_id, collection_id=collection_id, step_order=20, step_name="semantic_classification", algorithm="target_scope_evidence_v1", input_count=len(vector_definitions), output_count=len(classification_proposals)),
         pipeline_step(run_id=run_id, collection_id=collection_id, step_order=21, step_name="spatial_association", algorithm=spatial_association_stats["association_algorithm"], input_count=len(primary_features), output_count=spatial_association_stats["feature_text_association_count"], details=spatial_association_stats),
         pipeline_step(run_id=run_id, collection_id=collection_id, step_order=22, step_name="feature_proposal_annotation", algorithm=feature_proposal_stats["algorithm"], input_count=len(primary_features), output_count=feature_proposal_stats["feature_proposal_count"], warning_count=feature_proposal_stats["artifact_requires_review_feature_count"], details=feature_proposal_stats),
-        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=23, step_name="target_scope_filtering", algorithm="bydleni_rekreace_smisene_scope_v1", input_count=len(classification_proposals), output_count=len([row for row in classification_proposals if row.get("is_inscope_bydleni_related")])),
-        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=24, step_name="manual_legend_crop_fallback", algorithm="operator_bbox_fallback_v1", input_count=1, output_count=1, status="requires_review"),
-        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=25, step_name="export_candidate_generation", algorithm="jsonl_csv_export_bridge_v1", input_count=1, output_count=14),
+        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=23, step_name="method_aware_extraction_profile", algorithm=up_extraction_profile["algorithm"], input_count=len(raw_features), output_count=len(up_extraction_profile.get("method_rows") or []), warning_count=up_extraction_profile.get("manual_split_required_count", 0), status="requires_review" if up_extraction_profile.get("manual_split_required_count") else "ok", details=up_extraction_profile),
+        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=24, step_name="target_scope_filtering", algorithm="bydleni_rekreace_smisene_scope_v1", input_count=len(classification_proposals), output_count=len([row for row in classification_proposals if row.get("is_inscope_bydleni_related")])),
+        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=25, step_name="manual_legend_crop_fallback", algorithm="operator_bbox_fallback_v1", input_count=1, output_count=1, status="requires_review"),
+        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=26, step_name="export_candidate_generation", algorithm="jsonl_csv_export_bridge_v1", input_count=1, output_count=14),
     ]
     collection.update(
         {
@@ -3244,6 +3541,7 @@ def finalize_pdf_collection(
             "fragment_role_stats": fragment_role_stats,
             "merge_stats": merge_stats,
             "artifact_diagnostics": artifact_diagnostics,
+            "up_extraction_profile": up_extraction_profile,
             "feature_region_stats": feature_region_stats,
             "spatial_association_stats": spatial_association_stats,
             "feature_proposal_stats": feature_proposal_stats,
@@ -3287,6 +3585,12 @@ def finalize_pdf_collection(
                 "sliver_removed_count": artifact_diagnostics.get("sliver_removed_count", 0),
                 "thin_corridor_removed_count": artifact_diagnostics.get("thin_corridor_removed_count", 0),
                 "artifact_requires_review_feature_count": artifact_diagnostics.get("artifact_requires_review_feature_count", 0),
+                "hole_cleanup_removed_hole_count": artifact_diagnostics.get("hole_cleanup_removed_hole_count", 0),
+                "hole_cleanup_review_required_hole_count": artifact_diagnostics.get("hole_cleanup_review_required_hole_count", 0),
+                "manual_split_required_count": up_extraction_profile.get("manual_split_required_count", 0),
+                "hatch_candidate_count": up_extraction_profile.get("hatch_candidate_count", 0),
+                "dotted_boundary_candidate_count": up_extraction_profile.get("dotted_boundary_candidate_count", 0),
+                "export_blocked_feature_count": artifact_diagnostics.get("export_blocked_feature_count", 0),
                 "structured_errors": len(structured_errors),
                 "geometry_errors": len(geometry_errors),
                 "requires_review_rows": len([row for row in legend_rows if row.get("review_status") == "requires_review"]),
@@ -3310,6 +3614,12 @@ def finalize_pdf_collection(
                     "status": "requires_review" if artifact_diagnostics.get("artifact_requires_review_feature_count") else "not_applicable",
                     "algorithm": "visual_artifact_diagnostics_v1+geometry_artifact_review_flagging_v1",
                     "result": "white/background, void, rectangular hole, spike, needle, sliver, and thin-corridor metrics are recorded; uncertain geometry is review-only rather than silently mutated",
+                },
+                {
+                    "correction_task_id": "semantic-hatch-boundary-split",
+                    "status": "manual_required" if up_extraction_profile.get("manual_split_required_count") else "not_applicable",
+                    "algorithm": up_extraction_profile["algorithm"],
+                    "result": "fill-only polygons remain review-blocked where hatch, dotted-boundary, or thick-boundary evidence indicates semantic split risk",
                 },
                 *legend_corrections,
             ],
@@ -3343,6 +3653,7 @@ def finalize_pdf_collection(
                 "artifact_diagnostics": artifact_diagnostics,
                 "feature_region_stats": feature_region_stats,
                 "legend_detection": legend_detection,
+                "up_extraction_profile": up_extraction_profile,
                 "legend_mapping_stats": legend_mapping_stats,
                 "spatial_association_stats": spatial_association_stats,
                 "feature_proposal_stats": feature_proposal_stats,

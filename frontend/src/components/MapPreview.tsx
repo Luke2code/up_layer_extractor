@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import type { GeoFeature, Ring } from "../types";
 import { centerOfRing, CLASS_COLORS, pathForRing, pathForRings, rings, updateOuterRing } from "../lib/geo";
@@ -25,6 +25,7 @@ interface MapPreviewProps {
     polygons: boolean;
     validation: boolean;
     selectedBorder: boolean;
+    selectedLabel: boolean;
     textLabel: boolean;
     fidLabel: boolean;
     classLabel: boolean;
@@ -40,6 +41,22 @@ interface ViewState {
 }
 
 type FitMode = "page" | "width" | "polygon" | "custom";
+
+const MIN_ZOOM = 0.25;
+const V8_1_MAX_ZOOM = 16;
+const MAX_ZOOM = V8_1_MAX_ZOOM * 100;
+const ZOOM_STEPS = [
+  { label: "25%", scale: 0.25 },
+  { label: "50%", scale: 0.5 },
+  { label: "100%", scale: 1 },
+  { label: "200%", scale: 2 },
+  { label: "400%", scale: 4 },
+  { label: "800%", scale: 8 },
+  { label: "1600%", scale: 16 },
+  { label: "3200%", scale: 32 },
+  { label: "6400%", scale: 64 },
+  { label: "Max", scale: MAX_ZOOM }
+];
 
 function svgPoint(svg: SVGSVGElement, clientX: number, clientY: number, pageSize: PageSize) {
   const rect = svg.getBoundingClientRect();
@@ -65,7 +82,7 @@ function bboxForFeature(feature: GeoFeature | null) {
 function centeredViewForBBox(bbox: [number, number, number, number], pageSize: PageSize, padding = 1.25): ViewState {
   const width = Math.max(1, bbox[2] - bbox[0]);
   const height = Math.max(1, bbox[3] - bbox[1]);
-  const scale = Math.max(1, Math.min(16, Math.min(pageSize.width / (width * padding), pageSize.height / (height * padding))));
+  const scale = Math.max(1, Math.min(MAX_ZOOM, Math.min(pageSize.width / (width * padding), pageSize.height / (height * padding))));
   const cx = (bbox[0] + bbox[2]) / 2;
   const cy = (bbox[1] + bbox[3]) / 2;
   return {
@@ -77,6 +94,16 @@ function centeredViewForBBox(bbox: [number, number, number, number], pageSize: P
 
 function fitButtonClass(active: boolean) {
   return `px-2 py-1 text-[11px] ${active ? "bg-slate-900 text-white" : "bg-white text-slate-700 hover:bg-slate-100"}`;
+}
+
+function selectedLabel(feature: GeoFeature | null) {
+  if (!feature) return [];
+  const props = feature.properties;
+  const primary = props.proposed_CLASS && props.proposed_CLASS !== "UNMAPPED"
+    ? String(props.proposed_CLASS)
+    : String(props.CLASS ?? "UNMAPPED");
+  const secondary = props.text_id ? String(props.text_id) : props.proposed_LAYER_CLASS ? String(props.proposed_LAYER_CLASS) : String(props.LAYER_CLASS ?? "");
+  return [`FID ${String(props.FID ?? feature.id ?? "?")}`, secondary ? `${primary} / ${secondary}` : primary];
 }
 
 function featureColor(feature: GeoFeature, colorMode: MapColorMode) {
@@ -132,23 +159,14 @@ export function MapPreview({ features, selected, draftFeature, editMode, pageSiz
   const rawSelectedFlags = activeSelected?.properties.artifact_flags;
   const selectedFlags = Array.isArray(rawSelectedFlags) ? rawSelectedFlags.map(String) : [];
   const selectedArtifactState = selectedFlags.some((flag) => flag.includes("artifact") || flag.includes("void") || flag.includes("sliver") || flag.includes("thin") || flag.includes("needle"));
+  const selectedLabelRows = selectedLabel(activeSelected);
+  const selectedLabelFontSize = Math.max(2, 7 / Math.sqrt(Math.max(view.scale, 1)));
+  const selectedLabelStrokeWidth = Math.max(0.55, 1.8 / Math.sqrt(Math.max(view.scale, 1)));
 
   useEffect(() => {
     setView({ scale: 1, tx: 0, ty: 0 });
     setFitMode("page");
   }, [pageSize.width, pageSize.height]);
-
-  const popupRows = useMemo(() => {
-    if (!selected) return [];
-    const props = selected.properties;
-    return [
-      ["FID", props.FID],
-      ["LAYER_CLASS", props.LAYER_CLASS],
-      ["class_type", props.class_type],
-      ["TYPE", props.TYPE],
-      ["text_id", props.text_id]
-    ].filter(([, value]) => value !== null && value !== undefined && value !== "" && value !== "null");
-  }, [selected]);
 
   function pointInWorld(event: React.MouseEvent<SVGSVGElement> | React.PointerEvent<SVGCircleElement>) {
     const svg = svgRef.current;
@@ -162,7 +180,7 @@ export function MapPreview({ features, selected, draftFeature, editMode, pageSiz
     const svg = svgRef.current;
     if (!svg) return;
     const p = svgPoint(svg, event.clientX, event.clientY, pageSize);
-    const nextScale = Math.max(0.25, Math.min(16, view.scale * (event.deltaY < 0 ? 1.18 : 1 / 1.18)));
+    const nextScale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, view.scale * (event.deltaY < 0 ? 1.22 : 1 / 1.22)));
     const wx = (p.x - view.tx) / view.scale;
     const wy = (p.y - view.ty) / view.scale;
     setFitMode("custom");
@@ -191,6 +209,16 @@ export function MapPreview({ features, selected, draftFeature, editMode, pageSiz
     if (!selectedBBox) return;
     setFitMode("polygon");
     setView(centeredViewForBBox(selectedBBox, pageSize));
+  }
+
+  function setZoomScale(nextScale: number) {
+    const scale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, nextScale));
+    setFitMode("custom");
+    setView({
+      scale,
+      tx: pageSize.width / 2 - ((pageSize.width / 2 - view.tx) / view.scale) * scale,
+      ty: pageSize.height / 2 - ((pageSize.height / 2 - view.ty) / view.scale) * scale
+    });
   }
 
   function onMouseMove(event: React.MouseEvent<SVGSVGElement>) {
@@ -223,18 +251,29 @@ export function MapPreview({ features, selected, draftFeature, editMode, pageSiz
   }
 
   const selectedRing = activeSelected ? rings(activeSelected)[0] : null;
-  const popupCenter = selectedRing ? centerOfRing(selectedRing) : null;
-  const popupWidth = Math.max(86, Math.min(156, popupRows.reduce((max, row) => Math.max(max, `${row[0]}${row[1]}`.length * 4.1 + 18), 86)));
-  const popupHeight = popupRows.length * 10 + 8;
-  const popupX = popupCenter ? Math.max(8, Math.min(pageSize.width - popupWidth - 8, popupCenter.x + 12)) : 0;
-  const popupY = popupCenter ? Math.max(8, Math.min(pageSize.height - popupHeight - 8, popupCenter.y - 58)) : 0;
+  const selectedCenter = selectedRing ? centerOfRing(selectedRing) : null;
 
   return (
     <div className="relative h-full min-h-0 overflow-hidden bg-white">
-      <div data-testid="viewport-fit-control" className="absolute left-1/2 top-2 z-10 inline-flex -translate-x-1/2 border border-slate-300 bg-white shadow-sm">
-        <button type="button" data-testid="fit-page" onClick={fitPage} className={fitButtonClass(fitMode === "page")}>Fit Page</button>
-        <button type="button" data-testid="fit-width" onClick={fitWidth} className={fitButtonClass(fitMode === "width")}>Fit Width</button>
-        <button type="button" data-testid="fit-polygon" disabled={!canFitPolygon} onClick={fitPolygon} className={`${fitButtonClass(fitMode === "polygon")} disabled:cursor-not-allowed disabled:opacity-40`}>Fit Polygon</button>
+      <div data-testid="viewport-fit-control" className="absolute left-1/2 top-2 z-10 flex max-w-[calc(100%-1rem)] -translate-x-1/2 items-center gap-1 overflow-x-auto bg-white/95 p-1 shadow-sm">
+        <div className="inline-flex border border-slate-300">
+          <button type="button" data-testid="fit-page" onClick={fitPage} className={fitButtonClass(fitMode === "page")}>Fit Page</button>
+          <button type="button" data-testid="fit-width" onClick={fitWidth} className={fitButtonClass(fitMode === "width")}>Fit Width</button>
+          <button type="button" data-testid="fit-polygon" disabled={!canFitPolygon} onClick={fitPolygon} className={`${fitButtonClass(fitMode === "polygon")} disabled:cursor-not-allowed disabled:opacity-40`}>Fit Polygon</button>
+        </div>
+        <div data-testid="zoom-step-control" className="inline-flex border border-slate-300">
+          {ZOOM_STEPS.map((step) => (
+            <button
+              key={step.label}
+              type="button"
+              data-testid={`zoom-step-${step.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+              onClick={() => setZoomScale(step.scale)}
+              className={`px-1.5 py-1 text-[10px] ${Math.abs(view.scale - step.scale) / Math.max(step.scale, 1) < 0.04 ? "bg-slate-900 text-white" : "bg-white text-slate-700 hover:bg-slate-100"}`}
+            >
+              {step.label}
+            </button>
+          ))}
+        </div>
       </div>
       <svg
         ref={svgRef}
@@ -361,19 +400,14 @@ export function MapPreview({ features, selected, draftFeature, editMode, pageSiz
                 );
               })
             : null}
-          {selected && popupRows.length ? (
-            <g transform={`translate(${popupX} ${popupY})`} pointerEvents="none" style={{ filter: "drop-shadow(0 1px 2px rgb(0 0 0 / 0.10))" }}>
-              <rect width={popupWidth} height={popupHeight} rx={3} fill="#f4f4f4" stroke="#bdbdbd" strokeWidth={0.55} />
-              {popupRows.map(([key, value], index) => (
-                <g key={String(key)} transform={`translate(0 ${12 + index * 10})`}>
-                  <text x="6" y="0" fontSize="6" fill="#777">
-                    {String(key)}:
-                  </text>
-                  <text x="58" y="1" fontSize="9" fill="#111" fontWeight="600">
-                    {String(value)}
-                  </text>
-                </g>
-              ))}
+          {toggles.selectedLabel && selectedCenter && selectedLabelRows.length ? (
+            <g transform={`translate(${selectedCenter.x} ${selectedCenter.y})`} pointerEvents="none" data-testid="selected-polygon-label">
+              <text y={-selectedLabelFontSize * 0.55} textAnchor="middle" fontSize={selectedLabelFontSize} fontWeight="700" fill="#111" stroke="#fff" strokeWidth={selectedLabelStrokeWidth} paintOrder="stroke">
+                {selectedLabelRows[0]}
+              </text>
+              <text y={selectedLabelFontSize * 0.85} textAnchor="middle" fontSize={selectedLabelFontSize} fontWeight="700" fill="#111" stroke="#fff" strokeWidth={selectedLabelStrokeWidth} paintOrder="stroke">
+                {selectedLabelRows[1]}
+              </text>
             </g>
           ) : null}
         </g>

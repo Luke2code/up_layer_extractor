@@ -43,6 +43,15 @@ def validate_one(path: Path) -> dict[str, Any]:
         runtime_ms = round((time.perf_counter() - start) * 1000)
         detection = collection.get("source_detection") or {}
         diagnostics = collection.get("diagnostics") or {}
+        artifact_diagnostics = collection.get("artifact_diagnostics") or {}
+        extraction_profile = collection.get("up_extraction_profile") or {}
+        features = collection.get("features") or []
+        status = "passed" if features else collection.get("classification_status", "diagnostic_only")
+        review_blocked = bool(
+            artifact_diagnostics.get("export_blocked_feature_count")
+            or extraction_profile.get("manual_split_required_count")
+            or extraction_profile.get("export_status") == "blocked"
+        )
         return {
             "filename": path.name,
             "path": str(path),
@@ -51,7 +60,7 @@ def validate_one(path: Path) -> dict[str, Any]:
             "page_count": collection.get("page_count") or detection.get("page_count"),
             "vector_drawing_count": diagnostics.get("drawing_count") or detection.get("drawing_count"),
             "text_span_count": detection.get("text_span_count"),
-            "vector_feature_count": len(collection.get("features") or []),
+            "vector_feature_count": len(features),
             "raw_fragment_count": collection.get("raw_fragment_count"),
             "primary_extraction_mode": collection.get("primary_extraction_mode"),
             "raw_features_are_debug_only": collection.get("raw_features_are_debug_only"),
@@ -64,9 +73,19 @@ def validate_one(path: Path) -> dict[str, Any]:
             "requires_review_count": len([row for row in collection.get("classification_proposals") or [] if row.get("requires_review")]),
             "geometry_error_count": collection.get("geometry_error_count_total", len(collection.get("geometry_error_candidates") or [])),
             "structured_error_count": len(collection.get("structured_errors") or []),
+            "artifact_requires_review_feature_count": artifact_diagnostics.get("artifact_requires_review_feature_count"),
+            "export_blocked_feature_count": artifact_diagnostics.get("export_blocked_feature_count"),
+            "hole_cleanup_removed_hole_count": artifact_diagnostics.get("hole_cleanup_removed_hole_count"),
+            "hole_cleanup_review_required_hole_count": artifact_diagnostics.get("hole_cleanup_review_required_hole_count"),
+            "extraction_profile_algorithm": extraction_profile.get("algorithm"),
+            "manual_split_required_count": extraction_profile.get("manual_split_required_count"),
+            "hatch_candidate_count": extraction_profile.get("hatch_candidate_count"),
+            "dotted_boundary_candidate_count": extraction_profile.get("dotted_boundary_candidate_count"),
+            "extraction_export_status": extraction_profile.get("export_status"),
             "runtime_ms": runtime_ms,
-            "status": "passed" if collection.get("features") else collection.get("classification_status", "diagnostic_only"),
-            "notes": collection.get("warning"),
+            "status": status,
+            "completion_label": "completed_review_blocked" if status == "passed" and review_blocked else status,
+            "notes": collection.get("warning") or ("review-blocked artifacts/manual split candidates remain" if review_blocked else None),
         }
     except Exception as exc:  # pragma: no cover - exercised by operator corpus runs.
         runtime_ms = round((time.perf_counter() - start) * 1000)
@@ -96,7 +115,7 @@ def main() -> None:
 
     headers = sorted({key for row in rows for key in row})
     with csv_out.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=headers)
+        writer = csv.DictWriter(handle, fieldnames=headers, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -104,7 +123,7 @@ def main() -> None:
     print(f"json={json_out}")
     print(f"csv={csv_out}")
     for row in rows:
-        print(f"{row.get('status')}: {row.get('filename')} features={row.get('vector_feature_count', 0)} errors={row.get('structured_error_count', 0)}")
+        print(f"{row.get('status')}: {row.get('filename')} features={row.get('vector_feature_count', 0)} errors={row.get('structured_error_count', 0)} completion={row.get('completion_label', row.get('status'))}")
 
 
 if __name__ == "__main__":

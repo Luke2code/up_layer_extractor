@@ -19,7 +19,8 @@ const DEFAULT_TOGGLES = {
   selectedBorder: true,
   textLabel: false,
   fidLabel: false,
-  classLabel: false
+  classLabel: false,
+  selectedLabel: true
 };
 
 const LARGE_COLLECTION_FEATURE_THRESHOLD = 20000;
@@ -152,7 +153,8 @@ export function App() {
       validation: current.validation && next.features.length <= LARGE_COLLECTION_FEATURE_THRESHOLD,
       textLabel: false,
       fidLabel: false,
-      classLabel: false
+      classLabel: false,
+      selectedLabel: true
     }));
   }
 

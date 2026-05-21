@@ -1,7 +1,7 @@
 {
   "status": "passed",
   "failures": [],
-  "runtime_ms": 35872,
+  "runtime_ms": 36630,
   "backend_4101_health": true,
   "active_default_8787_hits": [],
   "pdf": "/mnt/c/Users/Me/Downloads/A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf",
@@ -10,9 +10,9 @@
   "primary_feature_count": 1265,
   "artifact_diagnostics": {
     "algorithm": "visual_artifact_diagnostics_v1",
-    "geometry_cleanup_algorithm": "geometry_artifact_review_flagging_v1+review_candidate_remove_small_triangular_voids_v8_1",
+    "geometry_cleanup_algorithm": "geometry_artifact_review_flagging_v1+review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
     "geometry_cleanup_tolerance": 0.0,
-    "geometry_cleanup_reason": "V8.1 keeps raw/staging geometries immutable; obvious small/triangular voids may get a separate review-only cleaned candidate, never silent export.",
+    "geometry_cleanup_reason": "V8.2 keeps raw/staging geometries immutable; label-mask, white-background, and hatch-grid holes may get a separate review-only cleaned candidate, never silent export.",
     "white_fill_fragment_count": 0,
     "white_fill_fragment_area": 0,
     "background_mask_candidate_count": 0,
@@ -40,9 +40,171 @@
     "thin_corridor_count": 8,
     "sliver_removed_count": 0,
     "thin_corridor_removed_count": 0,
-    "cleaned_candidate_feature_count": 117,
+    "cleaned_candidate_feature_count": 119,
+    "hole_type_counts": {
+      "hatch_grid_artifact": 635,
+      "unknown_review_required": 47,
+      "real_planning_void": 17,
+      "white_background_artifact": 3
+    },
+    "hole_cleanup_candidate_feature_count": 119,
+    "hole_cleanup_removed_hole_count": 638,
+    "hole_cleanup_review_required_hole_count": 47,
     "export_blocked_feature_count": 1265,
-    "artifact_requires_review_feature_count": 124
+    "artifact_requires_review_feature_count": 136
+  },
+  "up_extraction_profile": {
+    "pdf_name": "A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf",
+    "algorithm": "method_aware_extraction_profile_v8_2",
+    "methods_attempted": [
+      "fill_style_polygonization",
+      "hatch_pattern_segmentation",
+      "dotted_boundary_segmentation",
+      "thick_line_boundary_segmentation",
+      "text_anchor_region_assignment",
+      "legend_style_mapping",
+      "raster_assisted_segmentation",
+      "manual_split_required"
+    ],
+    "methods_used_for_candidate": [
+      "fill_style_polygonization",
+      "text_anchor_region_assignment",
+      "legend_style_mapping"
+    ],
+    "methods_rejected": [
+      {
+        "method": "hatch_pattern_segmentation",
+        "reason": "Vektorové šrafy zatím nejsou spolehlivě izolované od ostatních bílých masek."
+      },
+      {
+        "method": "dotted_boundary_segmentation",
+        "reason": "Tečky mohou být hranice, značky parcel nebo textové grafické prvky."
+      },
+      {
+        "method": "thick_line_boundary_segmentation",
+        "reason": "Bez uzavření hranice hrozí špatné rozdělení plochy."
+      },
+      {
+        "method": "manual_split_required",
+        "reason": "Export bez ručního splitu by spojil oblasti s odlišnou plánovací semantikou."
+      }
+    ],
+    "method_rows": [
+      {
+        "method": "fill_style_polygonization",
+        "czech_explanation": "Bere uzavřené plochy podle barvy výplně z PDF vektorů.",
+        "status": "used",
+        "success_rate": 0.0223,
+        "used_for_candidate": true,
+        "main_evidence": "1265 kandidátních polygonů z 56642 vektorových objektů",
+        "main_risk": "Stejná výplň může spojit šrafované i nešrafované oblasti."
+      },
+      {
+        "method": "hatch_pattern_segmentation",
+        "czech_explanation": "Hledá šrafování/mřížku uvnitř plochy a zkouší ji oddělit jako samostatnou oblast.",
+        "status": "manual_required",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "0 bílých tenkých čar; 635 hatch-grid hole artifacts po sloučení",
+        "main_risk": "Vektorové šrafy zatím nejsou spolehlivě izolované od ostatních bílých masek."
+      },
+      {
+        "method": "dotted_boundary_segmentation",
+        "czech_explanation": "Hledá tečkovanou nebo silnou hranici, která vymezuje změnovou plochu.",
+        "status": "manual_required",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "83 malých tmavých/dot hranic",
+        "main_risk": "Tečky mohou být hranice, značky parcel nebo textové grafické prvky."
+      },
+      {
+        "method": "thick_line_boundary_segmentation",
+        "czech_explanation": "Hledá silné hranice, které mohou rozdělovat plánovací plochy.",
+        "status": "review_required",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "9 silných/tmavých hranových kandidátů",
+        "main_risk": "Bez uzavření hranice hrozí špatné rozdělení plochy."
+      },
+      {
+        "method": "text_anchor_region_assignment",
+        "czech_explanation": "Přiřazuje popisky jako BX.p nebo Z.51a k nejbližší/obsahující ploše.",
+        "status": "used",
+        "success_rate": null,
+        "used_for_candidate": true,
+        "main_evidence": "560 textových kotev",
+        "main_risk": "Popisek sám nerozděluje geometrii a může jen potvrdit ruční split."
+      },
+      {
+        "method": "legend_style_mapping",
+        "czech_explanation": "Mapuje barvy a symboly z legendy na třídy ploch.",
+        "status": "used",
+        "success_rate": 0.99,
+        "used_for_candidate": true,
+        "main_evidence": "3 kandidátů legendy",
+        "main_risk": "Legenda nerozděluje vnitřní šrafované části bez geometrické hranice."
+      },
+      {
+        "method": "raster_assisted_segmentation",
+        "czech_explanation": "Porovnává vektorovou extrakci s vykresleným obrázkem PDF stránky.",
+        "status": "attempted",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "Vykreslený plán slouží jako vizuální kontrola.",
+        "main_risk": "Raster je zatím pouze podpůrný důkaz, ne zdroj automatického splitu."
+      },
+      {
+        "method": "manual_split_required",
+        "czech_explanation": "Automatika nestačí, plocha musí být ručně rozdělená nebo potvrzená.",
+        "status": "manual_required",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "1265 export-blocked polygonů; 875 polygonů s textovou/třídní kotvou; hatch/dot kandidáti: 635/83",
+        "main_risk": "Export bez ručního splitu by spojil oblasti s odlišnou plánovací semantikou."
+      }
+    ],
+    "overall_confidence": "review_required",
+    "export_status": "blocked",
+    "manual_split_required_count": 875,
+    "manual_split_feature_ids_sample": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      10,
+      11,
+      12,
+      14,
+      15,
+      16,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39
+    ],
+    "hatch_candidate_count": 635,
+    "white_line_hatch_candidate_count": 0,
+    "hatch_hole_artifact_count": 635,
+    "dotted_boundary_candidate_count": 83,
+    "thick_boundary_candidate_count": 9,
+    "text_anchor_count": 560,
+    "export_blocked_feature_count": 1265
   },
   "legend_candidates": [
     {
@@ -94,9 +256,9 @@
       "signals": {
         "class_code_cluster": true,
         "keyword_text_count": 2,
-        "text_density_hint": 457,
+        "text_density_hint": 459,
         "symbol_grid_hint": true,
-        "anchor_text_count": 457,
+        "anchor_text_count": 459,
         "target_code_count": 11,
         "detected_target_codes": [
           "BH",
@@ -173,20 +335,2332 @@
     "classification_reason": "matched nearby target text SV",
     "artifact_flags": [
       "artifact_requires_review",
+      "unknown_hole_review_required",
       "void_artifact_candidate"
     ],
-    "export_blocking_reason": "Blocked: geometry artifact candidate requires human review before export",
+    "export_blocking_reason": "Blocked: manual split required for hatch/dotted-boundary semantic separation",
     "display_fill_hex": "#ff0000",
     "display_color_source": "source_style",
     "source_fill_hex": "#ff0000",
     "geometry_decision": "artifact blocked",
-    "geometry_decision_reason": "artifact evidence detected: artifact_requires_review, void_artifact_candidate",
-    "artifact_component_count": 65,
+    "geometry_decision_reason": "artifact evidence detected: artifact_requires_review, unknown_hole_review_required, void_artifact_candidate",
+    "artifact_component_count": 66,
     "component_count_before": 1,
     "component_count_after": 1,
     "triangular_void_count": 21,
     "small_void_count": 44,
-    "void_requires_review_count": 65
+    "void_requires_review_count": 65,
+    "hole_cleanup": {
+      "applied_to_candidate": true,
+      "raw_preserved": true,
+      "removed_hole_count": 45,
+      "kept_hole_count": 1,
+      "review_required_hole_count": 1,
+      "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+      "thresholds": {
+        "rectangularity_min": 0.82,
+        "area_ratio_max": 0.018,
+        "small_area_max": 35.0,
+        "thin_width_max": 2.5,
+        "text_overlap_required": false,
+        "white_fill_evidence_required": false
+      }
+    },
+    "hole_type_counts": {
+      "hatch_grid_artifact": 45,
+      "unknown_review_required": 1
+    },
+    "manual_split_required": true,
+    "manual_split_reason": "hatch/dotted/thick boundary candidates were detected, but automatic semantic split is not reliable enough for export"
+  },
+  "fid337_probe": {
+    "status": "found",
+    "fid": 337,
+    "proposed_class": "RI",
+    "source_text_nearby": "RI",
+    "manual_split_required": true,
+    "manual_split_reason": "hatch/dotted/thick boundary candidates were detected, but automatic semantic split is not reliable enough for export",
+    "export_eligible": false,
+    "export_blocking_reason": "Blocked: manual split required for hatch/dotted-boundary semantic separation",
+    "artifact_flags": [
+      "artifact_requires_review",
+      "unknown_hole_review_required",
+      "void_artifact_candidate"
+    ],
+    "geometry_decision": "artifact blocked",
+    "hole_cleanup": {
+      "applied_to_candidate": true,
+      "raw_preserved": true,
+      "removed_hole_count": 24,
+      "kept_hole_count": 1,
+      "review_required_hole_count": 1,
+      "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+      "thresholds": {
+        "rectangularity_min": 0.82,
+        "area_ratio_max": 0.018,
+        "small_area_max": 35.0,
+        "thin_width_max": 2.5,
+        "text_overlap_required": false,
+        "white_fill_evidence_required": false
+      }
+    },
+    "hole_type_counts": {
+      "hatch_grid_artifact": 24,
+      "unknown_review_required": 1
+    },
+    "cleaned_candidate_available": true,
+    "cleaned_candidate_metadata": {
+      "algorithm": "review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
+      "removed_void_count": 24,
+      "removed_voids": [
+        {
+          "hole_index": 1,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.171,
+          "area_ratio": 1.1e-05,
+          "vertices": 3,
+          "bbox": [
+            1649.32,
+            1512.84,
+            1652.631,
+            1514.895
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 2,
+          "hole_type": "hatch_grid_artifact",
+          "area": 1.159,
+          "area_ratio": 7.2e-05,
+          "vertices": 4,
+          "bbox": [
+            1637.44,
+            1549.08,
+            1649.08,
+            1557.72
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 3,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.003,
+          "area_ratio": 0.0,
+          "vertices": 3,
+          "bbox": [
+            1683.04,
+            1567.56,
+            1684.111,
+            1568.792
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 5,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.0,
+          "area_ratio": 0.0,
+          "vertices": 3,
+          "bbox": [
+            1771.0,
+            1478.759,
+            1771.0,
+            1478.76
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 6,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.086,
+          "area_ratio": 5e-06,
+          "vertices": 4,
+          "bbox": [
+            1659.88,
+            1521.12,
+            1661.8,
+            1527.0
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 7,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.125,
+          "area_ratio": 8e-06,
+          "vertices": 5,
+          "bbox": [
+            1654.333,
+            1516.011,
+            1660.692,
+            1520.118
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 8,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.073,
+          "area_ratio": 5e-06,
+          "vertices": 3,
+          "bbox": [
+            1660.851,
+            1533.0,
+            1661.2,
+            1534.92
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 9,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.07,
+          "area_ratio": 4e-06,
+          "vertices": 3,
+          "bbox": [
+            1656.281,
+            1540.32,
+            1660.6,
+            1543.649
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 10,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.125,
+          "area_ratio": 8e-06,
+          "vertices": 3,
+          "bbox": [
+            1682.8,
+            1597.759,
+            1685.794,
+            1599.84
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 11,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.77,
+          "area_ratio": 4.8e-05,
+          "vertices": 11,
+          "bbox": [
+            1672.358,
+            1583.997,
+            1682.8,
+            1599.84
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 12,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.023,
+          "area_ratio": 1e-06,
+          "vertices": 3,
+          "bbox": [
+            1688.703,
+            1593.0,
+            1692.64,
+            1595.737
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 13,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.031,
+          "area_ratio": 2e-06,
+          "vertices": 3,
+          "bbox": [
+            1692.64,
+            1590.684,
+            1695.985,
+            1593.0
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 14,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.74,
+          "area_ratio": 4.6e-05,
+          "vertices": 6,
+          "bbox": [
+            1687.362,
+            1572.522,
+            1697.176,
+            1583.856
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 15,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.064,
+          "area_ratio": 4e-06,
+          "vertices": 3,
+          "bbox": [
+            1730.08,
+            1544.28,
+            1731.147,
+            1546.2
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 16,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.18,
+          "area_ratio": 1.1e-05,
+          "vertices": 4,
+          "bbox": [
+            1736.44,
+            1531.68,
+            1738.36,
+            1535.1
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 17,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.054,
+          "area_ratio": 3e-06,
+          "vertices": 3,
+          "bbox": [
+            1738.36,
+            1528.382,
+            1740.309,
+            1531.68
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 18,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.058,
+          "area_ratio": 4e-06,
+          "vertices": 3,
+          "bbox": [
+            1741.48,
+            1524.24,
+            1742.68,
+            1526.4
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 19,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.021,
+          "area_ratio": 1e-06,
+          "vertices": 3,
+          "bbox": [
+            1746.52,
+            1516.473,
+            1747.282,
+            1517.64
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 20,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.002,
+          "area_ratio": 0.0,
+          "vertices": 3,
+          "bbox": [
+            1720.0,
+            1564.44,
+            1720.68,
+            1565.76
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 21,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.085,
+          "area_ratio": 5e-06,
+          "vertices": 4,
+          "bbox": [
+            1759.08,
+            1495.44,
+            1760.68,
+            1498.045
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 22,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.217,
+          "area_ratio": 1.3e-05,
+          "vertices": 6,
+          "bbox": [
+            1765.6,
+            1482.226,
+            1768.867,
+            1487.4
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 23,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.073,
+          "area_ratio": 5e-06,
+          "vertices": 5,
+          "bbox": [
+            1763.72,
+            1488.479,
+            1765.011,
+            1490.561
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 24,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.095,
+          "area_ratio": 6e-06,
+          "vertices": 4,
+          "bbox": [
+            1761.838,
+            1490.789,
+            1763.575,
+            1493.545
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 25,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.018,
+          "area_ratio": 1e-06,
+          "vertices": 3,
+          "bbox": [
+            1757.468,
+            1499.632,
+            1758.106,
+            1500.671
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        }
+      ],
+      "hole_type_counts": {
+        "hatch_grid_artifact": 24,
+        "unknown_review_required": 1
+      },
+      "hole_cleanup": {
+        "applied_to_candidate": true,
+        "raw_preserved": true,
+        "removed_hole_count": 24,
+        "kept_hole_count": 1,
+        "review_required_hole_count": 1,
+        "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+        "thresholds": {
+          "rectangularity_min": 0.82,
+          "area_ratio_max": 0.018,
+          "small_area_max": 35.0,
+          "thin_width_max": 2.5,
+          "text_overlap_required": false,
+          "white_fill_evidence_required": false
+        }
+      },
+      "raw_geometry_unchanged": true,
+      "export_requires_human_approval": true
+    }
+  },
+  "fid353_probe": {
+    "status": "found",
+    "fid": 353,
+    "proposed_class": "SV",
+    "source_text_nearby": "SV",
+    "manual_split_required": true,
+    "manual_split_reason": "hatch/dotted/thick boundary candidates were detected, but automatic semantic split is not reliable enough for export",
+    "export_eligible": false,
+    "export_blocking_reason": "Blocked: manual split required for hatch/dotted-boundary semantic separation",
+    "artifact_flags": [
+      "artifact_requires_review",
+      "void_artifact_candidate"
+    ],
+    "geometry_decision": "artifact blocked",
+    "hole_cleanup": {
+      "applied_to_candidate": true,
+      "raw_preserved": true,
+      "removed_hole_count": 19,
+      "kept_hole_count": 1,
+      "review_required_hole_count": 0,
+      "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+      "thresholds": {
+        "rectangularity_min": 0.82,
+        "area_ratio_max": 0.018,
+        "small_area_max": 35.0,
+        "thin_width_max": 2.5,
+        "text_overlap_required": false,
+        "white_fill_evidence_required": false
+      }
+    },
+    "hole_type_counts": {
+      "hatch_grid_artifact": 19,
+      "real_planning_void": 1
+    },
+    "cleaned_candidate_available": true,
+    "cleaned_candidate_metadata": {
+      "algorithm": "review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
+      "removed_void_count": 19,
+      "removed_voids": [
+        {
+          "hole_index": 1,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.003,
+          "area_ratio": 0.0,
+          "vertices": 3,
+          "bbox": [
+            1853.8,
+            1820.252,
+            1853.948,
+            1820.64
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 2,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.021,
+          "area_ratio": 1e-06,
+          "vertices": 3,
+          "bbox": [
+            1784.8,
+            1698.84,
+            1797.39,
+            1705.195
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 3,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.202,
+          "area_ratio": 1.2e-05,
+          "vertices": 5,
+          "bbox": [
+            1759.6,
+            1795.44,
+            1762.72,
+            1803.6
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 4,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.111,
+          "area_ratio": 7e-06,
+          "vertices": 5,
+          "bbox": [
+            1764.976,
+            1784.283,
+            1767.039,
+            1789.704
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 6,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.031,
+          "area_ratio": 2e-06,
+          "vertices": 4,
+          "bbox": [
+            1868.2,
+            1769.925,
+            1870.309,
+            1775.4
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 7,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.747,
+          "area_ratio": 4.4e-05,
+          "vertices": 4,
+          "bbox": [
+            1776.214,
+            1747.32,
+            1781.44,
+            1760.634
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 8,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.016,
+          "area_ratio": 1e-06,
+          "vertices": 4,
+          "bbox": [
+            1781.44,
+            1744.609,
+            1782.507,
+            1747.32
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 9,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.706,
+          "area_ratio": 4.2e-05,
+          "vertices": 5,
+          "bbox": [
+            1787.68,
+            1714.08,
+            1794.16,
+            1731.0
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 10,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.189,
+          "area_ratio": 1.1e-05,
+          "vertices": 5,
+          "bbox": [
+            1794.16,
+            1708.169,
+            1796.5,
+            1714.08
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 11,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.022,
+          "area_ratio": 1e-06,
+          "vertices": 4,
+          "bbox": [
+            1879.72,
+            1745.52,
+            1884.4,
+            1751.4
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 12,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.18,
+          "area_ratio": 1.1e-05,
+          "vertices": 3,
+          "bbox": [
+            1875.52,
+            1751.4,
+            1879.72,
+            1757.4
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 13,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.144,
+          "area_ratio": 8e-06,
+          "vertices": 3,
+          "bbox": [
+            1884.4,
+            1731.96,
+            1897.48,
+            1745.52
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 14,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.027,
+          "area_ratio": 2e-06,
+          "vertices": 3,
+          "bbox": [
+            1873.382,
+            1760.76,
+            1873.84,
+            1761.948
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 15,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.109,
+          "area_ratio": 6e-06,
+          "vertices": 4,
+          "bbox": [
+            1858.343,
+            1803.36,
+            1859.92,
+            1808.069
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 16,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.014,
+          "area_ratio": 1e-06,
+          "vertices": 3,
+          "bbox": [
+            1861.36,
+            1797.12,
+            1861.84,
+            1798.8
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 17,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.079,
+          "area_ratio": 5e-06,
+          "vertices": 4,
+          "bbox": [
+            1861.84,
+            1793.64,
+            1862.92,
+            1797.119
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 18,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.002,
+          "area_ratio": 0.0,
+          "vertices": 3,
+          "bbox": [
+            1862.92,
+            1792.82,
+            1863.18,
+            1793.64
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 19,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.073,
+          "area_ratio": 4e-06,
+          "vertices": 3,
+          "bbox": [
+            1864.916,
+            1784.28,
+            1865.68,
+            1787.106
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        },
+        {
+          "hole_index": 20,
+          "hole_type": "hatch_grid_artifact",
+          "area": 0.031,
+          "area_ratio": 2e-06,
+          "vertices": 3,
+          "bbox": [
+            1865.68,
+            1780.64,
+            1866.72,
+            1784.28
+          ],
+          "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+        }
+      ],
+      "hole_type_counts": {
+        "hatch_grid_artifact": 19,
+        "real_planning_void": 1
+      },
+      "hole_cleanup": {
+        "applied_to_candidate": true,
+        "raw_preserved": true,
+        "removed_hole_count": 19,
+        "kept_hole_count": 1,
+        "review_required_hole_count": 0,
+        "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+        "thresholds": {
+          "rectangularity_min": 0.82,
+          "area_ratio_max": 0.018,
+          "small_area_max": 35.0,
+          "thin_width_max": 2.5,
+          "text_overlap_required": false,
+          "white_fill_evidence_required": false
+        }
+      },
+      "raw_geometry_unchanged": true,
+      "export_requires_human_approval": true
+    }
+  },
+  "hole_cleanup_report": {
+    "status": "review_candidate_only",
+    "raw_geometry_preserved": true,
+    "algorithm": "review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
+    "artifact_hole_type_counts": {
+      "hatch_grid_artifact": 635,
+      "unknown_review_required": 47,
+      "real_planning_void": 17,
+      "white_background_artifact": 3
+    },
+    "removed_hole_count": 638,
+    "review_required_hole_count": 47,
+    "candidate_feature_count": 119,
+    "sample_features": [
+      {
+        "status": "found",
+        "fid": 329,
+        "proposed_class": "SV",
+        "source_text_nearby": "SV",
+        "manual_split_required": true,
+        "manual_split_reason": "hatch/dotted/thick boundary candidates were detected, but automatic semantic split is not reliable enough for export",
+        "export_eligible": false,
+        "export_blocking_reason": "Blocked: manual split required for hatch/dotted-boundary semantic separation",
+        "artifact_flags": [
+          "artifact_requires_review",
+          "unknown_hole_review_required",
+          "void_artifact_candidate"
+        ],
+        "geometry_decision": "artifact blocked",
+        "hole_cleanup": {
+          "applied_to_candidate": true,
+          "raw_preserved": true,
+          "removed_hole_count": 45,
+          "kept_hole_count": 1,
+          "review_required_hole_count": 1,
+          "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+          "thresholds": {
+            "rectangularity_min": 0.82,
+            "area_ratio_max": 0.018,
+            "small_area_max": 35.0,
+            "thin_width_max": 2.5,
+            "text_overlap_required": false,
+            "white_fill_evidence_required": false
+          }
+        },
+        "hole_type_counts": {
+          "hatch_grid_artifact": 45,
+          "unknown_review_required": 1
+        },
+        "cleaned_candidate_available": true,
+        "cleaned_candidate_metadata": {
+          "algorithm": "review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
+          "removed_void_count": 45,
+          "removed_voids": [
+            {
+              "hole_index": 1,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.054,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1345.48,
+                1838.22,
+                1345.6,
+                1839.72
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 2,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.13,
+              "area_ratio": 3e-06,
+              "vertices": 3,
+              "bbox": [
+                1345.84,
+                1842.0,
+                1354.24,
+                1843.44
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 3,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.799,
+              "area_ratio": 2e-05,
+              "vertices": 8,
+              "bbox": [
+                1344.04,
+                1848.6,
+                1345.24,
+                1862.76
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 4,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.086,
+              "area_ratio": 2e-06,
+              "vertices": 3,
+              "bbox": [
+                1339.12,
+                1876.2,
+                1346.2,
+                1877.28
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 5,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.038,
+              "area_ratio": 1e-06,
+              "vertices": 4,
+              "bbox": [
+                1346.095,
+                1874.637,
+                1346.2,
+                1876.2
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 6,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.367,
+              "area_ratio": 9e-06,
+              "vertices": 3,
+              "bbox": [
+                1647.64,
+                1889.52,
+                1656.88,
+                1891.08
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 7,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.078,
+              "area_ratio": 2e-06,
+              "vertices": 4,
+              "bbox": [
+                1487.105,
+                1839.96,
+                1488.16,
+                1844.568
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 8,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.007,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1370.2,
+                1806.72,
+                1370.44,
+                1807.32
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 9,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.05,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1558.72,
+                1899.6,
+                1562.44,
+                1900.68
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 10,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.005,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1558.72,
+                1898.72,
+                1558.88,
+                1899.6
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 11,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.003,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1560.112,
+                1892.04,
+                1560.16,
+                1892.376
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 12,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.562,
+              "area_ratio": 1.4e-05,
+              "vertices": 10,
+              "bbox": [
+                1560.16,
+                1881.12,
+                1567.72,
+                1892.04
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 13,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.34,
+              "area_ratio": 8e-06,
+              "vertices": 3,
+              "bbox": [
+                1461.76,
+                1878.96,
+                1474.089,
+                1880.85
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 14,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.032,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1455.88,
+                1877.1,
+                1456.06,
+                1878.0
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 15,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.014,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1344.88,
+                1830.12,
+                1345.12,
+                1833.24
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 16,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.078,
+              "area_ratio": 2e-06,
+              "vertices": 4,
+              "bbox": [
+                1345.135,
+                1824.933,
+                1345.321,
+                1827.06
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 17,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.049,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1345.412,
+                1821.96,
+                1345.6,
+                1823.963
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 18,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.065,
+              "area_ratio": 2e-06,
+              "vertices": 4,
+              "bbox": [
+                1366.597,
+                1812.097,
+                1368.468,
+                1817.128
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 19,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.043,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1441.24,
+                1875.96,
+                1446.88,
+                1876.92
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 20,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.259,
+              "area_ratio": 6e-06,
+              "vertices": 3,
+              "bbox": [
+                1398.04,
+                1862.28,
+                1404.88,
+                1866.12
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 21,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.367,
+              "area_ratio": 9e-06,
+              "vertices": 3,
+              "bbox": [
+                1384.72,
+                1853.88,
+                1398.04,
+                1862.28
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 22,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.108,
+              "area_ratio": 3e-06,
+              "vertices": 4,
+              "bbox": [
+                1370.32,
+                1846.56,
+                1378.84,
+                1850.16
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 23,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.039,
+              "area_ratio": 1e-06,
+              "vertices": 4,
+              "bbox": [
+                1345.831,
+                1870.73,
+                1346.08,
+                1874.42
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 24,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.108,
+              "area_ratio": 3e-06,
+              "vertices": 6,
+              "bbox": [
+                1456.36,
+                1872.72,
+                1457.08,
+                1875.72
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 25,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.183,
+              "area_ratio": 5e-06,
+              "vertices": 5,
+              "bbox": [
+                1457.629,
+                1866.282,
+                1458.575,
+                1870.251
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 26,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.262,
+              "area_ratio": 6e-06,
+              "vertices": 6,
+              "bbox": [
+                1459.379,
+                1854.96,
+                1461.16,
+                1862.741
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 27,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.309,
+              "area_ratio": 8e-06,
+              "vertices": 6,
+              "bbox": [
+                1483.48,
+                1852.285,
+                1485.4,
+                1860.84
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 28,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.115,
+              "area_ratio": 3e-06,
+              "vertices": 3,
+              "bbox": [
+                1509.28,
+                1887.96,
+                1522.12,
+                1890.6
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 29,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.294,
+              "area_ratio": 7e-06,
+              "vertices": 5,
+              "bbox": [
+                1506.332,
+                1834.509,
+                1507.682,
+                1838.742
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 30,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.077,
+              "area_ratio": 2e-06,
+              "vertices": 4,
+              "bbox": [
+                1510.043,
+                1823.16,
+                1511.2,
+                1826.887
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 31,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.125,
+              "area_ratio": 3e-06,
+              "vertices": 4,
+              "bbox": [
+                1511.2,
+                1819.054,
+                1512.434,
+                1823.16
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 32,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.241,
+              "area_ratio": 6e-06,
+              "vertices": 5,
+              "bbox": [
+                1564.6,
+                1790.46,
+                1567.075,
+                1797.96
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 33,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.029,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1567.275,
+                1787.96,
+                1567.9,
+                1789.853
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 34,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.177,
+              "area_ratio": 4e-06,
+              "vertices": 6,
+              "bbox": [
+                1515.863,
+                1799.28,
+                1518.16,
+                1807.19
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 35,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.036,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1518.4,
+                1798.68,
+                1522.96,
+                1799.28
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 36,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.199,
+              "area_ratio": 5e-06,
+              "vertices": 4,
+              "bbox": [
+                1513.119,
+                1810.608,
+                1514.872,
+                1816.713
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 37,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.046,
+              "area_ratio": 1e-06,
+              "vertices": 4,
+              "bbox": [
+                1572.773,
+                1937.232,
+                1573.0,
+                1939.001
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 38,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.224,
+              "area_ratio": 6e-06,
+              "vertices": 6,
+              "bbox": [
+                1573.24,
+                1929.0,
+                1574.149,
+                1935.36
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 39,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.116,
+              "area_ratio": 3e-06,
+              "vertices": 5,
+              "bbox": [
+                1575.426,
+                1916.04,
+                1575.88,
+                1919.399
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 41,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.0,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1604.95,
+                1892.923,
+                1609.96,
+                1893.72
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 42,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.227,
+              "area_ratio": 6e-06,
+              "vertices": 4,
+              "bbox": [
+                1618.0,
+                1891.154,
+                1622.598,
+                1895.28
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 43,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.003,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1623.28,
+                1889.425,
+                1624.584,
+                1890.56
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 44,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.274,
+              "area_ratio": 7e-06,
+              "vertices": 4,
+              "bbox": [
+                1569.28,
+                1881.6,
+                1579.96,
+                1885.2
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 45,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.004,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1575.237,
+                1920.52,
+                1575.28,
+                1920.848
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 46,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.074,
+              "area_ratio": 2e-06,
+              "vertices": 3,
+              "bbox": [
+                1586.207,
+                1887.268,
+                1597.36,
+                1890.96
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            }
+          ],
+          "hole_type_counts": {
+            "hatch_grid_artifact": 45,
+            "unknown_review_required": 1
+          },
+          "hole_cleanup": {
+            "applied_to_candidate": true,
+            "raw_preserved": true,
+            "removed_hole_count": 45,
+            "kept_hole_count": 1,
+            "review_required_hole_count": 1,
+            "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+            "thresholds": {
+              "rectangularity_min": 0.82,
+              "area_ratio_max": 0.018,
+              "small_area_max": 35.0,
+              "thin_width_max": 2.5,
+              "text_overlap_required": false,
+              "white_fill_evidence_required": false
+            }
+          },
+          "raw_geometry_unchanged": true,
+          "export_requires_human_approval": true
+        }
+      },
+      {
+        "status": "found",
+        "fid": 337,
+        "proposed_class": "RI",
+        "source_text_nearby": "RI",
+        "manual_split_required": true,
+        "manual_split_reason": "hatch/dotted/thick boundary candidates were detected, but automatic semantic split is not reliable enough for export",
+        "export_eligible": false,
+        "export_blocking_reason": "Blocked: manual split required for hatch/dotted-boundary semantic separation",
+        "artifact_flags": [
+          "artifact_requires_review",
+          "unknown_hole_review_required",
+          "void_artifact_candidate"
+        ],
+        "geometry_decision": "artifact blocked",
+        "hole_cleanup": {
+          "applied_to_candidate": true,
+          "raw_preserved": true,
+          "removed_hole_count": 24,
+          "kept_hole_count": 1,
+          "review_required_hole_count": 1,
+          "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+          "thresholds": {
+            "rectangularity_min": 0.82,
+            "area_ratio_max": 0.018,
+            "small_area_max": 35.0,
+            "thin_width_max": 2.5,
+            "text_overlap_required": false,
+            "white_fill_evidence_required": false
+          }
+        },
+        "hole_type_counts": {
+          "hatch_grid_artifact": 24,
+          "unknown_review_required": 1
+        },
+        "cleaned_candidate_available": true,
+        "cleaned_candidate_metadata": {
+          "algorithm": "review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
+          "removed_void_count": 24,
+          "removed_voids": [
+            {
+              "hole_index": 1,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.171,
+              "area_ratio": 1.1e-05,
+              "vertices": 3,
+              "bbox": [
+                1649.32,
+                1512.84,
+                1652.631,
+                1514.895
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 2,
+              "hole_type": "hatch_grid_artifact",
+              "area": 1.159,
+              "area_ratio": 7.2e-05,
+              "vertices": 4,
+              "bbox": [
+                1637.44,
+                1549.08,
+                1649.08,
+                1557.72
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 3,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.003,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1683.04,
+                1567.56,
+                1684.111,
+                1568.792
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 5,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.0,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1771.0,
+                1478.759,
+                1771.0,
+                1478.76
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 6,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.086,
+              "area_ratio": 5e-06,
+              "vertices": 4,
+              "bbox": [
+                1659.88,
+                1521.12,
+                1661.8,
+                1527.0
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 7,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.125,
+              "area_ratio": 8e-06,
+              "vertices": 5,
+              "bbox": [
+                1654.333,
+                1516.011,
+                1660.692,
+                1520.118
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 8,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.073,
+              "area_ratio": 5e-06,
+              "vertices": 3,
+              "bbox": [
+                1660.851,
+                1533.0,
+                1661.2,
+                1534.92
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 9,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.07,
+              "area_ratio": 4e-06,
+              "vertices": 3,
+              "bbox": [
+                1656.281,
+                1540.32,
+                1660.6,
+                1543.649
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 10,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.125,
+              "area_ratio": 8e-06,
+              "vertices": 3,
+              "bbox": [
+                1682.8,
+                1597.759,
+                1685.794,
+                1599.84
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 11,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.77,
+              "area_ratio": 4.8e-05,
+              "vertices": 11,
+              "bbox": [
+                1672.358,
+                1583.997,
+                1682.8,
+                1599.84
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 12,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.023,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1688.703,
+                1593.0,
+                1692.64,
+                1595.737
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 13,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.031,
+              "area_ratio": 2e-06,
+              "vertices": 3,
+              "bbox": [
+                1692.64,
+                1590.684,
+                1695.985,
+                1593.0
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 14,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.74,
+              "area_ratio": 4.6e-05,
+              "vertices": 6,
+              "bbox": [
+                1687.362,
+                1572.522,
+                1697.176,
+                1583.856
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 15,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.064,
+              "area_ratio": 4e-06,
+              "vertices": 3,
+              "bbox": [
+                1730.08,
+                1544.28,
+                1731.147,
+                1546.2
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 16,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.18,
+              "area_ratio": 1.1e-05,
+              "vertices": 4,
+              "bbox": [
+                1736.44,
+                1531.68,
+                1738.36,
+                1535.1
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 17,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.054,
+              "area_ratio": 3e-06,
+              "vertices": 3,
+              "bbox": [
+                1738.36,
+                1528.382,
+                1740.309,
+                1531.68
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 18,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.058,
+              "area_ratio": 4e-06,
+              "vertices": 3,
+              "bbox": [
+                1741.48,
+                1524.24,
+                1742.68,
+                1526.4
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 19,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.021,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1746.52,
+                1516.473,
+                1747.282,
+                1517.64
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 20,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.002,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1720.0,
+                1564.44,
+                1720.68,
+                1565.76
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 21,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.085,
+              "area_ratio": 5e-06,
+              "vertices": 4,
+              "bbox": [
+                1759.08,
+                1495.44,
+                1760.68,
+                1498.045
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 22,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.217,
+              "area_ratio": 1.3e-05,
+              "vertices": 6,
+              "bbox": [
+                1765.6,
+                1482.226,
+                1768.867,
+                1487.4
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 23,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.073,
+              "area_ratio": 5e-06,
+              "vertices": 5,
+              "bbox": [
+                1763.72,
+                1488.479,
+                1765.011,
+                1490.561
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 24,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.095,
+              "area_ratio": 6e-06,
+              "vertices": 4,
+              "bbox": [
+                1761.838,
+                1490.789,
+                1763.575,
+                1493.545
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 25,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.018,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1757.468,
+                1499.632,
+                1758.106,
+                1500.671
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            }
+          ],
+          "hole_type_counts": {
+            "hatch_grid_artifact": 24,
+            "unknown_review_required": 1
+          },
+          "hole_cleanup": {
+            "applied_to_candidate": true,
+            "raw_preserved": true,
+            "removed_hole_count": 24,
+            "kept_hole_count": 1,
+            "review_required_hole_count": 1,
+            "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+            "thresholds": {
+              "rectangularity_min": 0.82,
+              "area_ratio_max": 0.018,
+              "small_area_max": 35.0,
+              "thin_width_max": 2.5,
+              "text_overlap_required": false,
+              "white_fill_evidence_required": false
+            }
+          },
+          "raw_geometry_unchanged": true,
+          "export_requires_human_approval": true
+        }
+      },
+      {
+        "status": "found",
+        "fid": 353,
+        "proposed_class": "SV",
+        "source_text_nearby": "SV",
+        "manual_split_required": true,
+        "manual_split_reason": "hatch/dotted/thick boundary candidates were detected, but automatic semantic split is not reliable enough for export",
+        "export_eligible": false,
+        "export_blocking_reason": "Blocked: manual split required for hatch/dotted-boundary semantic separation",
+        "artifact_flags": [
+          "artifact_requires_review",
+          "void_artifact_candidate"
+        ],
+        "geometry_decision": "artifact blocked",
+        "hole_cleanup": {
+          "applied_to_candidate": true,
+          "raw_preserved": true,
+          "removed_hole_count": 19,
+          "kept_hole_count": 1,
+          "review_required_hole_count": 0,
+          "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+          "thresholds": {
+            "rectangularity_min": 0.82,
+            "area_ratio_max": 0.018,
+            "small_area_max": 35.0,
+            "thin_width_max": 2.5,
+            "text_overlap_required": false,
+            "white_fill_evidence_required": false
+          }
+        },
+        "hole_type_counts": {
+          "hatch_grid_artifact": 19,
+          "real_planning_void": 1
+        },
+        "cleaned_candidate_available": true,
+        "cleaned_candidate_metadata": {
+          "algorithm": "review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
+          "removed_void_count": 19,
+          "removed_voids": [
+            {
+              "hole_index": 1,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.003,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1853.8,
+                1820.252,
+                1853.948,
+                1820.64
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 2,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.021,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1784.8,
+                1698.84,
+                1797.39,
+                1705.195
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 3,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.202,
+              "area_ratio": 1.2e-05,
+              "vertices": 5,
+              "bbox": [
+                1759.6,
+                1795.44,
+                1762.72,
+                1803.6
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 4,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.111,
+              "area_ratio": 7e-06,
+              "vertices": 5,
+              "bbox": [
+                1764.976,
+                1784.283,
+                1767.039,
+                1789.704
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 6,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.031,
+              "area_ratio": 2e-06,
+              "vertices": 4,
+              "bbox": [
+                1868.2,
+                1769.925,
+                1870.309,
+                1775.4
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 7,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.747,
+              "area_ratio": 4.4e-05,
+              "vertices": 4,
+              "bbox": [
+                1776.214,
+                1747.32,
+                1781.44,
+                1760.634
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 8,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.016,
+              "area_ratio": 1e-06,
+              "vertices": 4,
+              "bbox": [
+                1781.44,
+                1744.609,
+                1782.507,
+                1747.32
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 9,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.706,
+              "area_ratio": 4.2e-05,
+              "vertices": 5,
+              "bbox": [
+                1787.68,
+                1714.08,
+                1794.16,
+                1731.0
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 10,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.189,
+              "area_ratio": 1.1e-05,
+              "vertices": 5,
+              "bbox": [
+                1794.16,
+                1708.169,
+                1796.5,
+                1714.08
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 11,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.022,
+              "area_ratio": 1e-06,
+              "vertices": 4,
+              "bbox": [
+                1879.72,
+                1745.52,
+                1884.4,
+                1751.4
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 12,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.18,
+              "area_ratio": 1.1e-05,
+              "vertices": 3,
+              "bbox": [
+                1875.52,
+                1751.4,
+                1879.72,
+                1757.4
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 13,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.144,
+              "area_ratio": 8e-06,
+              "vertices": 3,
+              "bbox": [
+                1884.4,
+                1731.96,
+                1897.48,
+                1745.52
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 14,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.027,
+              "area_ratio": 2e-06,
+              "vertices": 3,
+              "bbox": [
+                1873.382,
+                1760.76,
+                1873.84,
+                1761.948
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 15,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.109,
+              "area_ratio": 6e-06,
+              "vertices": 4,
+              "bbox": [
+                1858.343,
+                1803.36,
+                1859.92,
+                1808.069
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 16,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.014,
+              "area_ratio": 1e-06,
+              "vertices": 3,
+              "bbox": [
+                1861.36,
+                1797.12,
+                1861.84,
+                1798.8
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 17,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.079,
+              "area_ratio": 5e-06,
+              "vertices": 4,
+              "bbox": [
+                1861.84,
+                1793.64,
+                1862.92,
+                1797.119
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 18,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.002,
+              "area_ratio": 0.0,
+              "vertices": 3,
+              "bbox": [
+                1862.92,
+                1792.82,
+                1863.18,
+                1793.64
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 19,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.073,
+              "area_ratio": 4e-06,
+              "vertices": 3,
+              "bbox": [
+                1864.916,
+                1784.28,
+                1865.68,
+                1787.106
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            },
+            {
+              "hole_index": 20,
+              "hole_type": "hatch_grid_artifact",
+              "area": 0.031,
+              "area_ratio": 2e-06,
+              "vertices": 3,
+              "bbox": [
+                1865.68,
+                1780.64,
+                1866.72,
+                1784.28
+              ],
+              "reason": "tiny, triangular, or very thin interior ring consistent with hatch/grid artifact"
+            }
+          ],
+          "hole_type_counts": {
+            "hatch_grid_artifact": 19,
+            "real_planning_void": 1
+          },
+          "hole_cleanup": {
+            "applied_to_candidate": true,
+            "raw_preserved": true,
+            "removed_hole_count": 19,
+            "kept_hole_count": 1,
+            "review_required_hole_count": 0,
+            "reason": "only label-mask, white-background, and hatch-grid hole candidates are removed from review candidate geometry",
+            "thresholds": {
+              "rectangularity_min": 0.82,
+              "area_ratio_max": 0.018,
+              "small_area_max": 35.0,
+              "thin_width_max": 2.5,
+              "text_overlap_required": false,
+              "white_fill_evidence_required": false
+            }
+          },
+          "raw_geometry_unchanged": true,
+          "export_requires_human_approval": true
+        }
+      }
+    ]
+  },
+  "hatch_split_report": {
+    "status": "manual_split_required",
+    "profile_algorithm": "method_aware_extraction_profile_v8_2",
+    "export_status": "blocked",
+    "manual_split_required_count": 875,
+    "hatch_candidate_count": 635,
+    "dotted_boundary_candidate_count": 83,
+    "thick_boundary_candidate_count": 9,
+    "method_rows": [
+      {
+        "method": "fill_style_polygonization",
+        "czech_explanation": "Bere uzavřené plochy podle barvy výplně z PDF vektorů.",
+        "status": "used",
+        "success_rate": 0.0223,
+        "used_for_candidate": true,
+        "main_evidence": "1265 kandidátních polygonů z 56642 vektorových objektů",
+        "main_risk": "Stejná výplň může spojit šrafované i nešrafované oblasti."
+      },
+      {
+        "method": "hatch_pattern_segmentation",
+        "czech_explanation": "Hledá šrafování/mřížku uvnitř plochy a zkouší ji oddělit jako samostatnou oblast.",
+        "status": "manual_required",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "0 bílých tenkých čar; 635 hatch-grid hole artifacts po sloučení",
+        "main_risk": "Vektorové šrafy zatím nejsou spolehlivě izolované od ostatních bílých masek."
+      },
+      {
+        "method": "dotted_boundary_segmentation",
+        "czech_explanation": "Hledá tečkovanou nebo silnou hranici, která vymezuje změnovou plochu.",
+        "status": "manual_required",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "83 malých tmavých/dot hranic",
+        "main_risk": "Tečky mohou být hranice, značky parcel nebo textové grafické prvky."
+      },
+      {
+        "method": "thick_line_boundary_segmentation",
+        "czech_explanation": "Hledá silné hranice, které mohou rozdělovat plánovací plochy.",
+        "status": "review_required",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "9 silných/tmavých hranových kandidátů",
+        "main_risk": "Bez uzavření hranice hrozí špatné rozdělení plochy."
+      },
+      {
+        "method": "text_anchor_region_assignment",
+        "czech_explanation": "Přiřazuje popisky jako BX.p nebo Z.51a k nejbližší/obsahující ploše.",
+        "status": "used",
+        "success_rate": null,
+        "used_for_candidate": true,
+        "main_evidence": "560 textových kotev",
+        "main_risk": "Popisek sám nerozděluje geometrii a může jen potvrdit ruční split."
+      },
+      {
+        "method": "legend_style_mapping",
+        "czech_explanation": "Mapuje barvy a symboly z legendy na třídy ploch.",
+        "status": "used",
+        "success_rate": 0.99,
+        "used_for_candidate": true,
+        "main_evidence": "3 kandidátů legendy",
+        "main_risk": "Legenda nerozděluje vnitřní šrafované části bez geometrické hranice."
+      },
+      {
+        "method": "raster_assisted_segmentation",
+        "czech_explanation": "Porovnává vektorovou extrakci s vykresleným obrázkem PDF stránky.",
+        "status": "attempted",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "Vykreslený plán slouží jako vizuální kontrola.",
+        "main_risk": "Raster je zatím pouze podpůrný důkaz, ne zdroj automatického splitu."
+      },
+      {
+        "method": "manual_split_required",
+        "czech_explanation": "Automatika nestačí, plocha musí být ručně rozdělená nebo potvrzená.",
+        "status": "manual_required",
+        "success_rate": null,
+        "used_for_candidate": false,
+        "main_evidence": "1265 export-blocked polygonů; 875 polygonů s textovou/třídní kotvou; hatch/dot kandidáti: 635/83",
+        "main_risk": "Export bez ručního splitu by spojil oblasti s odlišnou plánovací semantikou."
+      }
+    ],
+    "manual_split_feature_ids_sample": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      10,
+      11,
+      12,
+      14,
+      15,
+      16,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39
+    ],
+    "risk": "automatic vector-only hatch/dotted boundary semantic separation is not yet reliable enough for clean export"
   },
   "screenshots": [
     "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-plan-source-colors.png",
@@ -195,6 +2669,9 @@
     "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-legend-fit-page-default.png",
     "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-legend-label-cleaned.png",
     "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-legend-focused-vector-defs.png",
-    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-manual-legend-crop.png"
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-manual-legend-crop.png",
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_2-up-zoom-steps-selected-label.png",
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_2-legend-compact-candidate-status.png",
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_2-extraction-method-profile.png"
   ]
 }

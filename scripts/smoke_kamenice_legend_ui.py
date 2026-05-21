@@ -26,6 +26,9 @@ SCREENSHOTS = {
     "legend_label": REPO_ROOT / "docs" / "kamenice-v8_1-legend-label-cleaned.png",
     "legend_focused": REPO_ROOT / "docs" / "kamenice-v8_1-legend-focused-vector-defs.png",
     "manual_crop": REPO_ROOT / "docs" / "kamenice-v8_1-manual-legend-crop.png",
+    "up_zoom_steps": REPO_ROOT / "docs" / "kamenice-v8_2-up-zoom-steps-selected-label.png",
+    "legend_compact": REPO_ROOT / "docs" / "kamenice-v8_2-legend-compact-candidate-status.png",
+    "extraction_tab": REPO_ROOT / "docs" / "kamenice-v8_2-extraction-method-profile.png",
 }
 
 
@@ -100,6 +103,10 @@ def main() -> None:
         expect(page.get_by_text("Plan source: pdf_page_render").first).to_be_visible(timeout=10_000)
         expect(page.get_by_label("Raster validation")).not_to_be_checked(timeout=10_000)
         expect(page.get_by_test_id("viewport-fit-control")).to_be_visible(timeout=10_000)
+        expect(page.get_by_test_id("zoom-step-control")).to_be_visible(timeout=10_000)
+        if page.locator('button[data-testid^="zoom-step-"]').count() != 10:
+            raise AssertionError("UP zoom control does not expose the required 10 zoom steps")
+        expect(page.get_by_label("Selected label")).to_be_checked(timeout=10_000)
         page.get_by_test_id("fit-width").click()
         page.get_by_test_id("fit-page").click()
 
@@ -121,10 +128,20 @@ def main() -> None:
         expect(page.get_by_text("geometry_cleanup_algorithm").first).to_be_visible(timeout=10_000)
         expect(page.get_by_test_id("fit-polygon")).to_be_enabled(timeout=10_000)
         page.get_by_test_id("fit-polygon").click()
+        expect(page.get_by_test_id("selected-polygon-label")).to_be_visible(timeout=10_000)
+        page.get_by_role("button", name="6400%").click()
+        page.screenshot(path=str(SCREENSHOTS["up_zoom_steps"]), full_page=True)
+        page.get_by_role("button", name="Max").click()
+        expect(page.get_by_test_id("selected-polygon-label")).to_be_visible(timeout=10_000)
         page.screenshot(path=str(SCREENSHOTS["artifact_fid329"]), full_page=True)
 
         page.get_by_role("button", name="Legend", exact=True).click()
         expect(page.get_by_test_id("legend-workbench")).to_be_visible(timeout=15_000)
+        if page.get_by_text("Legend Workbench", exact=True).count() != 0:
+            raise AssertionError("old Legend Workbench header is still visible")
+        expect(page.get_by_text("Legend crop source:").first).to_be_visible(timeout=10_000)
+        expect(page.get_by_text("Candidate:").first).to_be_visible(timeout=10_000)
+        expect(page.get_by_text("Confidence:").first).to_be_visible(timeout=10_000)
         expect(page.locator('img[alt="Legend crop"]')).to_be_visible(timeout=30_000)
         expect(page.get_by_test_id("legend-fit-control")).to_be_visible(timeout=10_000)
         expect(page.get_by_test_id("legend-fit-page")).to_be_visible(timeout=10_000)
@@ -134,6 +151,7 @@ def main() -> None:
         expect(page.get_by_test_id("legend-zoom-state")).to_have_text("Fit Page", timeout=10_000)
         if page.get_by_test_id("legend-symbol-overlay").count() != 0:
             raise AssertionError("symbol overlays are visible by default and may cover legend text")
+        page.screenshot(path=str(SCREENSHOTS["legend_compact"]), full_page=True)
         page.get_by_test_id("legend-fit-width").click()
         expect(page.get_by_test_id("legend-zoom-state")).to_have_text("Fit Width", timeout=10_000)
         page.get_by_test_id("legend-fit-page").click()
@@ -168,15 +186,25 @@ def main() -> None:
         page.keyboard.press("Enter")
         page.screenshot(path=str(SCREENSHOTS["legend_focused"]), full_page=True)
 
-        page.get_by_test_id("legend-item-BH").click()
-        expect(page.get_by_text("missing requires review").first).to_be_visible(timeout=10_000)
+        page.get_by_test_id("legend-list-row-BH").scroll_into_view_if_needed(timeout=10_000)
+        page.get_by_test_id("legend-list-row-BH").click()
+        expect(page.get_by_test_id("legend-selected-label")).to_have_text("BYDLENÍ HROMADNÉ", timeout=10_000)
+        missing_symbol = page.get_by_text("missing requires review").first
+        missing_symbol.scroll_into_view_if_needed(timeout=10_000)
+        expect(missing_symbol).to_be_visible(timeout=10_000)
         drag_manual_crop(page)
         page.screenshot(path=str(SCREENSHOTS["manual_crop"]), full_page=True)
+
+        page.get_by_role("button", name="Extraction", exact=True).click()
+        expect(page.get_by_test_id("extraction-tab")).to_be_visible(timeout=10_000)
+        expect(page.get_by_text("hatch_pattern_segmentation").first).to_be_visible(timeout=10_000)
+        expect(page.get_by_text("manual_split_required").first).to_be_visible(timeout=10_000)
+        page.screenshot(path=str(SCREENSHOTS["extraction_tab"]), full_page=True)
 
         browser.close()
 
     assert_no_browser_errors(console_errors, page_errors, request_urls)
-    print("kamenice legend v8.1 ui smoke passed")
+    print("kamenice legend v8.2 ui smoke passed")
     for key, path in SCREENSHOTS.items():
         print(f"{key}={path}")
 

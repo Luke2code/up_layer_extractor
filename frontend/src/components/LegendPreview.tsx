@@ -130,6 +130,7 @@ export function LegendPreview({
   const [manualCropMode, setManualCropMode] = useState(false);
   const [manualDraft, setManualDraft] = useState<ImageBBox | null>(null);
   const [manualDragStart, setManualDragStart] = useState<[number, number] | null>(null);
+  const [cropPanStart, setCropPanStart] = useState<{ x: number; y: number; left: number; top: number } | null>(null);
   const [overlays, setOverlays] = useState<OverlayOptions>({ rows: true, symbols: false, selectedOnly: false, labels: false });
   const [manualLabels, setManualLabels] = useState<Record<string, LegendLabelCorrectionRecord>>({});
   const [editingLabelFor, setEditingLabelFor] = useState<string | null>(null);
@@ -174,6 +175,11 @@ export function LegendPreview({
   const imageHeight = crop?.image_height_px ?? null;
   const cropSource = String(crop?.legend_crop_source ?? collection?.legend_crop_source ?? (crop ? "auto" : "unavailable"));
   const manualBox = normalizedImageBBox(manualDraft);
+  const legendCandidates = ((collection?.legend_candidates ?? []) as Record<string, unknown>[]);
+  const selectedCandidateIndex = Math.max(0, legendCandidates.findIndex((candidate) => candidate.selected));
+  const selectedCandidate = legendCandidates[selectedCandidateIndex] ?? null;
+  const candidateConfidence = Number(selectedCandidate?.score ?? crop?.confidence ?? 0);
+  const confidenceLabel = candidateConfidence >= 0.8 ? "high" : candidateConfidence >= 0.55 ? "medium" : candidateConfidence > 0 ? "low" : "n/a";
   const columnIndexes = [...new Set(items.map((item) => Number(item.legend_column_index ?? 0)))].sort((a, b) => a - b);
 
   function cropLabel(row: LegendCrop, index: number) {
@@ -290,6 +296,41 @@ export function LegendPreview({
     event.currentTarget.releasePointerCapture(event.pointerId);
   }
 
+  function startCropPointer(event: ReactPointerEvent<HTMLDivElement>) {
+    if (manualCropMode) {
+      startManualDraft(event);
+      return;
+    }
+    const node = cropScrollerRef.current;
+    if (!node) return;
+    setCropPanStart({ x: event.clientX, y: event.clientY, left: node.scrollLeft, top: node.scrollTop });
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }
+
+  function moveCropPointer(event: ReactPointerEvent<HTMLDivElement>) {
+    if (manualCropMode) {
+      moveManualDraft(event);
+      return;
+    }
+    const node = cropScrollerRef.current;
+    if (!node || !cropPanStart) return;
+    node.scrollLeft = cropPanStart.left - (event.clientX - cropPanStart.x);
+    node.scrollTop = cropPanStart.top - (event.clientY - cropPanStart.y);
+  }
+
+  function finishCropPointer(event: ReactPointerEvent<HTMLDivElement>) {
+    if (manualCropMode) {
+      finishManualDraft(event);
+      return;
+    }
+    if (cropPanStart) {
+      setCropPanStart(null);
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+    }
+  }
+
   async function saveLabelCorrection(item: LegendItem) {
     const corrected = labelDraft.trim();
     if (!corrected) return;
@@ -341,30 +382,20 @@ export function LegendPreview({
   }
 
   return (
-    <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] bg-white" data-testid="legend-workbench">
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-3 py-2 text-xs">
-        <div>
-          <div className="text-sm font-semibold text-slate-900">Legend Workbench</div>
-          <div className="text-[11px] text-slate-500">Focus, checked, review, and export eligibility are separate states.</div>
-        </div>
-        {usableCrops.length ? (
-          <div className="flex flex-wrap items-center gap-1">
-            {usableCrops.map((row, index) => (
-              <button key={row.legend_crop_id ?? index} type="button" onClick={() => { setCropIndex(index); setFitMode("page"); setZoom(1); setManualDraft(null); }} className={`border px-2 py-1 ${cropIndex === index ? "border-slate-900 bg-slate-900 text-white" : "border-slate-300 bg-white"}`}>
-                {cropLabel(row, index)}
-              </button>
-            ))}
-            {crops.length > usableCrops.length ? <span className="text-[11px] text-slate-500">Debug crops hidden: {crops.length - usableCrops.length}</span> : null}
-          </div>
-        ) : <span className="text-[11px] text-slate-500">Legend unavailable</span>}
-      </div>
-
+    <div className="grid min-h-0 bg-white" data-testid="legend-workbench">
       {imageSrc ? (
         <div className="grid min-h-0 gap-0 lg:grid-cols-[minmax(0,1fr)_420px]">
           <div className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)] border-r border-slate-200">
-            <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-3 py-2 text-xs">
-              <span className="bg-slate-100 px-2 py-1 text-[11px] text-slate-700">Source: {cropSource}</span>
-              <button type="button" data-testid="manual-crop-action" onClick={beginManualCrop} className={`inline-flex items-center gap-1 border px-2 py-1 ${manualCropMode ? "border-slate-900 bg-slate-900 text-white" : "border-slate-300 bg-white"}`}>
+            <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 px-3 py-1.5 text-xs">
+              <span className="bg-slate-100 px-2 py-1 text-[11px] text-slate-700">Legend crop source: {cropSource}</span>
+              <span className="bg-slate-100 px-2 py-1 text-[11px] text-slate-700">Candidate: {legendCandidates.length ? selectedCandidateIndex + 1 : 1} / {Math.max(legendCandidates.length, usableCrops.length, 1)}</span>
+              <span className="bg-slate-100 px-2 py-1 text-[11px] text-slate-700">Confidence: {confidenceLabel}</span>
+              {usableCrops.length > 1 ? usableCrops.map((row, index) => (
+                <button key={row.legend_crop_id ?? index} type="button" onClick={() => { setCropIndex(index); setFitMode("page"); setZoom(1); setManualDraft(null); }} className={`px-2 py-1 text-[11px] ${cropIndex === index ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}>
+                  {cropLabel(row, index)}
+                </button>
+              )) : null}
+              <button type="button" data-testid="manual-crop-action" onClick={beginManualCrop} className={`inline-flex items-center gap-1 px-2 py-1 ${manualCropMode ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}>
                 <Crosshair className="h-3.5 w-3.5" />Manual crop
               </button>
               <span data-testid="legend-zoom-state" className="text-[11px] text-slate-500">{fitMode === "page" ? "Fit Page" : fitMode === "width" ? "Fit Width" : `${Math.round(zoom * 100)}%`}</span>
@@ -374,7 +405,7 @@ export function LegendPreview({
                 ["selectedOnly", "Selected only"],
                 ["labels", "Show labels"]
               ].map(([key, label]) => (
-                <label key={key} className="inline-flex items-center gap-1 border border-slate-300 bg-white px-2 py-1">
+                <label key={key} className="inline-flex items-center gap-1 bg-slate-50 px-2 py-1">
                   <input type="checkbox" checked={overlays[key as keyof OverlayOptions]} onChange={(event) => setOverlay(key as keyof OverlayOptions, event.target.checked)} />
                   {label}
                 </label>
@@ -396,10 +427,13 @@ export function LegendPreview({
                       ? { maxWidth: "100%", maxHeight: "100%" }
                       : undefined
                 }
-                onPointerDown={startManualDraft}
-                onPointerMove={moveManualDraft}
-                onPointerUp={finishManualDraft}
-                onPointerCancel={() => setManualDragStart(null)}
+                onPointerDown={startCropPointer}
+                onPointerMove={moveCropPointer}
+                onPointerUp={finishCropPointer}
+                onPointerCancel={() => {
+                  setManualDragStart(null);
+                  setCropPanStart(null);
+                }}
               >
                 <img src={imageSrc} alt="Legend crop" className={`${fitMode === "page" ? "block max-h-full max-w-full select-none" : "block w-full select-none"}`} draggable={false} />
                 {manualBox ? (
@@ -660,13 +694,9 @@ export function LegendPreview({
           </div>
         </div>
       ) : (
-        <div className="grid place-items-center p-6 text-sm text-slate-600" data-testid="legend-unavailable">
-          <div className="max-w-xl border border-slate-200 bg-slate-50 p-4">
-            <div className="font-semibold text-slate-900">Legend unavailable</div>
-            <div className="mt-1">
-              {String(collection.legend_unavailable_reason ?? "Current source has no usable legend crop artifact. Use manual legend crop for PDF sources.")}
-            </div>
-          </div>
+        <div className="flex min-h-0 items-center gap-2 border-b border-slate-200 bg-white px-3 py-2 text-xs text-slate-700" data-testid="legend-unavailable">
+          <span className="font-semibold text-slate-900">Legend crop source: unavailable</span>
+          <span>{String(collection.legend_unavailable_reason ?? "Current source has no usable legend crop artifact. Use manual legend crop for PDF sources.")}</span>
         </div>
       )}
     </div>

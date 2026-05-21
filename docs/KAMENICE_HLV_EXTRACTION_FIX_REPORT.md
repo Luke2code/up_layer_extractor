@@ -453,3 +453,82 @@ Final runtime:
 - UI: `http://127.0.0.1:4100`
 - Backend: `http://127.0.0.1:4101`
 - `8787`: not listening; active-default scan passed.
+
+## V8.2 Gate Follow-up
+
+### Root Cause
+
+V8.1 correctly stopped the raw-fragment false success and kept Kamenice stable at `56642` raw fragments and `1265` merged polygons, but the remaining hatch/dotted-boundary issue is semantic, not just geometric.
+
+- The white hatch/grid visible inside red change areas is not emitted as a clean independent white line layer in this PDF; after tessellation merge it appears mainly as tiny interior rings/holes.
+- The dotted black boundary and thick dark boundaries are present as vector evidence, but not as a reliable closed split graph.
+- Because the hatch, dotted boundary, thick boundary, text anchor, and legend evidence disagree about where a clean automatic cut should occur, the extractor must block clean export and mark manual split/review instead of silently merging different planning semantics.
+
+### Implementation Approaches Recorded
+
+- `review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2`: classifies polygon holes as hatch-grid artifacts, white-background artifacts, real planning voids, or review-required unknown holes. Only candidate/review geometry removes eligible artifacts; raw geometry remains preserved.
+- `method_aware_extraction_profile_v8_2`: records fill style polygonization, hatch segmentation, dotted boundary segmentation, thick boundary segmentation, text anchor assignment, legend mapping, raster-assisted review, and manual-split gating.
+- `hatch_dotted_boundary_manual_split_gate_v8_2`: blocks export when hatch/dotted/thick boundary evidence exists but cannot produce a reliable vector-only semantic split.
+- `operator_extraction_profile_tab_v8_2`: exposes Method, Czech explanation, Status, Success rate, Used for candidate, Main evidence, and Main risk in the bottom `Extraction` tab.
+- `operator_zoom_and_label_controls_v8_2`: adds 10 UP zoom steps through Max (`1600x` internal scale), wheel zoom, and a selected-polygon label toggle.
+
+### UI Changes
+
+- Removed the visible top `Legend Workbench` header.
+- Legend now starts with compact status/control rows: `Legend crop source`, `Candidate`, and `Confidence`.
+- Legend unavailable state is compact and preserves Květnice GeoJSON-only truth.
+- Legend crop wheel zoom and pan both work; normal filter controls no longer have boxed borders.
+- The bottom/details panel has an `Extraction` tab for method-level evidence.
+- UP view has `Fit Page | Fit Width | Fit Polygon` plus 10 zoom steps: `25%`, `50%`, `100%`, `200%`, `400%`, `800%`, `1600%`, `3200%`, `6400%`, `Max`.
+- `Selected label` is on by default and is smaller than the previous selected popup.
+- Bottom/review splitters remain simple 1px light-grey resize lines with no layout gap.
+
+### V8.2 Kamenice Results
+
+- Raw fragments: `56642`.
+- Merged polygons: `1265`.
+- Hatch candidates: `635` hatch-grid interior-ring artifacts.
+- Dotted-boundary candidates: `83`.
+- Thick-boundary candidates: `9`.
+- Manual split required: `875` text/class-anchored polygons.
+- Export blocked: `1265` polygons until review/manual semantic split.
+- Hole cleanup diagnostics: `638` holes removable only in review candidate geometry, `47` unknown holes still review-required.
+- FID diagnostics refreshed: `329`, `337`, and `353` all found and carry hole cleanup/manual split fields.
+
+Diagnostics written:
+
+- `docs/kamenice_fid329_diagnostic.json`
+- `docs/kamenice_fid337_diagnostic.json`
+- `docs/kamenice_fid353_diagnostic.json`
+- `docs/kamenice_hole_cleanup_diagnostic.json`
+- `docs/kamenice_hatch_split_diagnostic.json`
+- `docs/kamenice_hlv_validation.json`
+- `docs/kamenice_visual_artifacts_validation.json`
+- `docs/pdf_validation_corpus.json`
+
+Screenshots:
+
+- `docs/kamenice-v8_2-up-zoom-steps-selected-label.png`
+- `docs/kamenice-v8_2-legend-compact-candidate-status.png`
+- `docs/kamenice-v8_2-extraction-method-profile.png`
+
+### V8.2 Validation Results
+
+- Backend tests: `39 passed` using `.venv/bin/python -m pytest backend/tests -s`.
+- Frontend typecheck: passed.
+- Frontend tests: `6 passed`.
+- Frontend production build: passed.
+- Python compile checks: passed.
+- `scripts/validate_kamenice_hlv.py`: passed.
+- `scripts/smoke_kamenice_legend_ui.py`: passed.
+- `scripts/validate_kamenice_visual_artifacts.py`: passed.
+- `scripts/smoke_kvetnice_legend_sample.py`: passed.
+- `scripts/smoke_webapp.py`: passed.
+- `scripts/smoke_pdf_uploads.py`: passed for Bykev, Ricany, and Kamenice uploads.
+- `scripts/validate_pdf_corpus.py`: 8 present PDFs passed with `completed_review_blocked`; `kamenice zcu.pdf` is still missing at `/mnt/c/Users/Me/Downloads/kamenice zcu.pdf`.
+
+Final runtime:
+
+- UI: `http://127.0.0.1:4100`
+- Backend: `http://127.0.0.1:4101`
+- `8787`: active-default scan passed.

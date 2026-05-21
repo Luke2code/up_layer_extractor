@@ -1,0 +1,116 @@
+{
+  "status": "manual_split_required",
+  "profile_algorithm": "method_aware_extraction_profile_v8_2",
+  "export_status": "blocked",
+  "manual_split_required_count": 875,
+  "hatch_candidate_count": 635,
+  "dotted_boundary_candidate_count": 83,
+  "thick_boundary_candidate_count": 9,
+  "method_rows": [
+    {
+      "method": "fill_style_polygonization",
+      "czech_explanation": "Bere uzavřené plochy podle barvy výplně z PDF vektorů.",
+      "status": "used",
+      "success_rate": 0.0223,
+      "used_for_candidate": true,
+      "main_evidence": "1265 kandidátních polygonů z 56642 vektorových objektů",
+      "main_risk": "Stejná výplň může spojit šrafované i nešrafované oblasti."
+    },
+    {
+      "method": "hatch_pattern_segmentation",
+      "czech_explanation": "Hledá šrafování/mřížku uvnitř plochy a zkouší ji oddělit jako samostatnou oblast.",
+      "status": "manual_required",
+      "success_rate": null,
+      "used_for_candidate": false,
+      "main_evidence": "0 bílých tenkých čar; 635 hatch-grid hole artifacts po sloučení",
+      "main_risk": "Vektorové šrafy zatím nejsou spolehlivě izolované od ostatních bílých masek."
+    },
+    {
+      "method": "dotted_boundary_segmentation",
+      "czech_explanation": "Hledá tečkovanou nebo silnou hranici, která vymezuje změnovou plochu.",
+      "status": "manual_required",
+      "success_rate": null,
+      "used_for_candidate": false,
+      "main_evidence": "83 malých tmavých/dot hranic",
+      "main_risk": "Tečky mohou být hranice, značky parcel nebo textové grafické prvky."
+    },
+    {
+      "method": "thick_line_boundary_segmentation",
+      "czech_explanation": "Hledá silné hranice, které mohou rozdělovat plánovací plochy.",
+      "status": "review_required",
+      "success_rate": null,
+      "used_for_candidate": false,
+      "main_evidence": "9 silných/tmavých hranových kandidátů",
+      "main_risk": "Bez uzavření hranice hrozí špatné rozdělení plochy."
+    },
+    {
+      "method": "text_anchor_region_assignment",
+      "czech_explanation": "Přiřazuje popisky jako BX.p nebo Z.51a k nejbližší/obsahující ploše.",
+      "status": "used",
+      "success_rate": null,
+      "used_for_candidate": true,
+      "main_evidence": "560 textových kotev",
+      "main_risk": "Popisek sám nerozděluje geometrii a může jen potvrdit ruční split."
+    },
+    {
+      "method": "legend_style_mapping",
+      "czech_explanation": "Mapuje barvy a symboly z legendy na třídy ploch.",
+      "status": "used",
+      "success_rate": 0.99,
+      "used_for_candidate": true,
+      "main_evidence": "3 kandidátů legendy",
+      "main_risk": "Legenda nerozděluje vnitřní šrafované části bez geometrické hranice."
+    },
+    {
+      "method": "raster_assisted_segmentation",
+      "czech_explanation": "Porovnává vektorovou extrakci s vykresleným obrázkem PDF stránky.",
+      "status": "attempted",
+      "success_rate": null,
+      "used_for_candidate": false,
+      "main_evidence": "Vykreslený plán slouží jako vizuální kontrola.",
+      "main_risk": "Raster je zatím pouze podpůrný důkaz, ne zdroj automatického splitu."
+    },
+    {
+      "method": "manual_split_required",
+      "czech_explanation": "Automatika nestačí, plocha musí být ručně rozdělená nebo potvrzená.",
+      "status": "manual_required",
+      "success_rate": null,
+      "used_for_candidate": false,
+      "main_evidence": "1265 export-blocked polygonů; 875 polygonů s textovou/třídní kotvou; hatch/dot kandidáti: 635/83",
+      "main_risk": "Export bez ručního splitu by spojil oblasti s odlišnou plánovací semantikou."
+    }
+  ],
+  "manual_split_feature_ids_sample": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    10,
+    11,
+    12,
+    14,
+    15,
+    16,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39
+  ],
+  "risk": "automatic vector-only hatch/dotted boundary semantic separation is not yet reliable enough for clean export"
+}

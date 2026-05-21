@@ -18,6 +18,7 @@ interface ToolbarProps {
     textLabel: boolean;
     fidLabel: boolean;
     classLabel: boolean;
+    selectedLabel: boolean;
   };
   planAvailable: boolean;
   planSource: string;
@@ -69,6 +70,7 @@ export function Toolbar({ features, visibleCount, filters, overlay, toggles, pla
         ["polygons", "Polygons"],
         ["validation", "Raster validation"],
         ["selectedBorder", "Selected border"],
+        ["selectedLabel", "Selected label"],
         ["textLabel", "text_id"],
         ["fidLabel", "FID"],
         ["classLabel", "CLASS"]

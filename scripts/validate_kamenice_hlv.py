@@ -40,6 +40,7 @@ def validate(path: Path) -> dict[str, Any]:
     legend_symbols = collection.get("legend_symbols") or []
     legend_mapping_stats = collection.get("legend_mapping_stats") or {}
     artifact_diagnostics = collection.get("artifact_diagnostics") or {}
+    extraction_profile = collection.get("up_extraction_profile") or {}
     fragment_role_stats = collection.get("fragment_role_stats") or {}
     feature_proposal_stats = collection.get("feature_proposal_stats") or {}
     legend_vector_defs = [row for row in collection.get("vector_definitions") or [] if row.get("legend_item_id")]
@@ -120,6 +121,16 @@ def validate(path: Path) -> dict[str, Any]:
         fail("correction_tasks are missing", failures)
     if not artifact_diagnostics:
         fail("artifact_diagnostics are missing", failures)
+    if not extraction_profile:
+        fail("up_extraction_profile is missing", failures)
+    if extraction_profile and extraction_profile.get("algorithm") != "method_aware_extraction_profile_v8_2":
+        fail(f"up_extraction_profile algorithm is {extraction_profile.get('algorithm')!r}", failures)
+    method_names = {row.get("method") for row in extraction_profile.get("method_rows") or []}
+    for method in ["fill_style_polygonization", "hatch_pattern_segmentation", "dotted_boundary_segmentation", "thick_line_boundary_segmentation", "text_anchor_region_assignment", "legend_style_mapping", "raster_assisted_segmentation", "manual_split_required"]:
+        if method not in method_names:
+            fail(f"up_extraction_profile method {method} is missing", failures)
+    if extraction_profile and extraction_profile.get("export_status") != "blocked":
+        fail(f"up_extraction_profile export_status is {extraction_profile.get('export_status')!r}, expected blocked while manual split/review remains", failures)
     if not fragment_role_stats.get("fragment_role_counts"):
         fail("fragment role classification is missing", failures)
     if "fragment_role_classification" not in pipeline_steps:
@@ -130,13 +141,13 @@ def validate(path: Path) -> dict[str, Any]:
         fail("white/background features are present in trusted primary output", failures)
     if artifact_diagnostics.get("max_spike_score", 0) >= 0.75 and artifact_diagnostics.get("artifact_requires_review_feature_count", 0) <= 0:
         fail("high spike score is not paired with artifact review flags", failures)
-    for key in ["triangular_void_count", "small_void_count", "void_area_ratio", "void_requires_review_count", "spike_review_required_count", "geometry_cleanup_algorithm"]:
+    for key in ["triangular_void_count", "small_void_count", "void_area_ratio", "void_requires_review_count", "spike_review_required_count", "geometry_cleanup_algorithm", "hole_type_counts", "hole_cleanup_removed_hole_count", "hole_cleanup_review_required_hole_count"]:
         if key not in artifact_diagnostics:
             fail(f"V7 artifact diagnostic {key} is missing", failures)
     if feature_proposal_stats.get("feature_proposal_count", 0) <= 0:
         fail("selected polygon proposal annotations are missing", failures)
     selected = (collection.get("features") or [{}])[0].get("properties") or {}
-    for key in ["raw_CLASS", "proposed_CLASS", "classification_reason", "export_blocking_reason", "artifact_flags", "display_fill_hex", "display_color_source", "source_fill_hex", "geometry_decision", "geometry_decision_reason", "artifact_component_count", "component_count_before", "component_count_after"]:
+    for key in ["raw_CLASS", "proposed_CLASS", "classification_reason", "export_blocking_reason", "artifact_flags", "display_fill_hex", "display_color_source", "source_fill_hex", "geometry_decision", "geometry_decision_reason", "artifact_component_count", "component_count_before", "component_count_after", "hole_cleanup", "hole_type_counts", "manual_split_required"]:
         if key not in selected:
             fail(f"selected polygon property {key} is missing", failures)
     bad_labels = [item for item in legend_items if item.get("label_text_status") in {"garbled", "manual_required"} and item.get("label_text_display") == item.get("label_text_raw")]
@@ -208,6 +219,15 @@ def validate(path: Path) -> dict[str, Any]:
         "thin_corridor_count": artifact_diagnostics.get("thin_corridor_count"),
         "geometry_cleanup_algorithm": artifact_diagnostics.get("geometry_cleanup_algorithm"),
         "artifact_requires_review_feature_count": artifact_diagnostics.get("artifact_requires_review_feature_count"),
+        "hole_type_counts": artifact_diagnostics.get("hole_type_counts"),
+        "hole_cleanup_candidate_feature_count": artifact_diagnostics.get("hole_cleanup_candidate_feature_count"),
+        "hole_cleanup_removed_hole_count": artifact_diagnostics.get("hole_cleanup_removed_hole_count"),
+        "hole_cleanup_review_required_hole_count": artifact_diagnostics.get("hole_cleanup_review_required_hole_count"),
+        "up_extraction_profile": extraction_profile,
+        "manual_split_required_count": extraction_profile.get("manual_split_required_count"),
+        "hatch_candidate_count": extraction_profile.get("hatch_candidate_count"),
+        "dotted_boundary_candidate_count": extraction_profile.get("dotted_boundary_candidate_count"),
+        "export_blocked_feature_count": extraction_profile.get("export_blocked_feature_count"),
         "feature_proposal_count": feature_proposal_stats.get("feature_proposal_count"),
         "feature_unmapped_count": feature_proposal_stats.get("unmapped_feature_count"),
         "pipeline_steps": list(pipeline_steps),
@@ -235,6 +255,9 @@ def validate(path: Path) -> dict[str, Any]:
             "legend_label_quality_gate_v1",
             "legend_candidate_evidence_ranker_v8_1",
             "review_candidate_remove_small_triangular_voids_v8_1",
+            "review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
+            "method_aware_extraction_profile_v8_2",
+            "hatch_dotted_boundary_manual_split_gate_v8_2",
         ],
     }
 

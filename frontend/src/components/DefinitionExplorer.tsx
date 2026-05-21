@@ -4,10 +4,10 @@ import { useEffect, useMemo, useState } from "react";
 import { approveDefinition, exportRecords, generateDefinitionCandidates } from "../lib/api";
 import { featureCountByLayerClass, hasMultiPolygon } from "../lib/geo";
 import { generateRemapRows, type RemapConfig } from "../lib/remap";
-import type { ClassificationProposal, CorrectionTask, DefinitionCandidate, FeatureCollection, GeoFeature, LegendCrop, LegendItem, LegendRow, LegendSymbol, PipelineTrace, RemapResult, StructuredError, TextSpec, VectorSpec, VectorTrace } from "../types";
+import type { ClassificationProposal, CorrectionTask, DefinitionCandidate, ExtractionMethodRow, FeatureCollection, GeoFeature, LegendCrop, LegendItem, LegendRow, LegendSymbol, PipelineTrace, RemapResult, StructuredError, TextSpec, VectorSpec, VectorTrace } from "../types";
 import { DataTable } from "./DataTable";
 
-type ExplorerTab = "map" | "vector" | "text" | "legend" | "legendRows" | "classification" | "pipeline" | "traces" | "errors" | "diagnostics" | "raw" | "corrections" | "remapping";
+type ExplorerTab = "map" | "extraction" | "vector" | "text" | "legend" | "legendRows" | "classification" | "pipeline" | "traces" | "errors" | "diagnostics" | "raw" | "corrections" | "remapping";
 
 interface DefinitionExplorerProps {
   collection: FeatureCollection | null;
@@ -22,6 +22,7 @@ interface DefinitionExplorerProps {
 
 const tabs: Array<{ id: ExplorerTab; label: string }> = [
   { id: "map", label: "Map Preview" },
+  { id: "extraction", label: "Extraction" },
   { id: "vector", label: "Vector Definitions" },
   { id: "text", label: "Text Definitions" },
   { id: "legend", label: "Legend Crops" },
@@ -173,6 +174,8 @@ export function DefinitionExplorer({
   const errorRows = (collection?.structured_errors ?? []) as StructuredError[];
   const geometryErrorRows = (collection?.geometry_error_candidates ?? []) as StructuredError[];
   const correctionRows = (collection?.correction_tasks ?? []) as CorrectionTask[];
+  const extractionProfile = collection?.up_extraction_profile;
+  const extractionRows = (extractionProfile?.method_rows ?? []) as ExtractionMethodRow[];
 
   async function downloadExport(kind: string) {
     if (!collection) return;
@@ -192,7 +195,7 @@ export function DefinitionExplorer({
   }
 
   return (
-    <div className="min-h-0 bg-white">
+    <div className="grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)] bg-white">
       <div className="flex flex-wrap items-center gap-1 border-b border-slate-200 px-2 py-2">
         {tabs.map((item) => (
           <button
@@ -212,7 +215,7 @@ export function DefinitionExplorer({
         </span>
         {collection?.run_id ? <span className="rounded-full border border-slate-200 bg-white px-2 py-1 text-[11px] text-slate-600">{collection.run_id}</span> : null}
       </div>
-      <div className="thin-scrollbar max-h-[calc(100vh-218px)] overflow-auto p-3">
+      <div className="thin-scrollbar min-h-0 overflow-auto p-3">
         {tab === "map" ? (
           <div className="grid gap-2 text-xs">
             <div className="grid grid-cols-2 gap-2">
@@ -294,6 +297,35 @@ export function DefinitionExplorer({
                 { key: "source_layer", header: "Source layer", render: (row) => row.source_layer_name ?? "null" },
                 { key: "count", header: "Emitted / samples", render: (row) => `${row.emitted_feature_count ?? 0} / ${row.sample_count ?? 0}` },
                 { key: "reject", header: "Rejected reason", render: (row) => row.rejected_reason ?? "none" }
+              ]}
+            />
+          </div>
+        ) : null}
+        {tab === "extraction" ? (
+          <div className="grid gap-3 text-xs" data-testid="extraction-tab">
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
+              <span className="bg-slate-50 p-2">Confidence<br /><b>{extractionProfile?.overall_confidence ?? "n/a"}</b></span>
+              <span className="bg-slate-50 p-2">Export<br /><b>{extractionProfile?.export_status ?? "n/a"}</b></span>
+              <span className="bg-slate-50 p-2">Manual split<br /><b>{extractionProfile?.manual_split_required_count ?? 0}</b></span>
+              <span className="bg-slate-50 p-2">Hatch candidates<br /><b>{extractionProfile?.hatch_candidate_count ?? 0}</b></span>
+              <span className="bg-slate-50 p-2">Dotted boundaries<br /><b>{extractionProfile?.dotted_boundary_candidate_count ?? 0}</b></span>
+            </div>
+            {selected ? (
+              <div className="bg-amber-50 p-2 text-amber-900">
+                <b>Selected blocking reason:</b> {String(selected.properties.export_blocking_reason ?? selected.properties.manual_split_reason ?? "requires review")}
+              </div>
+            ) : null}
+            <DataTable
+              rows={extractionRows}
+              empty="No extraction method profile was emitted by this source"
+              columns={[
+                { key: "method", header: "Method", render: (row) => row.method },
+                { key: "cz", header: "Czech explanation", render: (row) => row.czech_explanation ?? "n/a" },
+                { key: "status", header: "Status", render: (row) => row.status ?? "not_attempted" },
+                { key: "rate", header: "Success rate", render: (row) => typeof row.success_rate === "number" ? `${Math.round(row.success_rate * 100)}%` : "n/a" },
+                { key: "used", header: "Used for candidate", render: (row) => row.used_for_candidate ? "yes" : "no" },
+                { key: "evidence", header: "Main evidence", render: (row) => row.main_evidence ?? "n/a" },
+                { key: "risk", header: "Main risk", render: (row) => row.main_risk ?? "n/a" }
               ]}
             />
           </div>

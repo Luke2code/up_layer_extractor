@@ -59,6 +59,7 @@ export interface FeatureCollection {
   fragment_role_stats?: Record<string, unknown>;
   merge_stats?: Record<string, unknown>;
   artifact_diagnostics?: Record<string, unknown>;
+  up_extraction_profile?: ExtractionProfile;
   feature_proposal_stats?: Record<string, unknown>;
   task_stats?: Record<string, unknown>;
   correction_tasks?: CorrectionTask[];
@@ -294,6 +295,35 @@ export interface CorrectionTask {
   status?: string;
   algorithm?: string;
   result?: string;
+  [key: string]: unknown;
+}
+
+export interface ExtractionMethodRow {
+  method: string;
+  czech_explanation?: string;
+  status?: string;
+  success_rate?: number | null;
+  used_for_candidate?: boolean;
+  main_evidence?: string;
+  main_risk?: string;
+  [key: string]: unknown;
+}
+
+export interface ExtractionProfile {
+  pdf_name?: string | null;
+  algorithm?: string;
+  methods_attempted?: string[];
+  methods_used_for_candidate?: string[];
+  methods_rejected?: Array<Record<string, unknown>>;
+  method_rows?: ExtractionMethodRow[];
+  overall_confidence?: string;
+  export_status?: string;
+  manual_split_required_count?: number;
+  hatch_candidate_count?: number;
+  dotted_boundary_candidate_count?: number;
+  thick_boundary_candidate_count?: number;
+  text_anchor_count?: number;
+  export_blocked_feature_count?: number;
   [key: string]: unknown;
 }
 
