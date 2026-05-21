@@ -1,0 +1,672 @@
+{
+  "status": "found",
+  "pdf": "/mnt/c/Users/Me/Downloads/A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf",
+  "fid": 329,
+  "feature_id": "merged-00329",
+  "geometry_type": "Polygon",
+  "bbox": [
+    1302.64,
+    1777.8,
+    1681.36,
+    1966.44
+  ],
+  "area": 40434.895,
+  "perimeter": 2103.45,
+  "holes": 46,
+  "source_merged_group": "merged-group-ed5a76e585",
+  "source_fragment_ids_sample": [
+    "candidate-4663",
+    "candidate-4664",
+    "candidate-4665",
+    "candidate-4666",
+    "candidate-4667",
+    "candidate-4668",
+    "candidate-4669",
+    "candidate-4670",
+    "candidate-4671",
+    "candidate-4672",
+    "candidate-4673",
+    "candidate-4674"
+  ],
+  "source_vector_style": {
+    "source_fill_hex": "#ff0000",
+    "source_stroke_hex": "#ff0000",
+    "source_fill_opacity": 1.0,
+    "source_stroke_opacity": 1.0,
+    "source_style_group_id": "merged-group-ed5a76e585"
+  },
+  "matched_legend_item_id": "legend-item-bc68e7ce14",
+  "matched_vector_def_id": "legend-vector-def-0013",
+  "proposed_class": "SV",
+  "proposed_type": "UNMAPPED",
+  "display_color": {
+    "display_fill_hex": "#ff0000",
+    "display_stroke_hex": "#e59999",
+    "display_color_source": "source_style"
+  },
+  "artifact_flags": [
+    "artifact_requires_review",
+    "void_artifact_candidate"
+  ],
+  "geometry_decision": "artifact blocked",
+  "geometry_decision_reason": "artifact evidence detected: artifact_requires_review, void_artifact_candidate",
+  "review_required": true,
+  "export_eligible": false,
+  "artifact_component_count": 65,
+  "component_count_before": 1,
+  "component_count_after": 1,
+  "disconnected_selected_border_component_count": 46,
+  "island_count": 0,
+  "spike_score": 0.1139,
+  "spike_count": 0,
+  "needle_count": 0,
+  "sliver_component_count": 0,
+  "thin_corridor_count": 0,
+  "hole_metrics": {
+    "triangular_void_count": 21,
+    "small_void_count": 44,
+    "void_area_ratio": 0.003283,
+    "void_matches_original_plan": "requires_plan_visual_review",
+    "void_requires_review_count": 65
+  },
+  "nearest_text_or_legend_evidence": {
+    "source_text_nearby": "SV",
+    "classification_reason": "matched nearby target text SV"
+  },
+  "export_blocking_reason": "Blocked: geometry artifact candidate requires human review before export",
+  "trust_decision": "review_only",
+  "geometry_cleanup": {
+    "cleanup_applied": false,
+    "geometry_cleanup_algorithm": "geometry_artifact_review_flagging_v1+review_candidate_remove_small_triangular_voids_v8_1",
+    "geometry_cleanup_tolerance": 0.0,
+    "geometry_cleanup_reason": "no automatic geometry mutation; void/spike/thin-corridor evidence requires human review",
+    "cleanup_before_summary": "area=40434.895 holes=45 spike=0.1139 thin_corridors=0",
+    "cleanup_after_summary": "area=40434.895 holes=45 spike=0.1139 thin_corridors=0",
+    "cleaned_candidate_available": true,
+    "cleaned_candidate_reason": "candidate geometry removes only small/triangular void artifacts and is review-only",
+    "cleaned_candidate_metadata": {
+      "algorithm": "review_candidate_remove_small_triangular_voids_v8_1",
+      "removed_void_count": 45,
+      "removed_voids": [
+        {
+          "hole_index": 1,
+          "area": 0.054,
+          "vertices": 3,
+          "bbox": [
+            1345.48,
+            1838.22,
+            1345.6,
+            1839.72
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 2,
+          "area": 0.13,
+          "vertices": 3,
+          "bbox": [
+            1345.84,
+            1842.0,
+            1354.24,
+            1843.44
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 3,
+          "area": 0.799,
+          "vertices": 8,
+          "bbox": [
+            1344.04,
+            1848.6,
+            1345.24,
+            1862.76
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 4,
+          "area": 0.086,
+          "vertices": 3,
+          "bbox": [
+            1339.12,
+            1876.2,
+            1346.2,
+            1877.28
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 5,
+          "area": 0.038,
+          "vertices": 4,
+          "bbox": [
+            1346.095,
+            1874.637,
+            1346.2,
+            1876.2
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 6,
+          "area": 0.367,
+          "vertices": 3,
+          "bbox": [
+            1647.64,
+            1889.52,
+            1656.88,
+            1891.08
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 7,
+          "area": 0.078,
+          "vertices": 4,
+          "bbox": [
+            1487.105,
+            1839.96,
+            1488.16,
+            1844.568
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 8,
+          "area": 0.007,
+          "vertices": 3,
+          "bbox": [
+            1370.2,
+            1806.72,
+            1370.44,
+            1807.32
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 9,
+          "area": 0.05,
+          "vertices": 3,
+          "bbox": [
+            1558.72,
+            1899.6,
+            1562.44,
+            1900.68
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 10,
+          "area": 0.005,
+          "vertices": 3,
+          "bbox": [
+            1558.72,
+            1898.72,
+            1558.88,
+            1899.6
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 11,
+          "area": 0.003,
+          "vertices": 3,
+          "bbox": [
+            1560.112,
+            1892.04,
+            1560.16,
+            1892.376
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 12,
+          "area": 0.562,
+          "vertices": 10,
+          "bbox": [
+            1560.16,
+            1881.12,
+            1567.72,
+            1892.04
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 13,
+          "area": 0.34,
+          "vertices": 3,
+          "bbox": [
+            1461.76,
+            1878.96,
+            1474.089,
+            1880.85
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 14,
+          "area": 0.032,
+          "vertices": 3,
+          "bbox": [
+            1455.88,
+            1877.1,
+            1456.06,
+            1878.0
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 15,
+          "area": 0.014,
+          "vertices": 3,
+          "bbox": [
+            1344.88,
+            1830.12,
+            1345.12,
+            1833.24
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 16,
+          "area": 0.078,
+          "vertices": 4,
+          "bbox": [
+            1345.135,
+            1824.933,
+            1345.321,
+            1827.06
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 17,
+          "area": 0.049,
+          "vertices": 3,
+          "bbox": [
+            1345.412,
+            1821.96,
+            1345.6,
+            1823.963
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 18,
+          "area": 0.065,
+          "vertices": 4,
+          "bbox": [
+            1366.597,
+            1812.097,
+            1368.468,
+            1817.128
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 19,
+          "area": 0.043,
+          "vertices": 3,
+          "bbox": [
+            1441.24,
+            1875.96,
+            1446.88,
+            1876.92
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 20,
+          "area": 0.259,
+          "vertices": 3,
+          "bbox": [
+            1398.04,
+            1862.28,
+            1404.88,
+            1866.12
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 21,
+          "area": 0.367,
+          "vertices": 3,
+          "bbox": [
+            1384.72,
+            1853.88,
+            1398.04,
+            1862.28
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 22,
+          "area": 0.108,
+          "vertices": 4,
+          "bbox": [
+            1370.32,
+            1846.56,
+            1378.84,
+            1850.16
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 23,
+          "area": 0.039,
+          "vertices": 4,
+          "bbox": [
+            1345.831,
+            1870.73,
+            1346.08,
+            1874.42
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 24,
+          "area": 0.108,
+          "vertices": 6,
+          "bbox": [
+            1456.36,
+            1872.72,
+            1457.08,
+            1875.72
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 25,
+          "area": 0.183,
+          "vertices": 5,
+          "bbox": [
+            1457.629,
+            1866.282,
+            1458.575,
+            1870.251
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 26,
+          "area": 0.262,
+          "vertices": 6,
+          "bbox": [
+            1459.379,
+            1854.96,
+            1461.16,
+            1862.741
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 27,
+          "area": 0.309,
+          "vertices": 6,
+          "bbox": [
+            1483.48,
+            1852.285,
+            1485.4,
+            1860.84
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 28,
+          "area": 0.115,
+          "vertices": 3,
+          "bbox": [
+            1509.28,
+            1887.96,
+            1522.12,
+            1890.6
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 29,
+          "area": 0.294,
+          "vertices": 5,
+          "bbox": [
+            1506.332,
+            1834.509,
+            1507.682,
+            1838.742
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 30,
+          "area": 0.077,
+          "vertices": 4,
+          "bbox": [
+            1510.043,
+            1823.16,
+            1511.2,
+            1826.887
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 31,
+          "area": 0.125,
+          "vertices": 4,
+          "bbox": [
+            1511.2,
+            1819.054,
+            1512.434,
+            1823.16
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 32,
+          "area": 0.241,
+          "vertices": 5,
+          "bbox": [
+            1564.6,
+            1790.46,
+            1567.075,
+            1797.96
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 33,
+          "area": 0.029,
+          "vertices": 3,
+          "bbox": [
+            1567.275,
+            1787.96,
+            1567.9,
+            1789.853
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 34,
+          "area": 0.177,
+          "vertices": 6,
+          "bbox": [
+            1515.863,
+            1799.28,
+            1518.16,
+            1807.19
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 35,
+          "area": 0.036,
+          "vertices": 3,
+          "bbox": [
+            1518.4,
+            1798.68,
+            1522.96,
+            1799.28
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 36,
+          "area": 0.199,
+          "vertices": 4,
+          "bbox": [
+            1513.119,
+            1810.608,
+            1514.872,
+            1816.713
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 37,
+          "area": 0.046,
+          "vertices": 4,
+          "bbox": [
+            1572.773,
+            1937.232,
+            1573.0,
+            1939.001
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 38,
+          "area": 0.224,
+          "vertices": 6,
+          "bbox": [
+            1573.24,
+            1929.0,
+            1574.149,
+            1935.36
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 39,
+          "area": 0.116,
+          "vertices": 5,
+          "bbox": [
+            1575.426,
+            1916.04,
+            1575.88,
+            1919.399
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 41,
+          "area": 0.0,
+          "vertices": 3,
+          "bbox": [
+            1604.95,
+            1892.923,
+            1609.96,
+            1893.72
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 42,
+          "area": 0.227,
+          "vertices": 4,
+          "bbox": [
+            1618.0,
+            1891.154,
+            1622.598,
+            1895.28
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 43,
+          "area": 0.003,
+          "vertices": 3,
+          "bbox": [
+            1623.28,
+            1889.425,
+            1624.584,
+            1890.56
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 44,
+          "area": 0.274,
+          "vertices": 4,
+          "bbox": [
+            1569.28,
+            1881.6,
+            1579.96,
+            1885.2
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 45,
+          "area": 0.004,
+          "vertices": 3,
+          "bbox": [
+            1575.237,
+            1920.52,
+            1575.28,
+            1920.848
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        },
+        {
+          "hole_index": 46,
+          "area": 0.074,
+          "vertices": 3,
+          "bbox": [
+            1586.207,
+            1887.268,
+            1597.36,
+            1890.96
+          ],
+          "reason": "small_or_triangular_void_artifact_candidate"
+        }
+      ],
+      "raw_geometry_unchanged": true,
+      "export_requires_human_approval": true
+    }
+  },
+  "collection_artifact_summary": {
+    "algorithm": "visual_artifact_diagnostics_v1",
+    "geometry_cleanup_algorithm": "geometry_artifact_review_flagging_v1+review_candidate_remove_small_triangular_voids_v8_1",
+    "geometry_cleanup_tolerance": 0.0,
+    "geometry_cleanup_reason": "V8.1 keeps raw/staging geometries immutable; obvious small/triangular voids may get a separate review-only cleaned candidate, never silent export.",
+    "white_fill_fragment_count": 0,
+    "white_fill_fragment_area": 0,
+    "background_mask_candidate_count": 0,
+    "trusted_white_or_background_feature_count": 0,
+    "rectangular_hole_count": 18,
+    "rectangular_hole_area": 39.92,
+    "rectangular_hole_area_ratio": 7e-06,
+    "holes_removed_as_artifacts_count": 0,
+    "holes_kept_count": 702,
+    "hole_review_required_count": 0,
+    "triangular_void_count": 357,
+    "small_void_count": 619,
+    "void_area_ratio": 0.055044,
+    "void_source_fragment_role": "interior_ring_from_merged_fill",
+    "void_matches_original_plan": "requires_plan_visual_review",
+    "void_removed_as_artifact_count": 0,
+    "void_kept_count": 702,
+    "void_requires_review_count": 976,
+    "max_spike_score": 0.5957,
+    "spike_count": 5,
+    "spike_fixed_count": 0,
+    "spike_review_required_count": 0,
+    "needle_count": 0,
+    "sliver_component_count": 1,
+    "thin_corridor_count": 8,
+    "sliver_removed_count": 0,
+    "thin_corridor_removed_count": 0,
+    "cleaned_candidate_feature_count": 117,
+    "export_blocked_feature_count": 1265,
+    "artifact_requires_review_feature_count": 124
+  }
+}

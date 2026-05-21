@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "bash scripts/dev.sh"
+  },
+  "devDependencies": {
+    "vite": "^8.0.13"
+  }
+}

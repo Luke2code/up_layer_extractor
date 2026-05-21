@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgis/postgis:18-3.6
+    container_name: up_layer_extractor_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: up_layer_extractor
+    ports:
+      - "5441:5432"
+    volumes:
+      - up_layer_extractor_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d up_layer_extractor"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  up_layer_extractor_pgdata:

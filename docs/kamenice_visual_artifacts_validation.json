@@ -1,0 +1,200 @@
+{
+  "status": "passed",
+  "failures": [],
+  "runtime_ms": 35872,
+  "backend_4101_health": true,
+  "active_default_8787_hits": [],
+  "pdf": "/mnt/c/Users/Me/Downloads/A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf",
+  "primary_extraction_mode": "merged_polygons",
+  "raw_fragment_count": 56642,
+  "primary_feature_count": 1265,
+  "artifact_diagnostics": {
+    "algorithm": "visual_artifact_diagnostics_v1",
+    "geometry_cleanup_algorithm": "geometry_artifact_review_flagging_v1+review_candidate_remove_small_triangular_voids_v8_1",
+    "geometry_cleanup_tolerance": 0.0,
+    "geometry_cleanup_reason": "V8.1 keeps raw/staging geometries immutable; obvious small/triangular voids may get a separate review-only cleaned candidate, never silent export.",
+    "white_fill_fragment_count": 0,
+    "white_fill_fragment_area": 0,
+    "background_mask_candidate_count": 0,
+    "trusted_white_or_background_feature_count": 0,
+    "rectangular_hole_count": 18,
+    "rectangular_hole_area": 39.92,
+    "rectangular_hole_area_ratio": 7e-06,
+    "holes_removed_as_artifacts_count": 0,
+    "holes_kept_count": 702,
+    "hole_review_required_count": 0,
+    "triangular_void_count": 357,
+    "small_void_count": 619,
+    "void_area_ratio": 0.055044,
+    "void_source_fragment_role": "interior_ring_from_merged_fill",
+    "void_matches_original_plan": "requires_plan_visual_review",
+    "void_removed_as_artifact_count": 0,
+    "void_kept_count": 702,
+    "void_requires_review_count": 976,
+    "max_spike_score": 0.5957,
+    "spike_count": 5,
+    "spike_fixed_count": 0,
+    "spike_review_required_count": 0,
+    "needle_count": 0,
+    "sliver_component_count": 1,
+    "thin_corridor_count": 8,
+    "sliver_removed_count": 0,
+    "thin_corridor_removed_count": 0,
+    "cleaned_candidate_feature_count": 117,
+    "export_blocked_feature_count": 1265,
+    "artifact_requires_review_feature_count": 124
+  },
+  "legend_candidates": [
+    {
+      "candidate_id": "legend-candidate-left-code-cluster-0001",
+      "strategy": "target_left_legend_code_cluster_v1",
+      "bbox": [
+        63.96,
+        1160.04,
+        704.514,
+        2196.02
+      ],
+      "page_number": 1,
+      "score": 0.99,
+      "signals": {
+        "class_code_cluster": true,
+        "left_margin_cluster": true,
+        "keyword_text_count": 2,
+        "symbol_grid_hint": true,
+        "text_density_hint": 16,
+        "anchor_text_count": 16,
+        "target_code_count": 10,
+        "detected_target_codes": [
+          "BH",
+          "BI",
+          "BU",
+          "BX.c",
+          "BX.p",
+          "BX.r",
+          "RI",
+          "SC",
+          "SV",
+          "SX"
+        ]
+      },
+      "selected": true,
+      "rejected_reason": null
+    },
+    {
+      "candidate_id": "legend-candidate-global-code-cluster-0001",
+      "strategy": "target_code_global_cluster_v1",
+      "bbox": [
+        38.96,
+        22.265,
+        4585.958,
+        2979.768
+      ],
+      "page_number": 1,
+      "score": 0.77,
+      "signals": {
+        "class_code_cluster": true,
+        "keyword_text_count": 2,
+        "text_density_hint": 457,
+        "symbol_grid_hint": true,
+        "anchor_text_count": 457,
+        "target_code_count": 11,
+        "detected_target_codes": [
+          "BH",
+          "BI",
+          "BU",
+          "BX.c",
+          "BX.p",
+          "BX.r",
+          "RI",
+          "S",
+          "SC",
+          "SV",
+          "SX"
+        ]
+      },
+      "selected": false,
+      "rejected_reason": null
+    },
+    {
+      "candidate_id": "legend-candidate-right-density-0001",
+      "strategy": "right_panel_text_density_v1",
+      "bbox": [
+        4358.64,
+        1810.453,
+        5051.0,
+        2820.673
+      ],
+      "page_number": 1,
+      "score": 0.595,
+      "signals": {
+        "right_panel_density": 20,
+        "class_code_cluster": true,
+        "keyword_text_count": 1,
+        "text_density_hint": 20,
+        "anchor_text_count": 20,
+        "target_code_count": 0,
+        "detected_target_codes": []
+      },
+      "selected": false,
+      "rejected_reason": null
+    }
+  ],
+  "fragment_role_counts": {
+    "tessellated_area_fragment": 56464,
+    "area_fill_candidate": 73,
+    "unknown_fragment": 34,
+    "legend_symbol_fragment": 71
+  },
+  "plan_snapshot": {
+    "available": true,
+    "url": "/artifacts/plan_snapshots/collection-76c48f91822e_page_0001.png",
+    "source": "pdf_page_render",
+    "transform": {
+      "page_width_pt": 5051.0,
+      "page_height_pt": 3019.0,
+      "image_width_px": 5051,
+      "image_height_px": 3019,
+      "page_to_image_scale_x": 1.0,
+      "page_to_image_scale_y": 1.0,
+      "page_to_image_offset_x": 0.0,
+      "page_to_image_offset_y": 0.0,
+      "image_to_page_scale_x": 1.0,
+      "image_to_page_scale_y": 1.0,
+      "image_to_page_offset_x": 0.0,
+      "image_to_page_offset_y": 0.0,
+      "page_coordinate_y_axis": "down"
+    }
+  },
+  "fid329_reproducible": true,
+  "selected_polygon_probe": {
+    "FID": 329,
+    "raw_CLASS": "UNMAPPED",
+    "proposed_CLASS": "SV",
+    "classification_reason": "matched nearby target text SV",
+    "artifact_flags": [
+      "artifact_requires_review",
+      "void_artifact_candidate"
+    ],
+    "export_blocking_reason": "Blocked: geometry artifact candidate requires human review before export",
+    "display_fill_hex": "#ff0000",
+    "display_color_source": "source_style",
+    "source_fill_hex": "#ff0000",
+    "geometry_decision": "artifact blocked",
+    "geometry_decision_reason": "artifact evidence detected: artifact_requires_review, void_artifact_candidate",
+    "artifact_component_count": 65,
+    "component_count_before": 1,
+    "component_count_after": 1,
+    "triangular_void_count": 21,
+    "small_void_count": 44,
+    "void_requires_review_count": 65
+  },
+  "screenshots": [
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-plan-source-colors.png",
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-plan-snapshot-on.png",
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-artifact-debug-fid329.png",
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-legend-fit-page-default.png",
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-legend-label-cleaned.png",
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-legend-focused-vector-defs.png",
+    "/mnt/c/coding/up_layer_extractor/docs/kamenice-v8_1-manual-legend-crop.png"
+  ]
+}
