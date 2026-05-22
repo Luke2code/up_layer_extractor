@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
+from .experiment_lab import build_algorithm_lab_result
 from .geometry import geometry_area, geometry_bbox
 
 try:  # Optional at import time; required for tessellated vector merging.
@@ -3417,6 +3418,17 @@ def finalize_pdf_collection(
         artifact_diagnostics=artifact_diagnostics,
     )
     attach_method_profile_to_features(primary_features, up_extraction_profile)
+    algorithm_lab_result = build_algorithm_lab_result(
+        pdf_name=pdf_path.name,
+        drawings=drawings,
+        raw_features=raw_features,
+        primary_features=primary_features,
+        text_specs=text_specs,
+        artifact_diagnostics=artifact_diagnostics,
+        up_extraction_profile=up_extraction_profile,
+        geometry_error_count=len(geometry_errors),
+        page_number=page_number,
+    )
     structured_errors: list[dict[str, Any]] = []
     if selected_algorithm != "vector_fill_style_polygon_v1":
         structured_errors.append(
@@ -3476,9 +3488,10 @@ def finalize_pdf_collection(
         pipeline_step(run_id=run_id, collection_id=collection_id, step_order=21, step_name="spatial_association", algorithm=spatial_association_stats["association_algorithm"], input_count=len(primary_features), output_count=spatial_association_stats["feature_text_association_count"], details=spatial_association_stats),
         pipeline_step(run_id=run_id, collection_id=collection_id, step_order=22, step_name="feature_proposal_annotation", algorithm=feature_proposal_stats["algorithm"], input_count=len(primary_features), output_count=feature_proposal_stats["feature_proposal_count"], warning_count=feature_proposal_stats["artifact_requires_review_feature_count"], details=feature_proposal_stats),
         pipeline_step(run_id=run_id, collection_id=collection_id, step_order=23, step_name="method_aware_extraction_profile", algorithm=up_extraction_profile["algorithm"], input_count=len(raw_features), output_count=len(up_extraction_profile.get("method_rows") or []), warning_count=up_extraction_profile.get("manual_split_required_count", 0), status="requires_review" if up_extraction_profile.get("manual_split_required_count") else "ok", details=up_extraction_profile),
-        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=24, step_name="target_scope_filtering", algorithm="bydleni_rekreace_smisene_scope_v1", input_count=len(classification_proposals), output_count=len([row for row in classification_proposals if row.get("is_inscope_bydleni_related")])),
-        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=25, step_name="manual_legend_crop_fallback", algorithm="operator_bbox_fallback_v1", input_count=1, output_count=1, status="requires_review"),
-        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=26, step_name="export_candidate_generation", algorithm="jsonl_csv_export_bridge_v1", input_count=1, output_count=14),
+        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=24, step_name="algorithm_lab_experiments", algorithm=algorithm_lab_result["algorithm"], input_count=len(raw_features), output_count=len(algorithm_lab_result.get("experiments") or []), warning_count=len(algorithm_lab_result.get("remaining_blockers") or []), status="requires_review", details={key: value for key, value in algorithm_lab_result.items() if key not in {"vector_evidence_index_summary"}}),
+        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=25, step_name="target_scope_filtering", algorithm="bydleni_rekreace_smisene_scope_v1", input_count=len(classification_proposals), output_count=len([row for row in classification_proposals if row.get("is_inscope_bydleni_related")])),
+        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=26, step_name="manual_legend_crop_fallback", algorithm="operator_bbox_fallback_v1", input_count=1, output_count=1, status="requires_review"),
+        pipeline_step(run_id=run_id, collection_id=collection_id, step_order=27, step_name="export_candidate_generation", algorithm="jsonl_csv_export_bridge_v1", input_count=1, output_count=14),
     ]
     collection.update(
         {
@@ -3542,6 +3555,12 @@ def finalize_pdf_collection(
             "merge_stats": merge_stats,
             "artifact_diagnostics": artifact_diagnostics,
             "up_extraction_profile": up_extraction_profile,
+            "extraction_experiments": algorithm_lab_result.get("experiments", []),
+            "algorithm_lab_result": algorithm_lab_result,
+            "vector_evidence_index_summary": algorithm_lab_result.get("vector_evidence_index_summary"),
+            "target_case_v8_3": algorithm_lab_result.get("target_case_definition"),
+            "experiment_candidate_geometries": algorithm_lab_result.get("experiment_candidate_geometries", []),
+            "manual_split_fallbacks": algorithm_lab_result.get("manual_split_fallbacks", []),
             "feature_region_stats": feature_region_stats,
             "spatial_association_stats": spatial_association_stats,
             "feature_proposal_stats": feature_proposal_stats,
@@ -3591,6 +3610,8 @@ def finalize_pdf_collection(
                 "hatch_candidate_count": up_extraction_profile.get("hatch_candidate_count", 0),
                 "dotted_boundary_candidate_count": up_extraction_profile.get("dotted_boundary_candidate_count", 0),
                 "export_blocked_feature_count": artifact_diagnostics.get("export_blocked_feature_count", 0),
+                "experiment_candidate_available_count": len(algorithm_lab_result.get("experiment_candidate_geometries") or []),
+                "algorithm_lab_experiment_count": len(algorithm_lab_result.get("experiments") or []),
                 "structured_errors": len(structured_errors),
                 "geometry_errors": len(geometry_errors),
                 "requires_review_rows": len([row for row in legend_rows if row.get("review_status") == "requires_review"]),
@@ -3620,6 +3641,12 @@ def finalize_pdf_collection(
                     "status": "manual_required" if up_extraction_profile.get("manual_split_required_count") else "not_applicable",
                     "algorithm": up_extraction_profile["algorithm"],
                     "result": "fill-only polygons remain review-blocked where hatch, dotted-boundary, or thick-boundary evidence indicates semantic split risk",
+                },
+                {
+                    "correction_task_id": "algorithm-lab-review-candidate",
+                    "status": "requires_review" if algorithm_lab_result.get("experiment_candidate_geometries") else "manual_required",
+                    "algorithm": algorithm_lab_result["algorithm"],
+                    "result": "V8.3.1 experiments produced review-only evidence rows and manual split fallback; no raw geometry mutation or clean export claim",
                 },
                 *legend_corrections,
             ],
@@ -3654,6 +3681,8 @@ def finalize_pdf_collection(
                 "feature_region_stats": feature_region_stats,
                 "legend_detection": legend_detection,
                 "up_extraction_profile": up_extraction_profile,
+                "algorithm_lab_result": algorithm_lab_result,
+                "vector_evidence_index_summary": algorithm_lab_result.get("vector_evidence_index_summary"),
                 "legend_mapping_stats": legend_mapping_stats,
                 "spatial_association_stats": spatial_association_stats,
                 "feature_proposal_stats": feature_proposal_stats,

@@ -377,6 +377,7 @@ export function App() {
                 pageSize={pageSize}
                 showPlanImage={toggles.plan && hasPlanImage}
                 planImageUrl={planImageUrl}
+                experimentCandidates={collection?.experiment_candidate_geometries ?? []}
                 colorMode={colorMode}
                 overlay={overlay}
                 toggles={toggles}

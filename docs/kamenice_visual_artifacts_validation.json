@@ -1,7 +1,7 @@
 {
   "status": "passed",
   "failures": [],
-  "runtime_ms": 36630,
+  "runtime_ms": 41021,
   "backend_4101_health": true,
   "active_default_8787_hits": [],
   "pdf": "/mnt/c/Users/Me/Downloads/A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf",
@@ -206,6 +206,2933 @@
     "text_anchor_count": 560,
     "export_blocked_feature_count": 1265
   },
+  "algorithm_lab_result": {
+    "pdf": "A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf",
+    "target_case": "BX.p / Z.51a hatched+dotted boundary split",
+    "algorithm": "first_principles_algorithm_lab_v8_3_1",
+    "baseline": {
+      "raw_fragment_count": 56642,
+      "merged_polygon_count": 1265,
+      "geometry_error_count": 840,
+      "export_blocked_count": 1265,
+      "manual_split_required_count": 875,
+      "hatch_candidate_count": 635,
+      "dotted_boundary_candidate_count": 83,
+      "thick_boundary_candidate_count": 9,
+      "fid_status": {
+        "329": "found",
+        "337": "found",
+        "353": "found"
+      }
+    },
+    "vector_evidence_index_summary": {
+      "algorithm": "vector_evidence_index_v8_3_1",
+      "total_records": 157834,
+      "fills": 38269,
+      "strokes": 156350,
+      "closed_paths": 36859,
+      "open_paths": 119565,
+      "white_or_near_white_strokes": 2990,
+      "black_or_near_black_strokes": 67101,
+      "red_fills": 7583,
+      "thin_lines": 122622,
+      "thick_lines": 3951,
+      "dash_patterns": {
+        "[] 0": 156350,
+        "solid": 74
+      },
+      "dot_candidates": 66070,
+      "text_anchors": 270,
+      "hatch_line_candidates": 281,
+      "label_mask_candidates": 247,
+      "role_counts": {
+        "unknown": 83355,
+        "dotted_boundary_dot": 66070,
+        "label_mask": 247,
+        "hatch_line": 281,
+        "fill_region": 7583,
+        "thick_boundary_line": 28,
+        "text_anchor": 270
+      },
+      "role_samples": {
+        "unknown": [
+          {
+            "evidence_id": "draw-000000",
+            "source": "drawing",
+            "drawing_index": 0,
+            "page_number": 1,
+            "bbox": [
+              3323.56,
+              694.92,
+              3326.08,
+              695.04
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 0,
+            "likely_role": "unknown"
+          },
+          {
+            "evidence_id": "draw-000001",
+            "source": "drawing",
+            "drawing_index": 1,
+            "page_number": 1,
+            "bbox": [
+              3323.56,
+              695.04,
+              3327.28,
+              695.88
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 1,
+            "likely_role": "unknown"
+          },
+          {
+            "evidence_id": "draw-000002",
+            "source": "drawing",
+            "drawing_index": 2,
+            "page_number": 1,
+            "bbox": [
+              3323.68,
+              695.88,
+              3328.48,
+              696.84
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 2,
+            "likely_role": "unknown"
+          },
+          {
+            "evidence_id": "draw-000003",
+            "source": "drawing",
+            "drawing_index": 3,
+            "page_number": 1,
+            "bbox": [
+              3324.4,
+              696.84,
+              3338.08,
+              702.24
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3,
+            "likely_role": "unknown"
+          },
+          {
+            "evidence_id": "draw-000004",
+            "source": "drawing",
+            "drawing_index": 4,
+            "page_number": 1,
+            "bbox": [
+              3324.4,
+              696.84,
+              3337.96,
+              702.12
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 4,
+            "likely_role": "unknown"
+          },
+          {
+            "evidence_id": "draw-000006",
+            "source": "drawing",
+            "drawing_index": 6,
+            "page_number": 1,
+            "bbox": [
+              3564.52,
+              604.44,
+              3567.88,
+              606.12
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 6,
+            "likely_role": "unknown"
+          },
+          {
+            "evidence_id": "draw-000007",
+            "source": "drawing",
+            "drawing_index": 7,
+            "page_number": 1,
+            "bbox": [
+              3552.88,
+              606.12,
+              3564.76,
+              612.12
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 7,
+            "likely_role": "unknown"
+          },
+          {
+            "evidence_id": "draw-000008",
+            "source": "drawing",
+            "drawing_index": 8,
+            "page_number": 1,
+            "bbox": [
+              3547.48,
+              612.12,
+              3555.64,
+              614.88
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 8,
+            "likely_role": "unknown"
+          },
+          {
+            "evidence_id": "draw-000009",
+            "source": "drawing",
+            "drawing_index": 9,
+            "page_number": 1,
+            "bbox": [
+              3435.28,
+              615.12,
+              3438.76,
+              616.08
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 9,
+            "likely_role": "unknown"
+          },
+          {
+            "evidence_id": "draw-000010",
+            "source": "drawing",
+            "drawing_index": 10,
+            "page_number": 1,
+            "bbox": [
+              3437.32,
+              616.08,
+              3441.52,
+              616.68
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#648700",
+            "stroke_color": "#648700",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 10,
+            "likely_role": "unknown"
+          }
+        ],
+        "dotted_boundary_dot": [
+          {
+            "evidence_id": "draw-000005",
+            "source": "drawing",
+            "drawing_index": 5,
+            "page_number": 1,
+            "bbox": [
+              3323.56,
+              694.92,
+              3338.08,
+              702.24
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 5,
+            "likely_role": "dotted_boundary_dot"
+          },
+          {
+            "evidence_id": "draw-000151",
+            "source": "drawing",
+            "drawing_index": 151,
+            "page_number": 1,
+            "bbox": [
+              3033.04,
+              242.64,
+              3039.88,
+              246.48
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 151,
+            "likely_role": "dotted_boundary_dot"
+          },
+          {
+            "evidence_id": "draw-000348",
+            "source": "drawing",
+            "drawing_index": 348,
+            "page_number": 1,
+            "bbox": [
+              2350.24,
+              1347.36,
+              2361.76,
+              1359.6
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 348,
+            "likely_role": "dotted_boundary_dot"
+          },
+          {
+            "evidence_id": "draw-000447",
+            "source": "drawing",
+            "drawing_index": 447,
+            "page_number": 1,
+            "bbox": [
+              1742.08,
+              1918.2,
+              1755.64,
+              1932.36
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 447,
+            "likely_role": "dotted_boundary_dot"
+          },
+          {
+            "evidence_id": "draw-000448",
+            "source": "drawing",
+            "drawing_index": 448,
+            "page_number": 1,
+            "bbox": [
+              1795.96,
+              1911.6,
+              1810.0,
+              1926.24
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 448,
+            "likely_role": "dotted_boundary_dot"
+          },
+          {
+            "evidence_id": "draw-000458",
+            "source": "drawing",
+            "drawing_index": 458,
+            "page_number": 1,
+            "bbox": [
+              1742.08,
+              1918.2,
+              1755.64,
+              1932.36
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 458,
+            "likely_role": "dotted_boundary_dot"
+          },
+          {
+            "evidence_id": "draw-000517",
+            "source": "drawing",
+            "drawing_index": 517,
+            "page_number": 1,
+            "bbox": [
+              3817.12,
+              2112.24,
+              3830.32,
+              2119.8
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 517,
+            "likely_role": "dotted_boundary_dot"
+          },
+          {
+            "evidence_id": "draw-000632",
+            "source": "drawing",
+            "drawing_index": 632,
+            "page_number": 1,
+            "bbox": [
+              3502.6,
+              2652.12,
+              3513.04,
+              2665.56
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 632,
+            "likely_role": "dotted_boundary_dot"
+          },
+          {
+            "evidence_id": "draw-000952",
+            "source": "drawing",
+            "drawing_index": 952,
+            "page_number": 1,
+            "bbox": [
+              3151.0,
+              2061.48,
+              3151.0,
+              2061.84
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 952,
+            "likely_role": "dotted_boundary_dot"
+          },
+          {
+            "evidence_id": "draw-002935",
+            "source": "drawing",
+            "drawing_index": 2935,
+            "page_number": 1,
+            "bbox": [
+              3353.08,
+              2118.48,
+              3360.64,
+              2127.72
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "qu",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 2935,
+            "likely_role": "dotted_boundary_dot"
+          }
+        ],
+        "label_mask": [
+          {
+            "evidence_id": "draw-000344",
+            "source": "drawing",
+            "drawing_index": 344,
+            "page_number": 1,
+            "bbox": [
+              2350.24,
+              1347.36,
+              2361.76,
+              1357.8
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 344,
+            "likely_role": "label_mask"
+          },
+          {
+            "evidence_id": "draw-000345",
+            "source": "drawing",
+            "drawing_index": 345,
+            "page_number": 1,
+            "bbox": [
+              2361.4,
+              1357.8,
+              2361.76,
+              1357.8
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 345,
+            "likely_role": "label_mask"
+          },
+          {
+            "evidence_id": "draw-000346",
+            "source": "drawing",
+            "drawing_index": 346,
+            "page_number": 1,
+            "bbox": [
+              2353.6,
+              1357.8,
+              2358.88,
+              1359.6
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 346,
+            "likely_role": "label_mask"
+          },
+          {
+            "evidence_id": "draw-003480",
+            "source": "drawing",
+            "drawing_index": 3480,
+            "page_number": 1,
+            "bbox": [
+              2855.44,
+              1228.08,
+              2856.28,
+              1229.4
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3480,
+            "likely_role": "label_mask"
+          },
+          {
+            "evidence_id": "draw-003481",
+            "source": "drawing",
+            "drawing_index": 3481,
+            "page_number": 1,
+            "bbox": [
+              2855.68,
+              1229.4,
+              2859.28,
+              1239.12
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3481,
+            "likely_role": "label_mask"
+          },
+          {
+            "evidence_id": "draw-003483",
+            "source": "drawing",
+            "drawing_index": 3483,
+            "page_number": 1,
+            "bbox": [
+              2857.72,
+              1239.24,
+              2859.88,
+              1242.24
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3483,
+            "likely_role": "label_mask"
+          },
+          {
+            "evidence_id": "draw-003484",
+            "source": "drawing",
+            "drawing_index": 3484,
+            "page_number": 1,
+            "bbox": [
+              2858.32,
+              1242.24,
+              2861.32,
+              1249.56
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3484,
+            "likely_role": "label_mask"
+          },
+          {
+            "evidence_id": "draw-003486",
+            "source": "drawing",
+            "drawing_index": 3486,
+            "page_number": 1,
+            "bbox": [
+              2859.04,
+              1249.92,
+              2861.56,
+              1252.2
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3486,
+            "likely_role": "label_mask"
+          },
+          {
+            "evidence_id": "draw-003487",
+            "source": "drawing",
+            "drawing_index": 3487,
+            "page_number": 1,
+            "bbox": [
+              2859.16,
+              1252.2,
+              2862.28,
+              1258.08
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3487,
+            "likely_role": "label_mask"
+          },
+          {
+            "evidence_id": "draw-003489",
+            "source": "drawing",
+            "drawing_index": 3489,
+            "page_number": 1,
+            "bbox": [
+              2859.76,
+              1258.44,
+              2863.0,
+              1263.84
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3489,
+            "likely_role": "label_mask"
+          }
+        ],
+        "hatch_line": [
+          {
+            "evidence_id": "draw-000347",
+            "source": "drawing",
+            "drawing_index": 347,
+            "page_number": 1,
+            "bbox": [
+              2353.6,
+              1357.8,
+              2361.4,
+              1357.92
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 347,
+            "likely_role": "hatch_line"
+          },
+          {
+            "evidence_id": "draw-003482",
+            "source": "drawing",
+            "drawing_index": 3482,
+            "page_number": 1,
+            "bbox": [
+              2857.72,
+              1239.12,
+              2859.28,
+              1239.24
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3482,
+            "likely_role": "hatch_line"
+          },
+          {
+            "evidence_id": "draw-003485",
+            "source": "drawing",
+            "drawing_index": 3485,
+            "page_number": 1,
+            "bbox": [
+              2859.04,
+              1249.56,
+              2861.32,
+              1249.92
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3485,
+            "likely_role": "hatch_line"
+          },
+          {
+            "evidence_id": "draw-003488",
+            "source": "drawing",
+            "drawing_index": 3488,
+            "page_number": 1,
+            "bbox": [
+              2859.64,
+              1258.08,
+              2862.28,
+              1258.44
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3488,
+            "likely_role": "hatch_line"
+          },
+          {
+            "evidence_id": "draw-003492",
+            "source": "drawing",
+            "drawing_index": 3492,
+            "page_number": 1,
+            "bbox": [
+              2860.72,
+              1269.72,
+              2863.6,
+              1269.96
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3492,
+            "likely_role": "hatch_line"
+          },
+          {
+            "evidence_id": "draw-003499",
+            "source": "drawing",
+            "drawing_index": 3499,
+            "page_number": 1,
+            "bbox": [
+              2865.04,
+              1307.76,
+              2867.92,
+              1308.48
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3499,
+            "likely_role": "hatch_line"
+          },
+          {
+            "evidence_id": "draw-003500",
+            "source": "drawing",
+            "drawing_index": 3500,
+            "page_number": 1,
+            "bbox": [
+              2865.16,
+              1308.48,
+              2867.44,
+              1308.84
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3500,
+            "likely_role": "hatch_line"
+          },
+          {
+            "evidence_id": "draw-003502",
+            "source": "drawing",
+            "drawing_index": 3502,
+            "page_number": 1,
+            "bbox": [
+              2865.16,
+              1308.84,
+              2867.08,
+              1308.96
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3502,
+            "likely_role": "hatch_line"
+          },
+          {
+            "evidence_id": "draw-003878",
+            "source": "drawing",
+            "drawing_index": 3878,
+            "page_number": 1,
+            "bbox": [
+              3208.72,
+              1019.28,
+              3214.84,
+              1019.76
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3878,
+            "likely_role": "hatch_line"
+          },
+          {
+            "evidence_id": "draw-003879",
+            "source": "drawing",
+            "drawing_index": 3879,
+            "page_number": 1,
+            "bbox": [
+              3208.24,
+              1019.76,
+              3215.44,
+              1020.12
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#faf5eb",
+            "stroke_color": "#faf5eb",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3879,
+            "likely_role": "hatch_line"
+          }
+        ],
+        "fill_region": [
+          {
+            "evidence_id": "draw-003239",
+            "source": "drawing",
+            "drawing_index": 3239,
+            "page_number": 1,
+            "bbox": [
+              1657.84,
+              1652.04,
+              1666.48,
+              1654.32
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3239,
+            "likely_role": "fill_region"
+          },
+          {
+            "evidence_id": "draw-003240",
+            "source": "drawing",
+            "drawing_index": 3240,
+            "page_number": 1,
+            "bbox": [
+              1639.12,
+              1654.32,
+              1656.16,
+              1654.92
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3240,
+            "likely_role": "fill_region"
+          },
+          {
+            "evidence_id": "draw-003241",
+            "source": "drawing",
+            "drawing_index": 3241,
+            "page_number": 1,
+            "bbox": [
+              1656.16,
+              1654.32,
+              1666.96,
+              1654.92
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3241,
+            "likely_role": "fill_region"
+          },
+          {
+            "evidence_id": "draw-003242",
+            "source": "drawing",
+            "drawing_index": 3242,
+            "page_number": 1,
+            "bbox": [
+              1637.08,
+              1654.92,
+              1667.32,
+              1655.4
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3242,
+            "likely_role": "fill_region"
+          },
+          {
+            "evidence_id": "draw-003243",
+            "source": "drawing",
+            "drawing_index": 3243,
+            "page_number": 1,
+            "bbox": [
+              1636.96,
+              1655.4,
+              1667.44,
+              1655.4
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3243,
+            "likely_role": "fill_region"
+          },
+          {
+            "evidence_id": "draw-003244",
+            "source": "drawing",
+            "drawing_index": 3244,
+            "page_number": 1,
+            "bbox": [
+              1636.96,
+              1655.4,
+              1667.44,
+              1655.52
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3244,
+            "likely_role": "fill_region"
+          },
+          {
+            "evidence_id": "draw-003245",
+            "source": "drawing",
+            "drawing_index": 3245,
+            "page_number": 1,
+            "bbox": [
+              1633.24,
+              1655.52,
+              1667.32,
+              1657.8
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3245,
+            "likely_role": "fill_region"
+          },
+          {
+            "evidence_id": "draw-003246",
+            "source": "drawing",
+            "drawing_index": 3246,
+            "page_number": 1,
+            "bbox": [
+              1629.88,
+              1657.8,
+              1665.52,
+              1660.92
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3246,
+            "likely_role": "fill_region"
+          },
+          {
+            "evidence_id": "draw-003247",
+            "source": "drawing",
+            "drawing_index": 3247,
+            "page_number": 1,
+            "bbox": [
+              1628.56,
+              1660.92,
+              1663.12,
+              1662.24
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3247,
+            "likely_role": "fill_region"
+          },
+          {
+            "evidence_id": "draw-003248",
+            "source": "drawing",
+            "drawing_index": 3248,
+            "page_number": 1,
+            "bbox": [
+              1622.08,
+              1662.24,
+              1662.04,
+              1671.0
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#ff0000",
+            "stroke_color": "#ff0000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 3248,
+            "likely_role": "fill_region"
+          }
+        ],
+        "thick_boundary_line": [
+          {
+            "evidence_id": "draw-056500",
+            "source": "drawing",
+            "drawing_index": 56500,
+            "page_number": 1,
+            "bbox": [
+              3147.64,
+              799.8,
+              3239.32,
+              806.88
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 56500,
+            "likely_role": "thick_boundary_line"
+          },
+          {
+            "evidence_id": "draw-056619",
+            "source": "drawing",
+            "drawing_index": 56619,
+            "page_number": 1,
+            "bbox": [
+              3188.32,
+              99.96,
+              3312.4,
+              110.04
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 56619,
+            "likely_role": "thick_boundary_line"
+          },
+          {
+            "evidence_id": "draw-056795",
+            "source": "drawing",
+            "drawing_index": 56795,
+            "page_number": 1,
+            "bbox": [
+              3157.84,
+              92.04,
+              3312.04,
+              108.84
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 56795,
+            "likely_role": "thick_boundary_line"
+          },
+          {
+            "evidence_id": "draw-062666",
+            "source": "drawing",
+            "drawing_index": 62666,
+            "page_number": 1,
+            "bbox": [
+              3476.8,
+              1562.76,
+              3480.76,
+              1624.56
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 62666,
+            "likely_role": "thick_boundary_line"
+          },
+          {
+            "evidence_id": "draw-153541",
+            "source": "drawing",
+            "drawing_index": 153541,
+            "page_number": 1,
+            "bbox": [
+              2040.64,
+              522.48,
+              2164.84,
+              532.56
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.6,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 153541,
+            "likely_role": "thick_boundary_line"
+          },
+          {
+            "evidence_id": "draw-155276",
+            "source": "drawing",
+            "drawing_index": 155276,
+            "page_number": 1,
+            "bbox": [
+              4424.08,
+              2885.4,
+              4472.44,
+              2889.96
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#000000",
+            "stroke_color": "#000000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 155276,
+            "likely_role": "thick_boundary_line"
+          },
+          {
+            "evidence_id": "draw-155277",
+            "source": "drawing",
+            "drawing_index": 155277,
+            "page_number": 1,
+            "bbox": [
+              4424.08,
+              2837.04,
+              4428.52,
+              2885.4
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#000000",
+            "stroke_color": "#000000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 155277,
+            "likely_role": "thick_boundary_line"
+          },
+          {
+            "evidence_id": "draw-155278",
+            "source": "drawing",
+            "drawing_index": 155278,
+            "page_number": 1,
+            "bbox": [
+              4424.08,
+              2837.04,
+              4428.52,
+              2880.96
+            ],
+            "geometry_type": "open_path",
+            "drawing_operation_type": "l",
+            "fill_color": null,
+            "stroke_color": "#000000",
+            "stroke_width": 0.24,
+            "dash_pattern": "[] 0",
+            "fill_opacity": null,
+            "stroke_opacity": 1.0,
+            "closed_path": false,
+            "open_path": true,
+            "text": null,
+            "z_order": 155278,
+            "likely_role": "thick_boundary_line"
+          },
+          {
+            "evidence_id": "draw-155279",
+            "source": "drawing",
+            "drawing_index": 155279,
+            "page_number": 1,
+            "bbox": [
+              4375.6,
+              2880.96,
+              4424.08,
+              2885.4
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#000000",
+            "stroke_color": "#000000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 155279,
+            "likely_role": "thick_boundary_line"
+          },
+          {
+            "evidence_id": "draw-155280",
+            "source": "drawing",
+            "drawing_index": 155280,
+            "page_number": 1,
+            "bbox": [
+              4419.52,
+              2885.4,
+              4424.08,
+              2933.88
+            ],
+            "geometry_type": "closed_path",
+            "drawing_operation_type": "l",
+            "fill_color": "#000000",
+            "stroke_color": "#000000",
+            "stroke_width": 0.0,
+            "dash_pattern": "[] 0",
+            "fill_opacity": 1.0,
+            "stroke_opacity": 1.0,
+            "closed_path": true,
+            "open_path": false,
+            "text": null,
+            "z_order": 155280,
+            "likely_role": "thick_boundary_line"
+          }
+        ],
+        "text_anchor": [
+          {
+            "evidence_id": "text-000007",
+            "source": "text",
+            "text_index": 7,
+            "page_number": 1,
+            "bbox": [
+              2990.32,
+              251.827,
+              3013.208,
+              267.666
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.1",
+            "z_order": 7,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.1"
+          },
+          {
+            "evidence_id": "text-000008",
+            "source": "text",
+            "text_index": 8,
+            "page_number": 1,
+            "bbox": [
+              3554.56,
+              1976.466,
+              3586.255,
+              1992.306
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.23",
+            "z_order": 8,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.23"
+          },
+          {
+            "evidence_id": "text-000009",
+            "source": "text",
+            "text_index": 9,
+            "page_number": 1,
+            "bbox": [
+              3834.408,
+              2143.33,
+              3852.102,
+              2156.942
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.26",
+            "z_order": 9,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.26"
+          },
+          {
+            "evidence_id": "text-000010",
+            "source": "text",
+            "text_index": 10,
+            "page_number": 1,
+            "bbox": [
+              3568.0,
+              2702.227,
+              3599.695,
+              2718.066
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.27",
+            "z_order": 10,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.27"
+          },
+          {
+            "evidence_id": "text-000011",
+            "source": "text",
+            "text_index": 11,
+            "page_number": 1,
+            "bbox": [
+              2981.08,
+              489.547,
+              3003.968,
+              505.386
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.5",
+            "z_order": 11,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.5"
+          },
+          {
+            "evidence_id": "text-000012",
+            "source": "text",
+            "text_index": 12,
+            "page_number": 1,
+            "bbox": [
+              2529.4,
+              855.787,
+              2561.095,
+              871.626
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.11",
+            "z_order": 12,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.11"
+          },
+          {
+            "evidence_id": "text-000013",
+            "source": "text",
+            "text_index": 13,
+            "page_number": 1,
+            "bbox": [
+              2332.24,
+              1580.826,
+              2363.935,
+              1596.666
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.15",
+            "z_order": 13,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.15"
+          },
+          {
+            "evidence_id": "text-000085",
+            "source": "text",
+            "text_index": 85,
+            "page_number": 1,
+            "bbox": [
+              2304.76,
+              1329.186,
+              2336.455,
+              1345.026
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.17",
+            "z_order": 85,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.17"
+          },
+          {
+            "evidence_id": "text-000088",
+            "source": "text",
+            "text_index": 88,
+            "page_number": 1,
+            "bbox": [
+              3069.28,
+              481.746,
+              3092.168,
+              497.586
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.2",
+            "z_order": 88,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.2"
+          },
+          {
+            "evidence_id": "text-000090",
+            "source": "text",
+            "text_index": 90,
+            "page_number": 1,
+            "bbox": [
+              2688.16,
+              401.226,
+              2711.048,
+              417.066
+            ],
+            "geometry_type": "text",
+            "drawing_operation_type": "text_span",
+            "fill_color": "#000000",
+            "stroke_color": null,
+            "stroke_width": null,
+            "dash_pattern": null,
+            "fill_opacity": null,
+            "stroke_opacity": null,
+            "closed_path": false,
+            "open_path": false,
+            "text": "Z.3",
+            "z_order": 90,
+            "likely_role": "text_anchor",
+            "normalized_label": "Z.3"
+          }
+        ]
+      }
+    },
+    "target_case_definition": {
+      "target_name": "Kamenice BX.p Z.51a hatch/dotted split",
+      "pdf": "A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf",
+      "roi_bbox_pdf_coords": [
+        1222.64,
+        1364.2,
+        2014.2,
+        2046.44
+      ],
+      "roi_source": "derived_from_fid_bbox",
+      "current_bad_fids": [
+        329,
+        337,
+        353
+      ],
+      "target_labels_in_roi": [
+        {
+          "text": "Z.48",
+          "normalized": "Z.48",
+          "bbox": [
+            1774.24,
+            1398.066,
+            1805.935,
+            1413.906
+          ]
+        },
+        {
+          "text": "Z.46",
+          "normalized": "Z.46",
+          "bbox": [
+            1787.92,
+            1506.306,
+            1819.615,
+            1522.146
+          ]
+        },
+        {
+          "text": "Z.43a",
+          "normalized": "Z.43a",
+          "bbox": [
+            1540.48,
+            1705.506,
+            1580.982,
+            1721.346
+          ]
+        },
+        {
+          "text": "Z.42",
+          "normalized": "Z.42",
+          "bbox": [
+            1453.72,
+            1630.986,
+            1485.415,
+            1646.826
+          ]
+        },
+        {
+          "text": "Z.41",
+          "normalized": "Z.41",
+          "bbox": [
+            1398.64,
+            1700.54,
+            1422.411,
+            1712.42
+          ]
+        },
+        {
+          "text": "Z.40d",
+          "normalized": "Z.40d",
+          "bbox": [
+            1313.44,
+            1856.466,
+            1354.813,
+            1872.306
+          ]
+        },
+        {
+          "text": "Z.40a",
+          "normalized": "Z.40a",
+          "bbox": [
+            1602.16,
+            1846.626,
+            1642.662,
+            1862.466
+          ]
+        },
+        {
+          "text": "Z.51a",
+          "normalized": "Z.51a",
+          "bbox": [
+            1800.76,
+            1769.946,
+            1841.262,
+            1785.786
+          ]
+        },
+        {
+          "text": "Z.53",
+          "normalized": "Z.53",
+          "bbox": [
+            1916.44,
+            1914.906,
+            1948.135,
+            1930.746
+          ]
+        },
+        {
+          "text": "Z.44b",
+          "normalized": "Z.44b",
+          "bbox": [
+            1606.48,
+            1679.586,
+            1647.853,
+            1695.426
+          ]
+        },
+        {
+          "text": "Z.3-7",
+          "normalized": "Z.3",
+          "bbox": [
+            1773.865,
+            1639.768,
+            1801.479,
+            1668.136
+          ]
+        },
+        {
+          "text": "Z.45",
+          "normalized": "Z.45",
+          "bbox": [
+            1658.44,
+            1669.266,
+            1690.135,
+            1685.106
+          ]
+        },
+        {
+          "text": "Z.47",
+          "normalized": "Z.47",
+          "bbox": [
+            1715.08,
+            1617.906,
+            1746.775,
+            1633.746
+          ]
+        },
+        {
+          "text": "Z.46",
+          "normalized": "Z.46",
+          "bbox": [
+            1700.44,
+            1570.026,
+            1732.135,
+            1585.866
+          ]
+        },
+        {
+          "text": "Z.48",
+          "normalized": "Z.48",
+          "bbox": [
+            1833.4,
+            1427.586,
+            1865.095,
+            1443.426
+          ]
+        },
+        {
+          "text": "Z.53",
+          "normalized": "Z.53",
+          "bbox": [
+            1809.28,
+            1522.986,
+            1840.975,
+            1538.826
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1891.678,
+            1870.145,
+            1912.859,
+            1879.768
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1826.638,
+            1389.785,
+            1847.819,
+            1399.408
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1811.158,
+            1428.304,
+            1832.339,
+            1437.928
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1829.158,
+            1485.665,
+            1850.339,
+            1495.288
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1419.838,
+            1514.584,
+            1441.019,
+            1524.208
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1379.956,
+            1662.183,
+            1401.19,
+            1671.928
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1508.758,
+            1711.025,
+            1529.939,
+            1720.648
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1446.598,
+            1729.745,
+            1467.779,
+            1739.368
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1386.676,
+            1747.263,
+            1407.91,
+            1757.008
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1574.158,
+            1798.145,
+            1595.339,
+            1807.768
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1644.598,
+            1742.944,
+            1665.779,
+            1752.568
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1705.318,
+            1784.224,
+            1726.499,
+            1793.848
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1720.918,
+            1738.385,
+            1742.099,
+            1748.008
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1752.838,
+            1761.905,
+            1774.019,
+            1771.528
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1830.238,
+            1597.984,
+            1851.419,
+            1607.608
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1811.518,
+            1612.265,
+            1832.699,
+            1621.888
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1930.636,
+            1745.943,
+            1951.87,
+            1755.688
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1900.678,
+            1774.505,
+            1921.859,
+            1784.128
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1865.596,
+            1791.303,
+            1886.83,
+            1801.048
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1842.238,
+            1842.304,
+            1863.419,
+            1851.928
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1834.678,
+            1929.184,
+            1855.859,
+            1938.808
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1702.918,
+            1980.904,
+            1724.099,
+            1990.528
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1614.478,
+            1897.025,
+            1635.659,
+            1906.648
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1609.918,
+            1917.304,
+            1631.099,
+            1926.928
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1619.638,
+            1938.785,
+            1640.819,
+            1948.408
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1489.876,
+            1813.983,
+            1511.11,
+            1823.728
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1316.356,
+            1870.623,
+            1337.59,
+            1880.368
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1405.078,
+            1838.704,
+            1426.259,
+            1848.328
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1740.239,
+            1529.584,
+            1761.941,
+            1539.208
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1772.879,
+            1713.424,
+            1794.581,
+            1723.048
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1622.718,
+            1598.943,
+            1644.472,
+            1608.688
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1760.279,
+            1442.584,
+            1781.981,
+            1452.208
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1741.079,
+            1713.904,
+            1762.781,
+            1723.528
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1802.639,
+            1462.264,
+            1824.341,
+            1471.888
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1835.158,
+            1419.545,
+            1856.339,
+            1429.168
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1777.918,
+            1376.824,
+            1799.099,
+            1386.448
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1460.638,
+            1648.505,
+            1481.819,
+            1658.128
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1366.198,
+            1681.265,
+            1387.379,
+            1690.888
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1570.678,
+            1835.464,
+            1591.859,
+            1845.088
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1659.358,
+            1684.385,
+            1680.539,
+            1694.008
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1526.956,
+            1870.143,
+            1548.19,
+            1879.888
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1310.836,
+            1838.703,
+            1332.07,
+            1848.448
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1914.718,
+            1907.704,
+            1935.899,
+            1917.328
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1710.719,
+            1515.304,
+            1732.421,
+            1524.928
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1739.959,
+            1611.906,
+            1761.712,
+            1621.648
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1815.839,
+            1508.704,
+            1837.541,
+            1518.328
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1814.279,
+            1753.864,
+            1835.981,
+            1763.488
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1816.559,
+            1538.584,
+            1838.261,
+            1548.208
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1849.798,
+            1373.284,
+            1863.936,
+            1379.739
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1674.599,
+            1577.344,
+            1696.301,
+            1586.968
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1669.078,
+            1649.224,
+            1690.259,
+            1658.848
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1950.436,
+            1892.703,
+            1971.67,
+            1902.448
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1537.558,
+            1727.344,
+            1558.739,
+            1736.968
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1599.958,
+            1703.344,
+            1621.139,
+            1712.968
+          ]
+        },
+        {
+          "text": "BX.c",
+          "normalized": "BX.c",
+          "bbox": [
+            1575.238,
+            1686.665,
+            1596.419,
+            1696.288
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1608.918,
+            1643.943,
+            1630.672,
+            1653.688
+          ]
+        },
+        {
+          "text": "BX.p",
+          "normalized": "BX.p",
+          "bbox": [
+            1633.919,
+            1660.864,
+            1655.621,
+            1670.488
+          ]
+        },
+        {
+          "text": "Z.44a",
+          "normalized": "Z.44a",
+          "bbox": [
+            1613.08,
+            1645.626,
+            1653.582,
+            1661.466
+          ]
+        },
+        {
+          "text": "Z.43b",
+          "normalized": "Z.43b",
+          "bbox": [
+            1589.56,
+            1712.706,
+            1630.933,
+            1728.546
+          ]
+        }
+      ],
+      "expected_semantics": [
+        "white-hatched region must be separable from same-red non-hatched fill",
+        "black dotted/thick boundary must be considered split evidence",
+        "BX.p / Z.51a text anchors must attach to the correct enclosed region",
+        "same fill color alone must not merge the semantic region with neighboring BX.c/BX.p areas"
+      ],
+      "acceptance_checks": [
+        "candidate split boundary exists",
+        "hatched area detected",
+        "text anchor assigned",
+        "non-hatched same-fill area not merged into candidate region",
+        "export remains blocked unless confidence is high and review policy allows export"
+      ]
+    },
+    "experiments": [
+      {
+        "id": "E01",
+        "name": "vector_hatch_line_premerge_index",
+        "approach": "vector_hatch_line_premerge_index",
+        "hypothesis": "White hatch/grid lines can be isolated before polygon merging.",
+        "status": "failed",
+        "score": 0.0,
+        "confidence": "failed",
+        "metrics": {
+          "white_thin_line_count": 281,
+          "parallel_groups": 0,
+          "grid_groups": 0,
+          "hatch_region_candidates": 0,
+          "target_roi_hatch_detected": false
+        },
+        "result_summary": "PDF drawing index did not expose target hatch as usable standalone white vector strokes.",
+        "learned": "The Kamenice hatch signal is mostly preserved as post-merge hatch-grid hole artifacts, so vector-only pre-merge hatch detection is insufficient.",
+        "keep_or_reject": "reject",
+        "artifacts": []
+      },
+      {
+        "id": "E02",
+        "name": "raster_hatch_grid_segmentation",
+        "approach": "raster_hatch_grid_segmentation",
+        "hypothesis": "Rendered page raster can reveal hatch/grid regions when vector strokes are not isolated.",
+        "status": "partial",
+        "score": 0.62,
+        "confidence": "medium",
+        "metrics": {
+          "render_dpi": 144,
+          "white_grid_pixel_count": null,
+          "line_segments_detected": null,
+          "grid_orientation_count": null,
+          "hatch_mask_area": 635,
+          "hatch_envelope_polygon_count": 1,
+          "target_roi_hatch_detected": true,
+          "false_positive_risk": "medium"
+        },
+        "result_summary": "Raster/merged-hole evidence confirms hatch/grid presence but does not independently define an exact exportable split.",
+        "learned": "Raster evidence is useful for locating hatch envelopes and must be combined with boundary/text evidence.",
+        "keep_or_reject": "combine",
+        "artifacts": [
+          "docs/extraction_experiments/kamenice_e02_raster_hatch_overlay.png"
+        ]
+      },
+      {
+        "id": "E03",
+        "name": "dotted_boundary_reconstruction",
+        "approach": "dotted_boundary_reconstruction",
+        "hypothesis": "Black dots along the target region form a closed or near-closed split boundary.",
+        "status": "partial",
+        "score": 0.55,
+        "confidence": "low",
+        "metrics": {
+          "dot_candidates": 83,
+          "chains": 1,
+          "closed_or_near_closed_chains": 0,
+          "boundary_polygon_candidates": 1,
+          "contains_target_label": true,
+          "target_roi_boundary_detected": true
+        },
+        "result_summary": "Dotted boundary candidates exist, but closure is not reliable enough for automatic export geometry.",
+        "learned": "Dotted-boundary evidence should rank/shape review candidates, not silently cut final polygons.",
+        "keep_or_reject": "combine",
+        "artifacts": [
+          "docs/extraction_experiments/kamenice_e03_dotted_boundary_overlay.png"
+        ]
+      },
+      {
+        "id": "E04",
+        "name": "thick_boundary_segmentation",
+        "approach": "thick_boundary_segmentation",
+        "hypothesis": "Thicker/darker linework defines semantic area boundaries.",
+        "status": "partial",
+        "score": 0.45,
+        "confidence": "low",
+        "metrics": {
+          "thick_line_candidates": 9,
+          "closed_boundary_candidates": 0,
+          "barrier_lines_used": 9,
+          "split_candidates_created": 0,
+          "target_roi_split_supported": true
+        },
+        "result_summary": "Thick dark boundaries support the split hypothesis but do not provide a complete closed split graph.",
+        "learned": "Thick boundaries are barrier evidence for hybrid scoring, not standalone geometry.",
+        "keep_or_reject": "combine",
+        "artifacts": []
+      },
+      {
+        "id": "E05",
+        "name": "text_anchor_constrained_assignment",
+        "approach": "text_anchor_constrained_assignment",
+        "hypothesis": "Text labels validate or assign split candidates but must not create geometry alone.",
+        "status": "combined",
+        "score": 0.35,
+        "confidence": "medium",
+        "metrics": {
+          "text_anchors_detected": 270,
+          "target_labels_detected": [
+            "Z.48",
+            "Z.46",
+            "Z.43a",
+            "Z.42",
+            "Z.41",
+            "Z.40d",
+            "Z.40a",
+            "Z.51a",
+            "Z.53",
+            "Z.44b",
+            "Z.3",
+            "Z.45",
+            "Z.47",
+            "Z.46",
+            "Z.48",
+            "Z.53",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.p",
+            "BX.p",
+            "BX.p",
+            "BX.p",
+            "BX.p",
+            "BX.p",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.p",
+            "BX.p",
+            "BX.p",
+            "BX.p",
+            "BX.p",
+            "BX.c",
+            "BX.p",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.c",
+            "BX.p",
+            "BX.p",
+            "Z.44a",
+            "Z.43b"
+          ],
+          "labels_inside_candidate": 75,
+          "labels_near_candidate": 0,
+          "conflicting_labels": 0
+        },
+        "result_summary": "Target labels are assignment/validation evidence only; they do not split same-fill geometry by themselves.",
+        "learned": "Text anchors are kept as constraints for E06 and manual split payloads.",
+        "keep_or_reject": "combine",
+        "artifacts": []
+      },
+      {
+        "id": "E06",
+        "name": "hybrid_graph_constrained_polygonization",
+        "approach": "hybrid_graph_constrained_polygonization",
+        "hypothesis": "Combine fill, hatch, boundary, text, and legend evidence in a review-only graph.",
+        "status": "review_required",
+        "score": 0.8,
+        "confidence": "medium",
+        "metrics": {
+          "candidate_regions": 1,
+          "candidate_score_best": 0.8,
+          "selected_candidate_has_hatch": true,
+          "selected_candidate_has_boundary": true,
+          "selected_candidate_has_text_anchor": true,
+          "manual_review_required": true
+        },
+        "result_summary": "Hybrid graph can produce a review-only ROI candidate, but confidence is not high enough for clean export.",
+        "learned": "The best current method is evidence-combined review candidate generation with export blocked.",
+        "keep_or_reject": "combine",
+        "artifacts": []
+      },
+      {
+        "id": "E07",
+        "name": "manual_split_fallback_schema",
+        "approach": "manual_split_fallback_schema",
+        "hypothesis": "Ambiguous UP PDFs need first-class manual semantic split payloads.",
+        "status": "success",
+        "score": 1.0,
+        "confidence": "high",
+        "metrics": {
+          "fallback_payloads": 1,
+          "raw_preserved": true,
+          "export_blocked": true
+        },
+        "result_summary": "Manual split schema is available and linked to the target ROI evidence.",
+        "learned": "Manual split remains the safe operational fallback for Kamenice.",
+        "keep_or_reject": "keep",
+        "artifacts": []
+      },
+      {
+        "id": "E08",
+        "name": "synthetic_controls_and_regression_tests",
+        "approach": "synthetic_controls_and_regression_tests",
+        "hypothesis": "Synthetic controls isolate each signal detector and prevent future Kamenice-only overfitting.",
+        "status": "success",
+        "score": 1.0,
+        "confidence": "high",
+        "metrics": {
+          "synthetic_hatch_detected": true,
+          "synthetic_dotted_boundary_detected": true,
+          "synthetic_thick_boundary_detected": true,
+          "text_anchor_assigns_without_split": true,
+          "label_mask_candidate_cleaned": true,
+          "real_void_preserved": true
+        },
+        "result_summary": "Synthetic fixtures cover hatch, dotted, thick, text, label-mask, and real-void behavior.",
+        "learned": "Keep synthetic controls as regression guardrails while Kamenice remains review-blocked.",
+        "keep_or_reject": "keep",
+        "artifacts": []
+      }
+    ],
+    "experiment_candidate_geometries": [
+      {
+        "type": "Feature",
+        "id": "experiment-candidate-kamenice-z51a-v8-3-1",
+        "properties": {
+          "candidate_id": "experiment-candidate-kamenice-z51a-v8-3-1",
+          "candidate_type": "review_only_semantic_split",
+          "source": "v8_3_1_hybrid_graph",
+          "score": 0.8,
+          "confidence": "medium",
+          "review_required": true,
+          "export_eligible": false,
+          "raw_preserved": true,
+          "reason": "review-only ROI candidate built from hatch, dotted/thick boundary, and text-anchor evidence; not export geometry"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                1222.64,
+                1364.2
+              ],
+              [
+                2014.2,
+                1364.2
+              ],
+              [
+                2014.2,
+                2046.44
+              ],
+              [
+                1222.64,
+                2046.44
+              ],
+              [
+                1222.64,
+                1364.2
+              ]
+            ]
+          ]
+        }
+      }
+    ],
+    "manual_split_fallbacks": [
+      {
+        "parent_fid": 353,
+        "correction_type": "manual_semantic_split",
+        "child_geometries": [],
+        "assigned_labels": [
+          "BX.p",
+          "Z.51a"
+        ],
+        "evidence_refs": [
+          "E02",
+          "E03",
+          "E04",
+          "E05",
+          "E06"
+        ],
+        "reason": "automatic hatch/dotted-boundary split is review-only and not reliable for clean export",
+        "raw_preserved": true
+      }
+    ],
+    "best_current_method": "E06 hybrid graph review-only candidate + E07 manual split fallback",
+    "resolved": false,
+    "remaining_blockers": [
+      "dotted/thick boundary graph is not closed enough for automatic export geometry",
+      "raster hatch envelope supports review but cannot replace vector truth",
+      "text anchors validate candidate semantics but cannot split geometry alone"
+    ],
+    "next_required_step": "operator reviews ROI candidate and records manual_semantic_split child geometries if accepted"
+  },
+  "algorithm_lab_experiment_count": 8,
+  "experiment_candidate_count": 1,
   "legend_candidates": [
     {
       "candidate_id": "legend-candidate-left-code-cluster-0001",

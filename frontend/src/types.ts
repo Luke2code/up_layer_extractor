@@ -60,6 +60,12 @@ export interface FeatureCollection {
   merge_stats?: Record<string, unknown>;
   artifact_diagnostics?: Record<string, unknown>;
   up_extraction_profile?: ExtractionProfile;
+  extraction_experiments?: ExtractionExperiment[];
+  algorithm_lab_result?: Record<string, unknown>;
+  vector_evidence_index_summary?: Record<string, unknown>;
+  target_case_v8_3?: Record<string, unknown>;
+  experiment_candidate_geometries?: GeoFeature[];
+  manual_split_fallbacks?: Record<string, unknown>[];
   feature_proposal_stats?: Record<string, unknown>;
   task_stats?: Record<string, unknown>;
   correction_tasks?: CorrectionTask[];
@@ -324,6 +330,21 @@ export interface ExtractionProfile {
   thick_boundary_candidate_count?: number;
   text_anchor_count?: number;
   export_blocked_feature_count?: number;
+  [key: string]: unknown;
+}
+
+export interface ExtractionExperiment {
+  id: string;
+  name?: string;
+  approach?: string;
+  status?: string;
+  score?: number | null;
+  confidence?: string;
+  metrics?: Record<string, unknown>;
+  result_summary?: string;
+  learned?: string;
+  keep_or_reject?: string;
+  artifacts?: string[];
   [key: string]: unknown;
 }
 

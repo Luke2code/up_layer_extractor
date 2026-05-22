@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { approveDefinition, exportRecords, generateDefinitionCandidates } from "../lib/api";
 import { featureCountByLayerClass, hasMultiPolygon } from "../lib/geo";
 import { generateRemapRows, type RemapConfig } from "../lib/remap";
-import type { ClassificationProposal, CorrectionTask, DefinitionCandidate, ExtractionMethodRow, FeatureCollection, GeoFeature, LegendCrop, LegendItem, LegendRow, LegendSymbol, PipelineTrace, RemapResult, StructuredError, TextSpec, VectorSpec, VectorTrace } from "../types";
+import type { ClassificationProposal, CorrectionTask, DefinitionCandidate, ExtractionExperiment, ExtractionMethodRow, FeatureCollection, GeoFeature, LegendCrop, LegendItem, LegendRow, LegendSymbol, PipelineTrace, RemapResult, StructuredError, TextSpec, VectorSpec, VectorTrace } from "../types";
 import { DataTable } from "./DataTable";
 
 type ExplorerTab = "map" | "extraction" | "vector" | "text" | "legend" | "legendRows" | "classification" | "pipeline" | "traces" | "errors" | "diagnostics" | "raw" | "corrections" | "remapping";
@@ -176,6 +176,7 @@ export function DefinitionExplorer({
   const correctionRows = (collection?.correction_tasks ?? []) as CorrectionTask[];
   const extractionProfile = collection?.up_extraction_profile;
   const extractionRows = (extractionProfile?.method_rows ?? []) as ExtractionMethodRow[];
+  const extractionExperiments = (collection?.extraction_experiments ?? []) as ExtractionExperiment[];
 
   async function downloadExport(kind: string) {
     if (!collection) return;
@@ -328,6 +329,21 @@ export function DefinitionExplorer({
                 { key: "risk", header: "Main risk", render: (row) => row.main_risk ?? "n/a" }
               ]}
             />
+            <div className="grid gap-2" data-testid="extraction-experiments">
+              <div className="text-[11px] font-semibold uppercase text-slate-500">Extraction experiments</div>
+              <DataTable
+                rows={extractionExperiments}
+                empty="No algorithm-lab experiment rows were emitted by this source"
+                columns={[
+                  { key: "id", header: "ID", render: (row) => row.id, className: "w-14" },
+                  { key: "approach", header: "Approach", render: (row) => row.approach ?? row.name ?? "n/a" },
+                  { key: "status", header: "Status", render: (row) => row.status ?? "unknown" },
+                  { key: "score", header: "Score", render: (row) => typeof row.score === "number" ? `${Math.round(row.score * 100)}%` : "n/a" },
+                  { key: "result", header: "Result", render: (row) => row.result_summary ?? "n/a" },
+                  { key: "keep", header: "Keep/combine", render: (row) => row.keep_or_reject ?? "n/a" }
+                ]}
+              />
+            </div>
           </div>
         ) : null}
         {tab === "text" ? (

@@ -1,0 +1,781 @@
+{
+  "target_name": "Kamenice BX.p Z.51a hatch/dotted split",
+  "pdf": "A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf",
+  "roi_bbox_pdf_coords": [
+    1222.64,
+    1364.2,
+    2014.2,
+    2046.44
+  ],
+  "roi_source": "derived_from_fid_bbox",
+  "current_bad_fids": [
+    329,
+    337,
+    353
+  ],
+  "target_labels_in_roi": [
+    {
+      "text": "Z.48",
+      "normalized": "Z.48",
+      "bbox": [
+        1774.24,
+        1398.066,
+        1805.935,
+        1413.906
+      ]
+    },
+    {
+      "text": "Z.46",
+      "normalized": "Z.46",
+      "bbox": [
+        1787.92,
+        1506.306,
+        1819.615,
+        1522.146
+      ]
+    },
+    {
+      "text": "Z.43a",
+      "normalized": "Z.43a",
+      "bbox": [
+        1540.48,
+        1705.506,
+        1580.982,
+        1721.346
+      ]
+    },
+    {
+      "text": "Z.42",
+      "normalized": "Z.42",
+      "bbox": [
+        1453.72,
+        1630.986,
+        1485.415,
+        1646.826
+      ]
+    },
+    {
+      "text": "Z.41",
+      "normalized": "Z.41",
+      "bbox": [
+        1398.64,
+        1700.54,
+        1422.411,
+        1712.42
+      ]
+    },
+    {
+      "text": "Z.40d",
+      "normalized": "Z.40d",
+      "bbox": [
+        1313.44,
+        1856.466,
+        1354.813,
+        1872.306
+      ]
+    },
+    {
+      "text": "Z.40a",
+      "normalized": "Z.40a",
+      "bbox": [
+        1602.16,
+        1846.626,
+        1642.662,
+        1862.466
+      ]
+    },
+    {
+      "text": "Z.51a",
+      "normalized": "Z.51a",
+      "bbox": [
+        1800.76,
+        1769.946,
+        1841.262,
+        1785.786
+      ]
+    },
+    {
+      "text": "Z.53",
+      "normalized": "Z.53",
+      "bbox": [
+        1916.44,
+        1914.906,
+        1948.135,
+        1930.746
+      ]
+    },
+    {
+      "text": "Z.44b",
+      "normalized": "Z.44b",
+      "bbox": [
+        1606.48,
+        1679.586,
+        1647.853,
+        1695.426
+      ]
+    },
+    {
+      "text": "Z.3-7",
+      "normalized": "Z.3",
+      "bbox": [
+        1773.865,
+        1639.768,
+        1801.479,
+        1668.136
+      ]
+    },
+    {
+      "text": "Z.45",
+      "normalized": "Z.45",
+      "bbox": [
+        1658.44,
+        1669.266,
+        1690.135,
+        1685.106
+      ]
+    },
+    {
+      "text": "Z.47",
+      "normalized": "Z.47",
+      "bbox": [
+        1715.08,
+        1617.906,
+        1746.775,
+        1633.746
+      ]
+    },
+    {
+      "text": "Z.46",
+      "normalized": "Z.46",
+      "bbox": [
+        1700.44,
+        1570.026,
+        1732.135,
+        1585.866
+      ]
+    },
+    {
+      "text": "Z.48",
+      "normalized": "Z.48",
+      "bbox": [
+        1833.4,
+        1427.586,
+        1865.095,
+        1443.426
+      ]
+    },
+    {
+      "text": "Z.53",
+      "normalized": "Z.53",
+      "bbox": [
+        1809.28,
+        1522.986,
+        1840.975,
+        1538.826
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1891.678,
+        1870.145,
+        1912.859,
+        1879.768
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1826.638,
+        1389.785,
+        1847.819,
+        1399.408
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1811.158,
+        1428.304,
+        1832.339,
+        1437.928
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1829.158,
+        1485.665,
+        1850.339,
+        1495.288
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1419.838,
+        1514.584,
+        1441.019,
+        1524.208
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1379.956,
+        1662.183,
+        1401.19,
+        1671.928
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1508.758,
+        1711.025,
+        1529.939,
+        1720.648
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1446.598,
+        1729.745,
+        1467.779,
+        1739.368
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1386.676,
+        1747.263,
+        1407.91,
+        1757.008
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1574.158,
+        1798.145,
+        1595.339,
+        1807.768
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1644.598,
+        1742.944,
+        1665.779,
+        1752.568
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1705.318,
+        1784.224,
+        1726.499,
+        1793.848
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1720.918,
+        1738.385,
+        1742.099,
+        1748.008
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1752.838,
+        1761.905,
+        1774.019,
+        1771.528
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1830.238,
+        1597.984,
+        1851.419,
+        1607.608
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1811.518,
+        1612.265,
+        1832.699,
+        1621.888
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1930.636,
+        1745.943,
+        1951.87,
+        1755.688
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1900.678,
+        1774.505,
+        1921.859,
+        1784.128
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1865.596,
+        1791.303,
+        1886.83,
+        1801.048
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1842.238,
+        1842.304,
+        1863.419,
+        1851.928
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1834.678,
+        1929.184,
+        1855.859,
+        1938.808
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1702.918,
+        1980.904,
+        1724.099,
+        1990.528
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1614.478,
+        1897.025,
+        1635.659,
+        1906.648
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1609.918,
+        1917.304,
+        1631.099,
+        1926.928
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1619.638,
+        1938.785,
+        1640.819,
+        1948.408
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1489.876,
+        1813.983,
+        1511.11,
+        1823.728
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1316.356,
+        1870.623,
+        1337.59,
+        1880.368
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1405.078,
+        1838.704,
+        1426.259,
+        1848.328
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1740.239,
+        1529.584,
+        1761.941,
+        1539.208
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1772.879,
+        1713.424,
+        1794.581,
+        1723.048
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1622.718,
+        1598.943,
+        1644.472,
+        1608.688
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1760.279,
+        1442.584,
+        1781.981,
+        1452.208
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1741.079,
+        1713.904,
+        1762.781,
+        1723.528
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1802.639,
+        1462.264,
+        1824.341,
+        1471.888
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1835.158,
+        1419.545,
+        1856.339,
+        1429.168
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1777.918,
+        1376.824,
+        1799.099,
+        1386.448
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1460.638,
+        1648.505,
+        1481.819,
+        1658.128
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1366.198,
+        1681.265,
+        1387.379,
+        1690.888
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1570.678,
+        1835.464,
+        1591.859,
+        1845.088
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1659.358,
+        1684.385,
+        1680.539,
+        1694.008
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1526.956,
+        1870.143,
+        1548.19,
+        1879.888
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1310.836,
+        1838.703,
+        1332.07,
+        1848.448
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1914.718,
+        1907.704,
+        1935.899,
+        1917.328
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1710.719,
+        1515.304,
+        1732.421,
+        1524.928
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1739.959,
+        1611.906,
+        1761.712,
+        1621.648
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1815.839,
+        1508.704,
+        1837.541,
+        1518.328
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1814.279,
+        1753.864,
+        1835.981,
+        1763.488
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1816.559,
+        1538.584,
+        1838.261,
+        1548.208
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1849.798,
+        1373.284,
+        1863.936,
+        1379.739
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1674.599,
+        1577.344,
+        1696.301,
+        1586.968
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1669.078,
+        1649.224,
+        1690.259,
+        1658.848
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1950.436,
+        1892.703,
+        1971.67,
+        1902.448
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1537.558,
+        1727.344,
+        1558.739,
+        1736.968
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1599.958,
+        1703.344,
+        1621.139,
+        1712.968
+      ]
+    },
+    {
+      "text": "BX.c",
+      "normalized": "BX.c",
+      "bbox": [
+        1575.238,
+        1686.665,
+        1596.419,
+        1696.288
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1608.918,
+        1643.943,
+        1630.672,
+        1653.688
+      ]
+    },
+    {
+      "text": "BX.p",
+      "normalized": "BX.p",
+      "bbox": [
+        1633.919,
+        1660.864,
+        1655.621,
+        1670.488
+      ]
+    },
+    {
+      "text": "Z.44a",
+      "normalized": "Z.44a",
+      "bbox": [
+        1613.08,
+        1645.626,
+        1653.582,
+        1661.466
+      ]
+    },
+    {
+      "text": "Z.43b",
+      "normalized": "Z.43b",
+      "bbox": [
+        1589.56,
+        1712.706,
+        1630.933,
+        1728.546
+      ]
+    }
+  ],
+  "expected_semantics": [
+    "white-hatched region must be separable from same-red non-hatched fill",
+    "black dotted/thick boundary must be considered split evidence",
+    "BX.p / Z.51a text anchors must attach to the correct enclosed region",
+    "same fill color alone must not merge the semantic region with neighboring BX.c/BX.p areas"
+  ],
+  "acceptance_checks": [
+    "candidate split boundary exists",
+    "hatched area detected",
+    "text anchor assigned",
+    "non-hatched same-fill area not merged into candidate region",
+    "export remains blocked unless confidence is high and review policy allows export"
+  ]
+}

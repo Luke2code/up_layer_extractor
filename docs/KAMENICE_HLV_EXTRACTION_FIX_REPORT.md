@@ -532,3 +532,108 @@ Final runtime:
 - UI: `http://127.0.0.1:4100`
 - Backend: `http://127.0.0.1:4101`
 - `8787`: active-default scan passed.
+
+## V8.3.1 First-Principles Algorithm Lab
+
+### Baseline Revalidation
+
+V8.3.1 revalidated the Kamenice HLV baseline before changing the algorithm path:
+
+- Raw fragments: `56642`.
+- Merged polygons: `1265`.
+- Geometry errors: `840`.
+- Export blocked: `1265`.
+- Manual split required: `875`.
+- Hatch candidates: `635`.
+- Dotted-boundary candidates: `83`.
+- Thick-boundary candidates: `9`.
+- FIDs `329`, `337`, and `353`: all found.
+
+### First-Principles Result
+
+The target object is a planning-semantic polygon, not a same-fill-color polygon. The evidence split is now explicit:
+
+- Fill color creates candidate regions but cannot prove semantic boundaries.
+- Hatch/grid evidence can define a subtype or subregion, but Kamenice exposes it mainly through raster evidence and post-merge hatch/grid holes.
+- Dotted and thick black boundaries support a split, but the detected graph is not closed enough for automatic export geometry.
+- Text anchors such as `BX.p` and `Z.51a` validate/rank candidates; they do not create geometry by themselves.
+- Legend mapping validates style semantics; it cannot split same-fill regions alone.
+- Raster evidence can support review candidates, but it does not silently replace vector truth.
+- Manual split remains required where automatic split evidence is incomplete.
+
+### Implementation Approaches Recorded
+
+- `vector_evidence_index_v8_3_1`: preserves pre-merge path/text evidence with bbox, drawing operation, fill/stroke, stroke width, dash pattern, opacity, open/closed state, z-order, and likely role.
+- `vector_hatch_line_premerge_index`: tested white hatch/grid isolation before merge; rejected for Kamenice because the target hatch is not exposed as a clean standalone vector hatch layer.
+- `raster_hatch_grid_segmentation`: renders a 144 DPI ROI and records a hatch/grid envelope diagnostic; kept as supporting evidence only.
+- `dotted_boundary_reconstruction`: records vector/raster dark-dot evidence and a near-loop diagnostic; combined into review scoring, not export geometry.
+- `thick_boundary_segmentation`: records thick dark boundary candidates as barrier evidence; combined into review scoring.
+- `text_anchor_constrained_assignment`: attaches labels as constraints and explicitly prevents text-only splitting.
+- `hybrid_graph_constrained_polygonization`: combines hatch, dotted/thick boundary, text, legend, and geometry-validity signals into one review-only candidate.
+- `manual_split_fallback_schema`: emits a first-class `manual_semantic_split` payload while keeping raw geometry immutable.
+- `synthetic_controls_and_regression_tests`: adds isolated tests for hatch, dotted boundary, thick boundary, text-only assignment, label-mask cleanup, and real-void preservation.
+
+### Target ROI And Evidence
+
+- Target: `Kamenice BX.p Z.51a hatch/dotted split`.
+- ROI source: derived from FID bbox.
+- ROI bbox: `[1222.64, 1364.2, 2014.2, 2046.44]`.
+- Target labels found in the ROI include `Z.51a`, `BX.p`, and neighboring/conflicting `BX.c` labels.
+- Vector evidence summary: `157834` records, `38269` fills, `156350` strokes, `7583` red fills, `2990` near-white strokes, `67101` near-black strokes, `281` hatch-line candidates, `247` label-mask candidates, and `270` text anchors.
+- The broad pre-index dot candidate count is intentionally noisy (`66070`) because small dark glyphs/blobs are retained as evidence; the method profile still uses the narrower dotted-boundary count (`83`) for review gating.
+
+### Experiment Outcomes
+
+| ID | Approach | Status | Score | Keep/reject | Result |
+| --- | --- | ---: | ---: | --- | --- |
+| E01 | Vector hatch line premerge detection | failed | `0.00` | reject | Kamenice does not expose target hatch as usable standalone white vector strokes. |
+| E02 | Raster hatch/grid segmentation | partial | `0.62` | combine | Hatch/grid region detected in the ROI; false-positive risk remains medium. |
+| E03 | Dotted boundary reconstruction | partial | `0.55` | combine | Boundary evidence exists, but closure is not reliable enough for export geometry. |
+| E04 | Thick boundary segmentation | partial | `0.45` | combine | Thick boundary evidence supports the split hypothesis but does not close the graph. |
+| E05 | Text-anchor constrained assignment | partial | `0.35` | combine | `BX.p` / `Z.51a` labels validate the candidate but cannot split it. |
+| E06 | Hybrid graph / constrained polygonization | review required | `0.80` | combine | Produces one review-only candidate backed by hatch, boundary, and text evidence. |
+| E07 | Manual split fallback schema | success | `1.00` | keep | Manual semantic split payload is available and linked to the target ROI evidence. |
+| E08 | Synthetic controls and regression tests | success | `1.00` | keep | Synthetic controls pass for hatch, dotted, thick, text, label mask, and real void behavior. |
+
+Best current method: `E06 hybrid graph review-only candidate + E07 manual split fallback`.
+
+### Candidate Split Status
+
+V8.3.1 creates one `experiment_candidate_geometry` for the Kamenice target ROI. It is visible in the UP preview as a review-only overlay and listed in the Extraction tab experiment rows. It is not exportable:
+
+- `raw_preserved`: true.
+- `export_eligible`: false.
+- Kamenice export status: `blocked`.
+- Required next action: operator reviews the ROI candidate and records `manual_semantic_split` child geometries if accepted.
+
+### Reports And Artifacts
+
+- Ledger: `docs/extraction_experiments/KAMENICE_HLV_V8_3_EXPERIMENT_LEDGER.md`.
+- Experiment JSON: `docs/extraction_experiments/kamenice_v8_3_experiment_results.json`.
+- Target case JSON: `docs/extraction_experiments/kamenice_target_case_v8_3.json`.
+- Vector evidence summary: `docs/extraction_experiments/kamenice_vector_evidence_index_summary.json`.
+- Target validation: `docs/extraction_experiments/kamenice_target_case_validation.json`.
+- Raster hatch diagnostic: `docs/extraction_experiments/kamenice_e02_raster_hatch_diagnostic.json`.
+- Raster hatch overlay: `docs/extraction_experiments/kamenice_e02_raster_hatch_overlay.png`.
+- Dotted-boundary diagnostic: `docs/extraction_experiments/kamenice_e03_dotted_boundary_diagnostic.json`.
+- Dotted-boundary overlay: `docs/extraction_experiments/kamenice_e03_dotted_boundary_overlay.png`.
+- UI screenshots remain under `docs/kamenice-v8_1-*`, `docs/kamenice-v8_2-*`, `docs/webapp-smoke.png`, and `docs/ui_upload_smokes/`.
+
+### V8.3.1 Validation Results
+
+- Backend tests: `45 passed` using `.venv/bin/python -m pytest backend/tests -s`.
+- Frontend typecheck: passed.
+- Frontend tests: `6 passed`.
+- Frontend production build: passed.
+- `scripts/run_kamenice_v8_3_experiments.py`: passed and wrote the experiment ledger/artifacts.
+- `scripts/validate_kamenice_target_case.py`: passed with one review-only experiment candidate.
+- `scripts/validate_kamenice_hlv.py`: passed with E01-E08 present and algorithm lab diagnostics attached.
+- `scripts/validate_kamenice_visual_artifacts.py`: passed; `4101` health check passed and active-default `8787` scan was clean.
+- `scripts/smoke_kamenice_legend_ui.py`: passed; Extraction tab shows E01-E08 and the candidate split overlay.
+- `scripts/smoke_kvetnice_legend_sample.py`: passed.
+- `scripts/smoke_webapp.py`: passed.
+- `scripts/smoke_pdf_uploads.py`: passed for Bykev, Ricany, and Kamenice uploads.
+- `scripts/validate_pdf_corpus.py`: 8 present PDFs passed as `completed_review_blocked`; `kamenice zcu.pdf` remains missing at `/mnt/c/Users/Me/Downloads/kamenice zcu.pdf`.
+- Corpus experiment-candidate reporting is scoped: only `A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf` reports `experiment_candidate_available_count = 1`; all non-Kamenice PDFs report `0`.
+
+Final V8.3.1 decision: the Kamenice target case is not clean-exportable. The correct fixed behavior is a visible, review-only candidate supported by multiple evidence signals, plus explicit manual split fallback and export blocking.

@@ -41,6 +41,8 @@ def validate(path: Path) -> dict[str, Any]:
     legend_mapping_stats = collection.get("legend_mapping_stats") or {}
     artifact_diagnostics = collection.get("artifact_diagnostics") or {}
     extraction_profile = collection.get("up_extraction_profile") or {}
+    algorithm_lab = collection.get("algorithm_lab_result") or {}
+    extraction_experiments = collection.get("extraction_experiments") or []
     fragment_role_stats = collection.get("fragment_role_stats") or {}
     feature_proposal_stats = collection.get("feature_proposal_stats") or {}
     legend_vector_defs = [row for row in collection.get("vector_definitions") or [] if row.get("legend_item_id")]
@@ -131,6 +133,18 @@ def validate(path: Path) -> dict[str, Any]:
             fail(f"up_extraction_profile method {method} is missing", failures)
     if extraction_profile and extraction_profile.get("export_status") != "blocked":
         fail(f"up_extraction_profile export_status is {extraction_profile.get('export_status')!r}, expected blocked while manual split/review remains", failures)
+    if not algorithm_lab:
+        fail("algorithm_lab_result is missing", failures)
+    experiment_ids = {row.get("id") for row in extraction_experiments}
+    for experiment_id in [f"E{index:02d}" for index in range(1, 9)]:
+        if experiment_id not in experiment_ids:
+            fail(f"algorithm lab experiment {experiment_id} is missing", failures)
+    if not collection.get("vector_evidence_index_summary"):
+        fail("vector_evidence_index_summary is missing", failures)
+    if not collection.get("target_case_v8_3"):
+        fail("target_case_v8_3 is missing", failures)
+    if not collection.get("experiment_candidate_geometries"):
+        fail("review-only experiment candidate geometry is missing", failures)
     if not fragment_role_stats.get("fragment_role_counts"):
         fail("fragment role classification is missing", failures)
     if "fragment_role_classification" not in pipeline_steps:
@@ -224,6 +238,14 @@ def validate(path: Path) -> dict[str, Any]:
         "hole_cleanup_removed_hole_count": artifact_diagnostics.get("hole_cleanup_removed_hole_count"),
         "hole_cleanup_review_required_hole_count": artifact_diagnostics.get("hole_cleanup_review_required_hole_count"),
         "up_extraction_profile": extraction_profile,
+        "algorithm_lab_experiment_count": len(extraction_experiments),
+        "algorithm_lab_best_current_method": algorithm_lab.get("best_current_method"),
+        "experiment_candidate_count": len(collection.get("experiment_candidate_geometries") or []),
+        "target_case_v8_3": collection.get("target_case_v8_3"),
+        "vector_evidence_index_counts": {
+            key: (collection.get("vector_evidence_index_summary") or {}).get(key)
+            for key in ["fills", "strokes", "closed_paths", "open_paths", "white_or_near_white_strokes", "black_or_near_black_strokes", "red_fills", "thin_lines", "thick_lines", "dot_candidates", "text_anchors", "hatch_line_candidates", "label_mask_candidates"]
+        },
         "manual_split_required_count": extraction_profile.get("manual_split_required_count"),
         "hatch_candidate_count": extraction_profile.get("hatch_candidate_count"),
         "dotted_boundary_candidate_count": extraction_profile.get("dotted_boundary_candidate_count"),
@@ -258,6 +280,9 @@ def validate(path: Path) -> dict[str, Any]:
             "review_candidate_remove_label_mask_white_background_hatch_grid_holes_v8_2",
             "method_aware_extraction_profile_v8_2",
             "hatch_dotted_boundary_manual_split_gate_v8_2",
+            "vector_evidence_index_v8_3_1",
+            "first_principles_algorithm_lab_v8_3_1",
+            "hybrid_graph_review_candidate_v8_3_1",
         ],
     }
 

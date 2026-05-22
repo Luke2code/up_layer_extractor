@@ -6,10 +6,18 @@ import pytest
 from fastapi.testclient import TestClient
 
 from backend.app.main import app
+from backend.app.experiment_lab import (
+    build_algorithm_lab_result,
+    build_vector_evidence_index,
+    summarize_vector_evidence_index,
+    synthetic_drawings,
+    synthetic_text_specs,
+)
 from backend.app.pipeline import (
     analyze_tessellation_fragments,
     build_legend_mapping_artifacts,
     build_visual_artifact_diagnostics,
+    classify_feature_holes,
     classify_evidence,
     classify_fragment_roles,
     detect_target_code,
@@ -181,6 +189,74 @@ def test_feature_void_metrics_flags_small_triangular_hole() -> None:
     assert metrics["small_void_count"] == 1
     assert metrics["void_requires_review_count"] == 2
     assert metrics["void_matches_original_plan"] == "requires_plan_visual_review"
+
+
+def test_synthetic_hatch_region_is_detected() -> None:
+    records = build_vector_evidence_index(synthetic_drawings("hatch"), [])
+    summary = summarize_vector_evidence_index(records)
+    assert summary["hatch_line_candidates"] >= 10
+
+
+def test_synthetic_dotted_boundary_is_reconstructed_as_candidates() -> None:
+    records = build_vector_evidence_index(synthetic_drawings("dotted"), [])
+    summary = summarize_vector_evidence_index(records)
+    assert summary["dot_candidates"] >= 20
+
+
+def test_synthetic_thick_boundary_is_recognized() -> None:
+    records = build_vector_evidence_index(synthetic_drawings("thick"), [])
+    summary = summarize_vector_evidence_index(records)
+    assert summary["thick_lines"] >= 1
+
+
+def test_text_anchor_assigns_but_does_not_split_by_itself() -> None:
+    result = build_algorithm_lab_result(
+        pdf_name="synthetic.pdf",
+        drawings=synthetic_drawings("text"),
+        raw_features=[],
+        primary_features=[],
+        text_specs=synthetic_text_specs(),
+        artifact_diagnostics={},
+        up_extraction_profile={"methods_used_for_candidate": []},
+    )
+    e05 = next(row for row in result["experiments"] if row["id"] == "E05")
+    e06 = next(row for row in result["experiments"] if row["id"] == "E06")
+    assert e05["metrics"]["text_anchors_detected"] >= 3
+    assert e06["metrics"]["candidate_regions"] == 0
+
+
+def test_label_mask_hole_is_candidate_cleaned() -> None:
+    feature = {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [[0, 0], [100, 0], [100, 100], [0, 100], [0, 0]],
+                [[40, 40], [55, 40], [55, 48], [40, 48], [40, 40]],
+            ],
+        },
+    }
+    result = classify_feature_holes(feature)
+    assert result["hole_cleanup"]["removed_hole_count"] == 1
+    assert result["holes"][0]["candidate_removable"] is True
+
+
+def test_real_planning_void_is_preserved_for_review() -> None:
+    feature = {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+                [[0, 0], [100, 0], [100, 100], [0, 100], [0, 0]],
+                [[20, 20], [80, 25], [70, 70], [38, 82], [25, 48], [20, 20]],
+            ],
+        },
+    }
+    result = classify_feature_holes(feature)
+    assert result["holes"][0]["candidate_removable"] is False
+    assert result["hole_cleanup"]["kept_hole_count"] == 1
 
 
 def test_export_collection_jsonl_and_csv() -> None:

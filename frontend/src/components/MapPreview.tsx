@@ -18,6 +18,7 @@ interface MapPreviewProps {
   pageSize: PageSize;
   showPlanImage: boolean;
   planImageUrl?: string | null;
+  experimentCandidates?: GeoFeature[];
   colorMode: MapColorMode;
   overlay: number;
   toggles: {
@@ -145,7 +146,7 @@ function insertVertex(ring: Ring, point: [number, number]): Ring {
   return [...ring.slice(0, bestIndex), point, ...ring.slice(bestIndex)];
 }
 
-export function MapPreview({ features, selected, draftFeature, editMode, pageSize, showPlanImage, planImageUrl, colorMode, overlay, toggles, onSelect, onDraftChange }: MapPreviewProps) {
+export function MapPreview({ features, selected, draftFeature, editMode, pageSize, showPlanImage, planImageUrl, experimentCandidates = [], colorMode, overlay, toggles, onSelect, onDraftChange }: MapPreviewProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const [view, setView] = useState<ViewState>({ scale: 1, tx: 0, ty: 0 });
   const [fitMode, setFitMode] = useState<FitMode>("page");
@@ -352,6 +353,16 @@ export function MapPreview({ features, selected, draftFeature, editMode, pageSiz
                 );
               })
             : null}
+          {experimentCandidates.map((feature) => {
+            const featureRings = rings(feature);
+            if (!featureRings.length) return null;
+            return (
+              <g key={`experiment-${feature.id ?? feature.properties.candidate_id ?? "candidate"}`} pointerEvents="none" data-testid="experiment-candidate-split">
+                <path d={pathForRings(featureRings)} fill="#06b6d4" fillOpacity="0.08" stroke="#0891b2" strokeWidth={3} strokeDasharray="10 5" fillRule="evenodd" />
+                <path d={pathForRings(featureRings)} fill="none" stroke="#facc15" strokeWidth={1.2} strokeDasharray="2 7" strokeLinecap="round" />
+              </g>
+            );
+          })}
           {toggles.selectedBorder && activeSelected
             ? rings(activeSelected).map((ring, index) => (
                 <path

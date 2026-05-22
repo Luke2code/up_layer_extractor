@@ -45,6 +45,8 @@ def validate_one(path: Path) -> dict[str, Any]:
         diagnostics = collection.get("diagnostics") or {}
         artifact_diagnostics = collection.get("artifact_diagnostics") or {}
         extraction_profile = collection.get("up_extraction_profile") or {}
+        extraction_experiments = collection.get("extraction_experiments") or []
+        experiment_candidate_count = len(collection.get("experiment_candidate_geometries") or [])
         features = collection.get("features") or []
         status = "passed" if features else collection.get("classification_status", "diagnostic_only")
         review_blocked = bool(
@@ -82,6 +84,9 @@ def validate_one(path: Path) -> dict[str, Any]:
             "hatch_candidate_count": extraction_profile.get("hatch_candidate_count"),
             "dotted_boundary_candidate_count": extraction_profile.get("dotted_boundary_candidate_count"),
             "extraction_export_status": extraction_profile.get("export_status"),
+            "algorithm_lab_experiment_count": len(extraction_experiments),
+            "experiment_candidate_available_count": experiment_candidate_count,
+            "experiment_best_current_method": (collection.get("algorithm_lab_result") or {}).get("best_current_method"),
             "runtime_ms": runtime_ms,
             "status": status,
             "completion_label": "completed_review_blocked" if status == "passed" and review_blocked else status,

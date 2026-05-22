@@ -1,0 +1,32 @@
+{
+  "pdf": "/mnt/c/Users/Me/Downloads/A_PV___KAMENICE___538299___UZ_9_15___HLV.pdf",
+  "roi_bbox_pdf_coords": [
+    1222.64,
+    1364.2,
+    2014.2,
+    2046.44
+  ],
+  "render_dpi": 144,
+  "render_scale": 2.0,
+  "image_width_px": 1584,
+  "image_height_px": 1365,
+  "white_grid_pixel_count": 25993,
+  "red_pixel_count": 678701,
+  "dark_blob_pixel_count": 115840,
+  "line_segments_detected": null,
+  "grid_orientation_count": 2,
+  "hatch_mask_area": 25993,
+  "hatch_envelope_polygon_count": 1,
+  "dot_candidates": 0,
+  "boundary_polygon_candidates": 0,
+  "target_roi_hatch_detected": true,
+  "target_roi_boundary_detected": false,
+  "false_positive_risk": "medium",
+  "envelope_bbox_pdf_coords": [
+    1305.14,
+    1364.2,
+    1957.64,
+    1933.2
+  ],
+  "overlay_png": "/mnt/c/coding/up_layer_extractor/docs/extraction_experiments/kamenice_e02_raster_hatch_overlay.png"
+}

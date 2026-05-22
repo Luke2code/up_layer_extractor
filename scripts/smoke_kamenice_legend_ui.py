@@ -129,6 +129,8 @@ def main() -> None:
         expect(page.get_by_test_id("fit-polygon")).to_be_enabled(timeout=10_000)
         page.get_by_test_id("fit-polygon").click()
         expect(page.get_by_test_id("selected-polygon-label")).to_be_visible(timeout=10_000)
+        if page.get_by_test_id("experiment-candidate-split").count() == 0:
+            raise AssertionError("review-only experiment candidate split overlay is missing")
         page.get_by_role("button", name="6400%").click()
         page.screenshot(path=str(SCREENSHOTS["up_zoom_steps"]), full_page=True)
         page.get_by_role("button", name="Max").click()
@@ -199,12 +201,15 @@ def main() -> None:
         expect(page.get_by_test_id("extraction-tab")).to_be_visible(timeout=10_000)
         expect(page.get_by_text("hatch_pattern_segmentation").first).to_be_visible(timeout=10_000)
         expect(page.get_by_text("manual_split_required").first).to_be_visible(timeout=10_000)
+        expect(page.get_by_test_id("extraction-experiments")).to_be_visible(timeout=10_000)
+        expect(page.get_by_text("E01").first).to_be_visible(timeout=10_000)
+        expect(page.get_by_text("E08").first).to_be_visible(timeout=10_000)
         page.screenshot(path=str(SCREENSHOTS["extraction_tab"]), full_page=True)
 
         browser.close()
 
     assert_no_browser_errors(console_errors, page_errors, request_urls)
-    print("kamenice legend v8.2 ui smoke passed")
+    print("kamenice legend v8.3.1 ui smoke passed")
     for key, path in SCREENSHOTS.items():
         print(f"{key}={path}")
 

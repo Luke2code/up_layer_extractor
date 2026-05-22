@@ -138,6 +138,8 @@ def validate() -> dict[str, Any]:
     task_stats = collection.get("task_stats") or {}
     features = collection.get("features") or []
     extraction_profile = collection.get("up_extraction_profile") or {}
+    extraction_experiments = collection.get("extraction_experiments") or []
+    algorithm_lab = collection.get("algorithm_lab_result") or {}
     selected = next(((row.get("properties") or {}) for row in features if (row.get("properties") or {}).get("FID") == 329), None)
     fid329_reproducible = selected is not None
     if selected is None:
@@ -179,6 +181,14 @@ def validate() -> dict[str, Any]:
         fail("hatch candidate evidence is missing from extraction profile", failures)
     if extraction_profile and extraction_profile.get("export_status") != "blocked":
         fail(f"expected export_status blocked while manual split/artifact review remains, got {extraction_profile.get('export_status')!r}", failures)
+    if not algorithm_lab:
+        fail("algorithm lab result is missing", failures)
+    experiment_ids = {row.get("id") for row in extraction_experiments}
+    for experiment_id in [f"E{index:02d}" for index in range(1, 9)]:
+        if experiment_id not in experiment_ids:
+            fail(f"algorithm lab experiment {experiment_id} is missing", failures)
+    if not collection.get("experiment_candidate_geometries"):
+        fail("review-only experiment candidate geometry is missing", failures)
     if artifact.get("trusted_white_or_background_feature_count", 0) > 0:
         fail("white/background artifacts are present in trusted merged output", failures)
     if artifact.get("max_spike_score", 0) >= 0.75 and artifact.get("artifact_requires_review_feature_count", 0) <= 0:
@@ -239,6 +249,9 @@ def validate() -> dict[str, Any]:
         "primary_feature_count": collection.get("feature_count") or len(features),
         "artifact_diagnostics": artifact,
         "up_extraction_profile": extraction_profile,
+        "algorithm_lab_result": algorithm_lab,
+        "algorithm_lab_experiment_count": len(extraction_experiments),
+        "experiment_candidate_count": len(collection.get("experiment_candidate_geometries") or []),
         "legend_candidates": legend_candidates,
         "fragment_role_counts": fragment_roles.get("fragment_role_counts"),
         "plan_snapshot": {
